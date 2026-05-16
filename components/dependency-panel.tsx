@@ -1,11 +1,11 @@
 'use client';
 
 import React, { useState } from 'react';
-import { 
-  Zap, 
-  ShieldAlert, 
-  Activity, 
-  ArrowUpRight, 
+import {
+  Zap,
+  ShieldAlert,
+  Activity,
+  ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
   Info
@@ -40,16 +40,15 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
     <div className="flex flex-col h-full bg-background/50 backdrop-blur-xl border-l border-border/50">
       {/* Panel Header */}
       <div className="p-6 border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent">
-        <div className="flex items-center justify-between mb-2">
+        <div className="flex items-center justify-between mb-2 pr-7">
           <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 gap-1.5 px-2.5 py-1">
             <Zap className="w-3.5 h-3.5 fill-current" />
             Live Blast Radius
           </Badge>
-          <Badge variant="secondary" className={`${
-            risk === 'High' ? 'bg-red-500/10 text-red-500' : 
-            risk === 'Medium' ? 'bg-amber-500/10 text-amber-500' : 
-            'bg-emerald-500/10 text-emerald-500'
-          } border-none font-bold`}>
+          <Badge variant="secondary" className={`${risk === 'High' ? 'bg-red-500/10 text-red-500' :
+            risk === 'Medium' ? 'bg-amber-500/10 text-amber-500' :
+              'bg-emerald-500/10 text-emerald-500'
+            } border-none font-bold`}>
             {risk} RISK
           </Badge>
         </div>
@@ -124,12 +123,12 @@ function AnalysisCard({ title, description, items, icon, color, bgColor }: any) 
           </Badge>
         </div>
         <p className="text-[11px] text-muted-foreground mb-4">{description}</p>
-        
+
         <div className="space-y-1">
           {items.length > 0 ? (
             items.map((item: string, i: number) => (
-              <div 
-                key={i} 
+              <div
+                key={i}
                 className="flex items-center gap-2 p-2 rounded-lg bg-accent/50 text-xs font-medium hover:bg-accent hover:text-primary transition-all cursor-default"
               >
                 <ChevronRight className="w-3 h-3 opacity-30" />
