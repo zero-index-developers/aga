@@ -27,7 +27,6 @@ import { useState, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 import { NavUser } from "@client/components/nav-user"
 import { LogoIcon, LogoFull } from "@client/components/logo"
-import pkg from "../../package.json"
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -148,12 +147,6 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter>
-        <div className="px-4 py-2 group-data-[collapsible=icon]:hidden">
-          <div className="flex items-center gap-2 text-[10px] text-muted-foreground/50 font-medium tracking-wider uppercase border-t border-border/40 pt-4 mt-2">
-            <span className="truncate">{pkg.name}</span>
-            <span className="bg-muted px-1.5 py-0.5 rounded text-[9px]">v{pkg.version}</span>
-          </div>
-        </div>
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
