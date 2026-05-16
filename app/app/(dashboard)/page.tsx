@@ -9,14 +9,7 @@ import Header from '@/components/header';
 import { Button } from '@/components/ui/button';
 import { RefreshCw, Activity, Network as NetworkIcon, Box, X } from 'lucide-react';
 import { toast } from 'sonner';
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
+import { DynamicBreadcrumbs } from '@/components/dynamic-breadcrumbs';
 import { useRepos } from '@/hooks/use-repos';
 import { WelcomeBanner } from '@/components/welcome-banner';
 import { StatsCard } from '@/components/stats-card';
@@ -39,6 +32,12 @@ export default function Home() {
   const { setOpen, open } = useSidebar();
 
   const hasCollapsed = useRef(false);
+
+  useEffect(() => {
+    if (activeRepoParam) {
+      router.replace(`/repos/${encodeURIComponent(activeRepoParam)}`);
+    }
+  }, [activeRepoParam, router]);
 
   useEffect(() => {
     if (activeRepoParam && !hasCollapsed.current) {
@@ -88,110 +87,49 @@ export default function Home() {
   return (
     <div className="h-screen flex flex-col bg-background text-foreground min-w-0">
       <Header>
-        <Breadcrumb>
-          <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink
-                href={showGraph ? "/repos" : "/"}
-                onClick={(e) => {
-                  e.preventDefault();
-                  router.push(showGraph ? "/repos" : "/");
-                }}
-                className="cursor-pointer"
-              >
-                {showGraph ? 'Repositories' : 'Overview'}
-              </BreadcrumbLink>
-            </BreadcrumbItem>
-            {showGraph && (
-              <>
-                <BreadcrumbSeparator />
-                <BreadcrumbItem>
-                  <BreadcrumbPage className="font-semibold">{connectedRepo}</BreadcrumbPage>
-                </BreadcrumbItem>
-              </>
-            )}
-          </BreadcrumbList>
-        </Breadcrumb>
-        {connectedRepo && (
-          <Button
-            variant="outline"
-            size="sm"
-            className="gap-2 h-8 ml-auto shrink-0"
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
-          </Button>
-        )}
+        <DynamicBreadcrumbs />
       </Header>
 
-      {showGraph ? (
-        <div className="flex-1 flex overflow-hidden min-h-0">
-          <aside className="w-80 border-r border-border/50 bg-card/30 overflow-y-auto hidden lg:block shrink-0">
-            <SearchPanel
-              onSearch={setSearchQuery}
-              onNodeSelect={setSelectedNode}
-              selectedNodeId={selectedNode}
-            />
-          </aside>
-          <main className="flex-1 relative bg-slate-950/20 overflow-hidden min-w-0">
-            <ArchitectureVisualization
-              repoName={activeRepoParam!}
-              selectedNode={selectedNode}
-              onNodeSelect={setSelectedNode}
-              onShowDependencies={setShowDependencies}
-            />
-          </main>
-          {showDependencies && selectedNode && (
-            <aside className="w-80 border-l border-border/50 bg-card/40 overflow-y-auto relative shrink-0">
-              <button
-                onClick={() => setShowDependencies(false)}
-                className="absolute top-4 right-4 p-1 hover:bg-muted rounded-md transition-colors z-50 bg-background/50 backdrop-blur-sm border border-border/50"
-              >
-                <X className="w-4 h-4 text-muted-foreground" />
-              </button>
-              <DependencyPanel nodeId={selectedNode} />
-            </aside>
-          )}
-        </div>
-      ) : (
-        <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          <WelcomeBanner
-            connectedRepo={connectedRepo}
-            onOpenRecent={() => router.push(`/?repo=${encodeURIComponent(connectedRepo!)}`)}
-            onOpenSample={() => handleOpenRepo('facebook/react (Sample)', 'https://github.com/facebook/react')}
-            onConnectSuccess={refreshRepos}
-          />
+      <div className="flex-1 overflow-y-auto p-6 space-y-8">
+        <WelcomeBanner
+          connectedRepo={connectedRepo}
+          onOpenRecent={() => router.push(`/repos/${encodeURIComponent(connectedRepo!)}`)}
+          onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
+          onConnectSuccess={refreshRepos}
+        />
 
-          <div className="max-w-5xl mx-auto w-full space-y-4">
-            <h3 className="text-lg font-semibold flex items-center gap-2">
-              <Activity className="w-5 h-5 text-primary" />
-              Global Architecture Insights
-            </h3>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <StatsCard title="Active Repos" value={globalStats.totalRepos} description="Connected to local-db" icon={NetworkIcon} />
-              <StatsCard title="Total Components" value={globalStats.totalNodes} description="Across all environments" icon={Box} />
-              <StatsCard title="Total Dependencies" value={globalStats.totalEdges} description="System-wide links" icon={NetworkIcon} />
-              <StatsCard title="Global Health" value={`${globalStats.avgHealth}%`} description="Weighted average" icon={Activity} trendColor="text-primary" />
-            </div>
-          </div>
-
-          <div className="max-w-5xl mx-auto w-full space-y-4">
-            <h3 className="text-lg font-semibold">Your Repositories</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-12 items-start">
-              {repos.map((repo) => (
-                <RepositoryCard
-                  key={repo.name}
-                  repo={repo}
-                  isActive={connectedRepo === repo.name}
-                  onClick={() => handleOpenRepo(repo.name, repo.url)}
-                />
-              ))}
-            </div>
+        <div className="max-w-5xl mx-auto w-full space-y-4">
+          <h3 className="text-lg font-semibold flex items-center gap-2">
+            <Activity className="w-5 h-5 text-primary" />
+            Global Architecture Insights
+          </h3>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+            <StatsCard title="Active Repos" value={globalStats.totalRepos} description="Connected to local-db" icon={NetworkIcon} />
+            <StatsCard title="Total Components" value={globalStats.totalNodes} description="Across all environments" icon={Box} />
+            <StatsCard title="Total Dependencies" value={globalStats.totalEdges} description="System-wide links" icon={NetworkIcon} />
+            <StatsCard title="Global Health" value={`${globalStats.avgHealth}%`} description="Weighted average" icon={Activity} trendColor="text-primary" />
           </div>
         </div>
-      )}
+
+        <div className="max-w-5xl mx-auto w-full space-y-4">
+          <div className="flex items-center justify-between">
+            <h3 className="text-lg font-semibold">Recent Architecture Scans</h3>
+            <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs">
+              View All Repositories
+            </Button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-12 items-start">
+            {repos.slice(0, 3).map((repo) => (
+              <RepositoryCard
+                key={repo.name}
+                repo={repo}
+                isActive={connectedRepo === repo.name}
+                onClick={() => handleOpenRepo(repo.name, repo.url)}
+              />
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
