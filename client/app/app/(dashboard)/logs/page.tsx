@@ -165,7 +165,7 @@ export default function LogsPage() {
       <div className="flex-1 overflow-y-auto p-8 relative">
         {/* Bulk Action Bar */}
         {selectedAIIds.size > 0 && (
-          <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-primary text-primary-foreground px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
+          <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-50 bg-primary/90 backdrop-blur-md text-primary-foreground px-6 py-3 rounded-full shadow-2xl flex items-center gap-6 animate-in fade-in slide-in-from-bottom-4 duration-300">
             <span className="text-sm font-bold">{selectedAIIds.size} selected</span>
             <div className="w-[1px] h-4 bg-primary-foreground/20" />
             <div className="flex items-center gap-2">

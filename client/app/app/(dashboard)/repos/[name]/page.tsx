@@ -81,7 +81,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
       </Header>
 
       <div className="flex-1 flex overflow-hidden min-h-0">
-        <aside className="w-80 border-r border-border/50 bg-card/30 overflow-y-auto hidden lg:block shrink-0">
+        <aside className="w-80 border-r border-border/50 bg-card/30 backdrop-blur-xl overflow-y-auto hidden lg:block shrink-0">
           <SearchPanel
             onSearch={setSearchQuery}
             onNodeSelect={setSelectedNode}
