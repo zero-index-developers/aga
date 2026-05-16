@@ -19,6 +19,7 @@ import {
   SidebarMenu,
   SidebarMenuAction,
   SidebarFooter,
+  useSidebar,
 } from "@/components/ui/sidebar"
 import pkg from "../package.json"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
@@ -26,9 +27,9 @@ import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
 
-
-
 export function AppSidebar() {
+  const { state } = useSidebar();
+  const isCollapsed = state === 'collapsed';
   const [repos, setRepos] = useState<any[]>([]);
   const pathname = usePathname();
   const searchParams = useSearchParams();
@@ -58,7 +59,7 @@ export function AppSidebar() {
         </div>
         <SidebarTrigger className="shrink-0" />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="overflow-hidden">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -83,8 +84,8 @@ export function AppSidebar() {
                     </Link>
                   </SidebarMenuButton>
                   <CollapsibleTrigger asChild>
-                    <SidebarMenuAction 
-                      className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2"
+                    <SidebarMenuAction
+                      className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2 group-data-[collapsible=icon]:hidden"
                       showOnHover={false}
                     >
                       <ChevronRight className="w-4 h-4" />
@@ -105,16 +106,18 @@ export function AppSidebar() {
                   </CollapsibleContent>
                 </SidebarMenuItem>
               </Collapsible>
-
-
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <SidebarFooter className="p-4 border-t border-border/40">
-        <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-widest font-semibold opacity-70 group-data-[collapsible=icon]:hidden">
-          <span>AGA Console</span>
-          <span>v{pkg.version}</span>
+      <SidebarFooter className="p-4 border-t border-border/40 overflow-hidden">
+        <div className={`flex items-center transition-all duration-300 ease-in-out text-muted-foreground uppercase tracking-widest font-semibold opacity-70 ${isCollapsed ? 'justify-center text-[9px]' : 'justify-between text-[10px]'}`}>
+          <span className={`transition-all duration-300 ease-in-out origin-left ${isCollapsed ? 'opacity-0 w-0 scale-0' : 'opacity-100 w-auto scale-100'}`}>
+            AGA Console
+          </span>
+          <span className="transition-all duration-300 ease-in-out">
+            v{isCollapsed ? pkg.version.split('.')[0] : pkg.version}
+          </span>
         </div>
       </SidebarFooter>
     </Sidebar>
