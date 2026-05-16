@@ -56,18 +56,28 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsConnecting(true);
-    // Simulate network request
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setIsConnecting(false);
-
-    console.log("Connect Repo Data:", values);
-    toast.success("Repository connected successfully!");
-    setOpen(false);
-    form.reset();
-    if (onSuccess) {
-      // Use the URL or provider name as a mock repo name
-      const repoName = values.url.split('/').pop() || "repository";
-      onSuccess(repoName);
+    try {
+      const res = await fetch('/api/repo/connect', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ url: values.url }),
+      });
+      const data = await res.json();
+      
+      if (data.success) {
+        toast.success("Repository connected successfully!");
+        setOpen(false);
+        form.reset();
+        if (onSuccess) {
+          onSuccess(data.db.connectedRepo);
+        }
+      } else {
+        toast.error(data.error || "Failed to connect repository.");
+      }
+    } catch (error) {
+      toast.error("An error occurred. Please try again.");
+    } finally {
+      setIsConnecting(false);
     }
   }
 

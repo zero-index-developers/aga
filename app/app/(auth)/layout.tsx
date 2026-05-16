@@ -7,12 +7,14 @@ export default function AuthLayout({ children }: { children: React.ReactNode }) 
       <div className="w-full max-w-sm space-y-6">
         <div className="flex flex-col items-center space-y-2 text-center">
           <Link href="/">
-            <div className="p-2 bg-primary rounded-lg inline-flex">
-              <Network className="w-6 h-6 text-primary-foreground" />
+            <div className="flex items-center gap-2">
+              <div className="p-1.5 bg-primary rounded-md inline-flex">
+                <Network className="w-5 h-5 text-primary-foreground" />
+              </div>
+              <span className="text-2xl font-bold tracking-tight">AGA Console</span>
             </div>
           </Link>
-          <h1 className="text-2xl font-semibold tracking-tight">AGA</h1>
-          <p className="text-sm text-muted-foreground">Architecture Governance Agent</p>
+          <p className="text-sm text-muted-foreground pt-1">Architecture Governance Agent</p>
         </div>
         {children}
       </div>
