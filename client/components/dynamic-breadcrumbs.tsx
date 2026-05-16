@@ -21,8 +21,8 @@ export function DynamicBreadcrumbs() {
   const labelMap: Record<string, string> = {
     'repos': 'Repositories',
     'logs': 'Scan Logs',
-    'settings': 'Account Settings',
-    'configs': 'System Configurations',
+    'settings': 'Settings',
+    'configs': 'Configurations',
   };
 
   const breadcrumbs = segments.map((segment) => {
