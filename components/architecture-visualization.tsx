@@ -75,13 +75,14 @@ function ArchitectureFlow({
         if (n.id.startsWith('group-')) {
           const originalGroup = initialNodesRef.current.find(inNode => inNode.id === n.id);
           const baseWidth = (n.style?.width as number) || 800;
+          const baseHeight = (n.style?.height as number) || 120;
           return {
             ...n,
             style: { 
               ...n.style, 
               opacity: showFolders ? 1 : 0,
               width: isExploded ? baseWidth * 2.2 : baseWidth,
-              height: isExploded ? 180 : 120,
+              height: isExploded ? baseHeight * 1.5 : baseHeight,
             },
             position: {
               x: originalGroup?.position.x ?? n.position.x,
