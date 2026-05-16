@@ -1,0 +1,1046 @@
+{
+  "activeRepo": "aga (Self-Scan)",
+  "settings": {
+    "scanner": {
+      "exclusions": [
+        "node_modules",
+        ".git",
+        "dist",
+        ".next",
+        "public"
+      ]
+    },
+    "ai": {
+      "insightDepth": "concise",
+      "focus": "architecture"
+    }
+  },
+  "scanLogs": [
+    {
+      "id": "log-1",
+      "repoName": "aga (Self-Scan)",
+      "status": "Success",
+      "timestamp": "2026-05-16T13:10:30.111Z",
+      "duration": "1.4s",
+      "nodesFound": 33
+    },
+    {
+      "id": "log-2",
+      "repoName": "aga (Self-Scan)",
+      "status": "Success",
+      "timestamp": "2026-05-16T11:45:12.500Z",
+      "duration": "1.1s",
+      "nodesFound": 28
+    },
+    {
+      "id": "log-3",
+      "repoName": "aga (Self-Scan)",
+      "status": "Warning",
+      "timestamp": "2026-05-16T09:20:05.000Z",
+      "duration": "2.5s",
+      "nodesFound": 15
+    }
+  ],
+  "repositories": [
+    {
+      "name": "aga (Self-Scan)",
+      "url": "local://aga",
+      "analytics": {
+        "nodes": 50,
+        "edges": 27,
+        "health": 98,
+        "lastScanned": "2026-05-16T15:57:44.362Z"
+      },
+      "graph": {
+        "nodes": [
+          {
+            "id": "group-pages",
+            "data": {
+              "label": "/client/app (Routes)",
+              "type": "folder",
+              "path": "client/app/",
+              "origWidth": 840,
+              "origHeight": 340
+            },
+            "position": {
+              "x": 50,
+              "y": 50
+            },
+            "style": {
+              "width": 840,
+              "height": 340
+            },
+            "className": "bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]",
+            "type": "group"
+          },
+          {
+            "id": "group-components",
+            "data": {
+              "label": "/client/components",
+              "type": "folder",
+              "path": "client/components/",
+              "origWidth": 840,
+              "origHeight": 340
+            },
+            "position": {
+              "x": 50,
+              "y": 250
+            },
+            "style": {
+              "width": 840,
+              "height": 340
+            },
+            "className": "bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]",
+            "type": "group"
+          },
+          {
+            "id": "group-ui",
+            "data": {
+              "label": "/client/components/ui",
+              "type": "folder",
+              "path": "client/components/ui/",
+              "origWidth": 200,
+              "origHeight": 130
+            },
+            "position": {
+              "x": 50,
+              "y": 450
+            },
+            "style": {
+              "width": 200,
+              "height": 130
+            },
+            "className": "bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]",
+            "type": "group"
+          },
+          {
+            "id": "group-engine",
+            "data": {
+              "label": "/api/engine",
+              "type": "folder",
+              "path": "api/engine/",
+              "origWidth": 840,
+              "origHeight": 200
+            },
+            "position": {
+              "x": 50,
+              "y": 650
+            },
+            "style": {
+              "width": 840,
+              "height": 200
+            },
+            "className": "bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]",
+            "type": "group"
+          },
+          {
+            "id": "group-hooks",
+            "data": {
+              "label": "/client/hooks",
+              "type": "folder",
+              "path": "client/hooks/",
+              "origWidth": 840,
+              "origHeight": 200
+            },
+            "position": {
+              "x": 50,
+              "y": 850
+            },
+            "style": {
+              "width": 840,
+              "height": 200
+            },
+            "className": "bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]",
+            "type": "group"
+          },
+          {
+            "id": "api-engine-scanner-layout-engine",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "layout-engine",
+              "type": "engine",
+              "path": "api/engine/scanner/layout-engine.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner-types",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "types",
+              "type": "engine",
+              "path": "api/engine/scanner/types.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "scanner",
+              "type": "engine",
+              "path": "api/engine/scanner.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-connect-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/connect/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-graph-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/graph/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-list-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/list/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-logs-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/logs/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-scan-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/scan/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-status-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/status/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-settings-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/settings/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(auth)-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(auth)/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(auth)-login-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(auth)/login/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(auth)-register-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(auth)/register/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-profile-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/profile/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/repos/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/repos/[name]/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 250
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 250
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 250
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 250
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-app-sidebar",
+            "parentNode": "group-components",
+            "data": {
+              "label": "app-sidebar",
+              "type": "component",
+              "path": "client/components/app-sidebar.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-flow-toolbar",
+            "parentNode": "group-components",
+            "data": {
+              "label": "flow-toolbar",
+              "type": "component",
+              "path": "client/components/architecture/flow-toolbar.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-visualization",
+            "parentNode": "group-components",
+            "data": {
+              "label": "architecture-visualization",
+              "type": "component",
+              "path": "client/components/architecture-visualization.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-connect-repo-dialog",
+            "parentNode": "group-components",
+            "data": {
+              "label": "connect-repo-dialog",
+              "type": "component",
+              "path": "client/components/connect-repo-dialog.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-custom-node",
+            "parentNode": "group-components",
+            "data": {
+              "label": "custom-node",
+              "type": "component",
+              "path": "client/components/custom-node.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-dependency-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "dependency-panel",
+              "type": "component",
+              "path": "client/components/dependency-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-dynamic-breadcrumbs",
+            "parentNode": "group-components",
+            "data": {
+              "label": "dynamic-breadcrumbs",
+              "type": "component",
+              "path": "client/components/dynamic-breadcrumbs.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-header",
+            "parentNode": "group-components",
+            "data": {
+              "label": "header",
+              "type": "component",
+              "path": "client/components/header.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-logo",
+            "parentNode": "group-components",
+            "data": {
+              "label": "logo",
+              "type": "component",
+              "path": "client/components/logo.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-nav-user",
+            "parentNode": "group-components",
+            "data": {
+              "label": "nav-user",
+              "type": "component",
+              "path": "client/components/nav-user.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-repository-card",
+            "parentNode": "group-components",
+            "data": {
+              "label": "repository-card",
+              "type": "component",
+              "path": "client/components/repository-card.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-review-impact-dialog",
+            "parentNode": "group-components",
+            "data": {
+              "label": "review-impact-dialog",
+              "type": "component",
+              "path": "client/components/review-impact-dialog.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-search-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "search-panel",
+              "type": "component",
+              "path": "client/components/search-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-stats-card",
+            "parentNode": "group-components",
+            "data": {
+              "label": "stats-card",
+              "type": "component",
+              "path": "client/components/stats-card.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-theme-provider",
+            "parentNode": "group-components",
+            "data": {
+              "label": "theme-provider",
+              "type": "component",
+              "path": "client/components/theme-provider.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 180
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-welcome-banner",
+            "parentNode": "group-components",
+            "data": {
+              "label": "welcome-banner",
+              "type": "component",
+              "path": "client/components/welcome-banner.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 250
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-architecture-data",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-architecture-data",
+              "type": "hook",
+              "path": "client/hooks/use-architecture-data.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-dependency-analysis",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-dependency-analysis",
+              "type": "hook",
+              "path": "client/hooks/use-dependency-analysis.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-flow-view",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-flow-view",
+              "type": "hook",
+              "path": "client/hooks/use-flow-view.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-global-stats",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-global-stats",
+              "type": "hook",
+              "path": "client/hooks/use-global-stats.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-mobile",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-mobile",
+              "type": "hook",
+              "path": "client/hooks/use-mobile.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-repos",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-repos",
+              "type": "hook",
+              "path": "client/hooks/use-repos.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-settings",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-settings",
+              "type": "hook",
+              "path": "client/hooks/use-settings.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-hooks-use-toast",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-toast",
+              "type": "hook",
+              "path": "client/hooks/use-toast.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-lib-utils",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "utils",
+              "type": "engine",
+              "path": "client/lib/utils.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 500,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-middleware",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "middleware",
+              "type": "engine",
+              "path": "client/middleware.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 660,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-next-env.d",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "next-env.d",
+              "type": "engine",
+              "path": "client/next-env.d.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 110
+            },
+            "type": "custom"
+          },
+          {
+            "id": "ui-shared",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "Shared UI Library",
+              "type": "ui",
+              "path": "client/components/ui/"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          }
+        ],
+        "edges": [
+          {
+            "id": "api-engine-scanner-layout-engine-to-api-engine-scanner-types",
+            "source": "api-engine-scanner-layout-engine",
+            "target": "api-engine-scanner-types"
+          },
+          {
+            "id": "api-engine-scanner-to-api-engine-scanner-types",
+            "source": "api-engine-scanner",
+            "target": "api-engine-scanner-types"
+          },
+          {
+            "id": "api-engine-scanner-to-api-engine-scanner-layout-engine",
+            "source": "api-engine-scanner",
+            "target": "api-engine-scanner-layout-engine"
+          },
+          {
+            "id": "client-app-app-(auth)-login-page-to-ui-shared",
+            "source": "client-app-app-(auth)-login-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(auth)-register-page-to-ui-shared",
+            "source": "client-app-app-(auth)-register-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-layout-to-ui-shared",
+            "source": "client-app-app-(dashboard)-layout",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-ui-shared",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-page-to-ui-shared",
+            "source": "client-app-app-(dashboard)-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-profile-page-to-ui-shared",
+            "source": "client-app-app-(dashboard)-profile-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-ui-shared",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-ui-shared",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-app-page-to-ui-shared",
+            "source": "client-app-page",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-app-sidebar-to-ui-shared",
+            "source": "client-components-app-sidebar",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-architecture-flow-toolbar-to-ui-shared",
+            "source": "client-components-architecture-flow-toolbar",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-architecture-visualization-to-client-components-custom-node",
+            "source": "client-components-architecture-visualization",
+            "target": "client-components-custom-node"
+          },
+          {
+            "id": "client-components-architecture-visualization-to-client-components-architecture-flow-toolbar",
+            "source": "client-components-architecture-visualization",
+            "target": "client-components-architecture-flow-toolbar"
+          },
+          {
+            "id": "client-components-connect-repo-dialog-to-ui-shared",
+            "source": "client-components-connect-repo-dialog",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-dependency-panel-to-ui-shared",
+            "source": "client-components-dependency-panel",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-dynamic-breadcrumbs-to-ui-shared",
+            "source": "client-components-dynamic-breadcrumbs",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-header-to-ui-shared",
+            "source": "client-components-header",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-nav-user-to-ui-shared",
+            "source": "client-components-nav-user",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-repository-card-to-ui-shared",
+            "source": "client-components-repository-card",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-review-impact-dialog-to-ui-shared",
+            "source": "client-components-review-impact-dialog",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-search-panel-to-ui-shared",
+            "source": "client-components-search-panel",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-stats-card-to-ui-shared",
+            "source": "client-components-stats-card",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-welcome-banner-to-ui-shared",
+            "source": "client-components-welcome-banner",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-hooks-use-toast-to-ui-shared",
+            "source": "client-hooks-use-toast",
+            "target": "ui-shared"
+          }
+        ]
+      }
+    }
+  ]
+}
