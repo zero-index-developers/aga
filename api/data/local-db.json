@@ -12,7 +12,7 @@
     },
     "ai": {
       "insightDepth": "concise",
-      "focus": "performance"
+      "focus": "architecture"
     }
   },
   "scanLogs": [
