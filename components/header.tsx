@@ -1,4 +1,5 @@
 import { Network } from 'lucide-react';
+import { ConnectRepoDialog } from './connect-repo-dialog';
 
 export default function Header() {
   return (
@@ -13,7 +14,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex-1"></div>
-      <div className="text-sm text-muted-foreground">Google Maps for Software Architecture</div>
+      <ConnectRepoDialog />
     </header>
   );
 }
