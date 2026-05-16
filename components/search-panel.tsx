@@ -8,12 +8,18 @@ import { Button } from '@/components/ui/button';
 const SAMPLE_NODES = [
   { id: 'auth-middleware', label: 'AuthMiddleware', type: 'middleware' },
   { id: 'user-controller', label: 'UserController', type: 'controller' },
+  { id: 'payment-controller', label: 'PaymentController', type: 'controller' },
+  { id: 'inventory-controller', label: 'InventoryController', type: 'controller' },
   { id: 'user-service', label: 'UserService', type: 'service' },
   { id: 'payment-service', label: 'PaymentService', type: 'service' },
+  { id: 'auth-service', label: 'AuthService', type: 'service' },
   { id: 'db-users', label: 'Users Table', type: 'database' },
+  { id: 'db-products', label: 'Products Table', type: 'database' },
   { id: 'db-transactions', label: 'Transactions Table', type: 'database' },
   { id: 'api-users', label: 'GET /api/users', type: 'route' },
   { id: 'api-payments', label: 'POST /api/payments', type: 'route' },
+  { id: 'api-inventory', label: 'GET /api/inventory', type: 'route' },
+  { id: 'analytics-worker', label: 'AnalyticsWorker', type: 'worker' },
 ];
 
 interface SearchPanelProps {
