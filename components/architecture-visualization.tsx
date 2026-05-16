@@ -33,10 +33,10 @@ function ArchitectureFlow({
   repoName,
 }: ArchitectureVisualizationProps) {
   const { resolvedTheme } = useTheme();
-  const { 
-    nodes, setNodes, onNodesChange, 
-    edges, setEdges, onEdgesChange, 
-    initialNodes, isLoading 
+  const {
+    nodes, setNodes, onNodesChange,
+    edges, setEdges, onEdgesChange,
+    initialNodes, isLoading
   } = useArchitectureData(repoName);
 
   const {
@@ -54,7 +54,7 @@ function ArchitectureFlow({
       ...edge,
       style: {
         ...edge.style,
-        stroke: edge.animated 
+        stroke: edge.animated
           ? (isDark ? '#3b82f6' : '#2563eb') // Primary Blue
           : (isDark ? '#334155' : '#94a3b8'), // Slate contrast
         strokeWidth: edge.animated ? 3 : 1.5,
@@ -79,7 +79,7 @@ function ArchitectureFlow({
     setNodes((nds) => {
       const currentEdges = getEdges();
       const relatedNodeIds = new Set<string>([selectedNode]);
-      
+
       // Calculate related nodes using current edges
       const findUpstream = (nodeId: string) => {
         currentEdges.forEach((edge) => {
@@ -139,7 +139,9 @@ function ArchitectureFlow({
           }
         }
 
-        setCenter(targetX + 300, targetY, { zoom: 1.2, duration: 800 });
+        // Center on the node itself (adding half width/height for true centering)
+        // and offset slightly to the left to account for the side panel
+        setCenter(targetX + 100, targetY + 50, { zoom: 1.2, duration: 800 });
         onShowDependencies(true);
       }
     }
@@ -155,7 +157,7 @@ function ArchitectureFlow({
 
   return (
     <div className="relative w-full h-full group">
-      <FlowToolbar 
+      <FlowToolbar
         showFolders={showFolders}
         setShowFolders={setShowFolders}
         showPaths={showPaths}
@@ -180,10 +182,10 @@ function ArchitectureFlow({
         fitView
         className="bg-transparent"
       >
-        <Background 
-          color={resolvedTheme === 'dark' ? '#334155' : '#94a3b8'} 
-          gap={20} 
-          variant={BackgroundVariant.Dots} 
+        <Background
+          color={resolvedTheme === 'dark' ? '#334155' : '#94a3b8'}
+          gap={20}
+          variant={BackgroundVariant.Dots}
         />
       </ReactFlow>
     </div>
