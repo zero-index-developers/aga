@@ -1,9 +1,9 @@
 import { Node } from './types';
 
 export function applyGridLayout(nodes: Node[], uiId: string) {
-  const MAX_COLS = 5;
-  const COL_WIDTH = 160;
-  const ROW_HEIGHT = 70;
+  const MAX_COLS = 4;
+  const COL_WIDTH = 220;
+  const ROW_HEIGHT = 100;
   const counts: Record<string, number> = { 'group-ui': 1 };
   
   // Layout components in a wrapped grid

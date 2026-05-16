@@ -49,7 +49,7 @@
         "nodes": 53,
         "edges": 30,
         "health": 98,
-        "lastScanned": "2026-05-16T16:08:39.453Z"
+        "lastScanned": "2026-05-16T16:10:39.829Z"
       },
       "graph": {
         "nodes": [
@@ -59,8 +59,8 @@
               "label": "/client/app (Routes)",
               "type": "folder",
               "path": "client/app/",
-              "origWidth": 840,
-              "origHeight": 340,
+              "origWidth": 920,
+              "origHeight": 560,
               "origY": 50
             },
             "position": {
@@ -68,8 +68,8 @@
               "y": 50
             },
             "style": {
-              "width": 840,
-              "height": 340
+              "width": 920,
+              "height": 560
             },
             "className": "bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]",
             "type": "group"
@@ -80,17 +80,17 @@
               "label": "/client/components",
               "type": "folder",
               "path": "client/components/",
-              "origWidth": 840,
-              "origHeight": 340,
-              "origY": 440
+              "origWidth": 920,
+              "origHeight": 560,
+              "origY": 660
             },
             "position": {
               "x": 50,
-              "y": 440
+              "y": 660
             },
             "style": {
-              "width": 840,
-              "height": 340
+              "width": 920,
+              "height": 560
             },
             "className": "bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]",
             "type": "group"
@@ -101,17 +101,17 @@
               "label": "/client/components/ui",
               "type": "folder",
               "path": "client/components/ui/",
-              "origWidth": 200,
-              "origHeight": 130,
-              "origY": 830
+              "origWidth": 260,
+              "origHeight": 160,
+              "origY": 1270
             },
             "position": {
               "x": 50,
-              "y": 830
+              "y": 1270
             },
             "style": {
-              "width": 200,
-              "height": 130
+              "width": 260,
+              "height": 160
             },
             "className": "bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]",
             "type": "group"
@@ -122,17 +122,17 @@
               "label": "/api/engine",
               "type": "folder",
               "path": "api/engine/",
-              "origWidth": 840,
-              "origHeight": 200,
-              "origY": 1010
+              "origWidth": 920,
+              "origHeight": 260,
+              "origY": 1480
             },
             "position": {
               "x": 50,
-              "y": 1010
+              "y": 1480
             },
             "style": {
-              "width": 840,
-              "height": 200
+              "width": 920,
+              "height": 260
             },
             "className": "bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]",
             "type": "group"
@@ -143,17 +143,17 @@
               "label": "/client/hooks",
               "type": "folder",
               "path": "client/hooks/",
-              "origWidth": 840,
-              "origHeight": 200,
-              "origY": 1260
+              "origWidth": 920,
+              "origHeight": 360,
+              "origY": 1790
             },
             "position": {
               "x": 50,
-              "y": 1260
+              "y": 1790
             },
             "style": {
-              "width": 840,
-              "height": 200
+              "width": 920,
+              "height": 360
             },
             "className": "bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]",
             "type": "group"
@@ -183,7 +183,7 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 180,
+              "x": 240,
               "y": 40
             },
             "type": "custom"
@@ -198,7 +198,7 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 340,
+              "x": 460,
               "y": 40
             },
             "type": "custom"
@@ -228,7 +228,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 180,
+              "x": 240,
               "y": 40
             },
             "type": "custom"
@@ -243,7 +243,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 340,
+              "x": 460,
               "y": 40
             },
             "type": "custom"
@@ -258,7 +258,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 500,
+              "x": 680,
               "y": 40
             },
             "type": "custom"
@@ -273,8 +273,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 20,
+              "y": 140
             },
             "type": "custom"
           },
@@ -288,8 +288,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 20,
-              "y": 110
+              "x": 240,
+              "y": 140
             },
             "type": "custom"
           },
@@ -303,8 +303,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 180,
-              "y": 110
+              "x": 460,
+              "y": 140
             },
             "type": "custom"
           },
@@ -318,8 +318,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 340,
-              "y": 110
+              "x": 680,
+              "y": 140
             },
             "type": "custom"
           },
@@ -333,8 +333,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 500,
-              "y": 110
+              "x": 20,
+              "y": 240
             },
             "type": "custom"
           },
@@ -348,8 +348,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 660,
-              "y": 110
+              "x": 240,
+              "y": 240
             },
             "type": "custom"
           },
@@ -363,8 +363,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 20,
-              "y": 180
+              "x": 460,
+              "y": 240
             },
             "type": "custom"
           },
@@ -378,8 +378,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 180,
-              "y": 180
+              "x": 680,
+              "y": 240
             },
             "type": "custom"
           },
@@ -393,8 +393,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 340,
-              "y": 180
+              "x": 20,
+              "y": 340
             },
             "type": "custom"
           },
@@ -408,8 +408,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 500,
-              "y": 180
+              "x": 240,
+              "y": 340
             },
             "type": "custom"
           },
@@ -423,8 +423,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 660,
-              "y": 180
+              "x": 460,
+              "y": 340
             },
             "type": "custom"
           },
@@ -438,8 +438,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 20,
-              "y": 250
+              "x": 680,
+              "y": 340
             },
             "type": "custom"
           },
@@ -453,8 +453,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 180,
-              "y": 250
+              "x": 20,
+              "y": 440
             },
             "type": "custom"
           },
@@ -468,8 +468,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 340,
-              "y": 250
+              "x": 240,
+              "y": 440
             },
             "type": "custom"
           },
@@ -483,8 +483,8 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 500,
-              "y": 250
+              "x": 460,
+              "y": 440
             },
             "type": "custom"
           },
@@ -513,7 +513,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
+              "x": 240,
               "y": 40
             },
             "type": "custom"
@@ -528,7 +528,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
+              "x": 460,
               "y": 40
             },
             "type": "custom"
@@ -543,7 +543,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
+              "x": 680,
               "y": 40
             },
             "type": "custom"
@@ -558,8 +558,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 20,
+              "y": 140
             },
             "type": "custom"
           },
@@ -573,8 +573,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
-              "y": 110
+              "x": 240,
+              "y": 140
             },
             "type": "custom"
           },
@@ -588,8 +588,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
-              "y": 110
+              "x": 460,
+              "y": 140
             },
             "type": "custom"
           },
@@ -603,8 +603,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
-              "y": 110
+              "x": 680,
+              "y": 140
             },
             "type": "custom"
           },
@@ -618,8 +618,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
-              "y": 110
+              "x": 20,
+              "y": 240
             },
             "type": "custom"
           },
@@ -633,8 +633,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 110
+              "x": 240,
+              "y": 240
             },
             "type": "custom"
           },
@@ -648,8 +648,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
-              "y": 180
+              "x": 460,
+              "y": 240
             },
             "type": "custom"
           },
@@ -663,8 +663,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
-              "y": 180
+              "x": 680,
+              "y": 240
             },
             "type": "custom"
           },
@@ -678,8 +678,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
-              "y": 180
+              "x": 20,
+              "y": 340
             },
             "type": "custom"
           },
@@ -693,8 +693,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
-              "y": 180
+              "x": 240,
+              "y": 340
             },
             "type": "custom"
           },
@@ -708,8 +708,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 180
+              "x": 460,
+              "y": 340
             },
             "type": "custom"
           },
@@ -723,8 +723,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
-              "y": 250
+              "x": 680,
+              "y": 340
             },
             "type": "custom"
           },
@@ -738,8 +738,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
-              "y": 250
+              "x": 20,
+              "y": 440
             },
             "type": "custom"
           },
@@ -753,8 +753,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
-              "y": 250
+              "x": 240,
+              "y": 440
             },
             "type": "custom"
           },
@@ -783,7 +783,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 180,
+              "x": 240,
               "y": 40
             },
             "type": "custom"
@@ -798,7 +798,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 340,
+              "x": 460,
               "y": 40
             },
             "type": "custom"
@@ -813,7 +813,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 500,
+              "x": 680,
               "y": 40
             },
             "type": "custom"
@@ -828,8 +828,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 20,
+              "y": 140
             },
             "type": "custom"
           },
@@ -843,8 +843,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 20,
-              "y": 110
+              "x": 240,
+              "y": 140
             },
             "type": "custom"
           },
@@ -858,8 +858,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 180,
-              "y": 110
+              "x": 460,
+              "y": 140
             },
             "type": "custom"
           },
@@ -873,8 +873,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 340,
-              "y": 110
+              "x": 680,
+              "y": 140
             },
             "type": "custom"
           },
@@ -888,8 +888,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 500,
-              "y": 110
+              "x": 20,
+              "y": 240
             },
             "type": "custom"
           },
@@ -903,7 +903,7 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 500,
+              "x": 680,
               "y": 40
             },
             "type": "custom"
@@ -918,8 +918,8 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 20,
+              "y": 140
             },
             "type": "custom"
           },
@@ -933,8 +933,8 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 20,
-              "y": 110
+              "x": 240,
+              "y": 140
             },
             "type": "custom"
           },

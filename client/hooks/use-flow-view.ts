@@ -23,10 +23,10 @@ export function useFlowView(
           const baseHeight = n.data.origHeight ?? (n.style?.height as number) ?? 120;
           return {
             ...n,
-            style: { 
-              ...n.style, 
+            style: {
+              ...n.style,
               opacity: showFolders ? 1 : 0,
-              width: isExploded ? baseWidth * 2.2 : baseWidth,
+              width: isExploded ? baseWidth * 1.35 : baseWidth,
               height: isExploded ? baseHeight * 1.5 : baseHeight,
             },
             position: {
@@ -38,13 +38,13 @@ export function useFlowView(
             draggable: showFolders,
           };
         }
-        
+
         // Handle component nodes
         return {
           ...n,
           position: {
-            x: isExploded ? (origX - 20) * 2.2 + 20 : origX,
-            y: origY,
+            x: isExploded ? (origX - 20) * 1.5 + 20 : origX,
+            y: isExploded ? (origY - 40) * 1.5 + 40 : origY,
           },
           data: {
             ...n.data,
