@@ -24,11 +24,15 @@ import pkg from "../package.json"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
+import { usePathname, useSearchParams } from "next/navigation"
 
 
 
 export function AppSidebar() {
   const [repos, setRepos] = useState<any[]>([]);
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+  const activeRepoParam = searchParams.get('repo');
 
   useEffect(() => {
     async function fetchRepos() {
@@ -61,7 +65,7 @@ export function AppSidebar() {
             <SidebarMenu>
               {/* Overview */}
               <SidebarMenuItem>
-                <SidebarMenuButton asChild>
+                <SidebarMenuButton asChild isActive={pathname === "/" && !activeRepoParam}>
                   <Link href="/">
                     <Home />
                     <span>Overview</span>
@@ -72,7 +76,7 @@ export function AppSidebar() {
               {/* Repositories Dropdown */}
               <Collapsible defaultOpen className="group/collapsible">
                 <SidebarMenuItem className="relative">
-                  <SidebarMenuButton asChild className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
+                  <SidebarMenuButton asChild isActive={pathname === "/repos"} className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
                     <Link href="/repos">
                       <FolderGit2 />
                       <span>Repositories</span>
@@ -90,7 +94,7 @@ export function AppSidebar() {
                     <SidebarMenuSub>
                       {repos.map((repo) => (
                         <SidebarMenuSubItem key={repo.name}>
-                          <SidebarMenuSubButton asChild>
+                          <SidebarMenuSubButton asChild isActive={activeRepoParam === repo.name}>
                             <Link href={`/?repo=${encodeURIComponent(repo.name)}`}>
                               <span className="truncate">{repo.name}</span>
                             </Link>
@@ -108,7 +112,7 @@ export function AppSidebar() {
         </SidebarGroup>
       </SidebarContent>
       <SidebarFooter className="p-4 border-t border-border/40">
-        <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-widest font-semibold opacity-70">
+        <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-widest font-semibold opacity-70 group-data-[collapsible=icon]:hidden">
           <span>AGA Console</span>
           <span>v{pkg.version}</span>
         </div>
