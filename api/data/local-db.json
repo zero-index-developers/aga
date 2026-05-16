@@ -11,8 +11,8 @@
       ]
     },
     "ai": {
-      "insightDepth": "concise",
-      "focus": "security"
+      "insightDepth": "detailed",
+      "focus": "performance"
     }
   },
   "scanLogs": [

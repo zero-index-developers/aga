@@ -107,11 +107,10 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
                 value={settings.ai.focus}
                 onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, focus: val } })}
               >
-                <SelectTrigger className="h-5 px-2 text-[10px] gap-1 border-primary/20 bg-primary/5 text-primary capitalize font-medium rounded-full min-w-0 w-fit [&>svg]:w-3 [&>svg]:h-3 focus:ring-0 focus:ring-offset-0">
-                  <div className="flex items-center gap-1 truncate">
+                <SelectTrigger className="h-6 w-6 p-0 border-primary/20 bg-primary/5 text-primary rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-primary/10">
+                  <span className="flex items-center justify-center">
                     {getFocusIcon(settings.ai.focus)}
-                    <SelectValue />
-                  </div>
+                  </span>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="architecture" className="text-xs">Architecture</SelectItem>
@@ -124,11 +123,10 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
                 value={settings.ai.insightDepth}
                 onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, insightDepth: val } })}
               >
-                <SelectTrigger className="h-5 px-2 text-[10px] gap-1 border-border/50 bg-secondary/50 text-muted-foreground capitalize font-medium rounded-full min-w-0 w-fit [&>svg]:w-3 [&>svg]:h-3 focus:ring-0 focus:ring-offset-0">
-                  <div className="flex items-center gap-1 truncate">
+                <SelectTrigger className="h-6 w-6 p-0 border-border/50 bg-secondary/50 text-muted-foreground rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-secondary/80">
+                  <span className="flex items-center justify-center">
                     <Bot className="w-3 h-3" />
-                    <SelectValue />
-                  </div>
+                  </span>
                 </SelectTrigger>
                 <SelectContent>
                   <SelectItem value="concise" className="text-xs">Concise</SelectItem>
