@@ -46,10 +46,10 @@
       "name": "aga (Self-Scan)",
       "url": "local://aga",
       "analytics": {
-        "nodes": 50,
-        "edges": 27,
+        "nodes": 53,
+        "edges": 30,
         "health": 98,
-        "lastScanned": "2026-05-16T15:57:44.362Z"
+        "lastScanned": "2026-05-16T16:08:39.453Z"
       },
       "graph": {
         "nodes": [
@@ -60,7 +60,8 @@
               "type": "folder",
               "path": "client/app/",
               "origWidth": 840,
-              "origHeight": 340
+              "origHeight": 340,
+              "origY": 50
             },
             "position": {
               "x": 50,
@@ -80,11 +81,12 @@
               "type": "folder",
               "path": "client/components/",
               "origWidth": 840,
-              "origHeight": 340
+              "origHeight": 340,
+              "origY": 440
             },
             "position": {
               "x": 50,
-              "y": 250
+              "y": 440
             },
             "style": {
               "width": 840,
@@ -100,11 +102,12 @@
               "type": "folder",
               "path": "client/components/ui/",
               "origWidth": 200,
-              "origHeight": 130
+              "origHeight": 130,
+              "origY": 830
             },
             "position": {
               "x": 50,
-              "y": 450
+              "y": 830
             },
             "style": {
               "width": 200,
@@ -120,11 +123,12 @@
               "type": "folder",
               "path": "api/engine/",
               "origWidth": 840,
-              "origHeight": 200
+              "origHeight": 200,
+              "origY": 1010
             },
             "position": {
               "x": 50,
-              "y": 650
+              "y": 1010
             },
             "style": {
               "width": 840,
@@ -140,11 +144,12 @@
               "type": "folder",
               "path": "client/hooks/",
               "origWidth": 840,
-              "origHeight": 200
+              "origHeight": 200,
+              "origY": 1260
             },
             "position": {
               "x": 50,
-              "y": 850
+              "y": 1260
             },
             "style": {
               "width": 840,
@@ -499,6 +504,36 @@
             "type": "custom"
           },
           {
+            "id": "client-components-architecture-ai-oracle-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "ai-oracle-panel",
+              "type": "component",
+              "path": "client/components/architecture/ai-oracle-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 180,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-explorer-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "explorer-panel",
+              "type": "component",
+              "path": "client/components/architecture/explorer-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
             "id": "client-components-architecture-flow-toolbar",
             "parentNode": "group-components",
             "data": {
@@ -508,7 +543,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
+              "x": 500,
               "y": 40
             },
             "type": "custom"
@@ -523,7 +558,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
+              "x": 660,
               "y": 40
             },
             "type": "custom"
@@ -538,8 +573,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
-              "y": 40
+              "x": 20,
+              "y": 110
             },
             "type": "custom"
           },
@@ -553,8 +588,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 180,
+              "y": 110
             },
             "type": "custom"
           },
@@ -568,7 +603,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
+              "x": 340,
               "y": 110
             },
             "type": "custom"
@@ -583,7 +618,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
+              "x": 500,
               "y": 110
             },
             "type": "custom"
@@ -598,7 +633,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
+              "x": 660,
               "y": 110
             },
             "type": "custom"
@@ -613,8 +648,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
-              "y": 110
+              "x": 20,
+              "y": 180
             },
             "type": "custom"
           },
@@ -628,8 +663,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 110
+              "x": 180,
+              "y": 180
             },
             "type": "custom"
           },
@@ -643,7 +678,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
+              "x": 340,
               "y": 180
             },
             "type": "custom"
@@ -658,7 +693,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 180,
+              "x": 500,
               "y": 180
             },
             "type": "custom"
@@ -673,7 +708,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 340,
+              "x": 660,
               "y": 180
             },
             "type": "custom"
@@ -688,8 +723,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 500,
-              "y": 180
+              "x": 20,
+              "y": 250
             },
             "type": "custom"
           },
@@ -703,8 +738,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 660,
-              "y": 180
+              "x": 180,
+              "y": 250
             },
             "type": "custom"
           },
@@ -718,7 +753,7 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 20,
+              "x": 340,
               "y": 250
             },
             "type": "custom"
@@ -754,6 +789,21 @@
             "type": "custom"
           },
           {
+            "id": "client-hooks-use-flow-interactions",
+            "parentNode": "group-hooks",
+            "data": {
+              "label": "use-flow-interactions",
+              "type": "hook",
+              "path": "client/hooks/use-flow-interactions.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 340,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
             "id": "client-hooks-use-flow-view",
             "parentNode": "group-hooks",
             "data": {
@@ -763,7 +813,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 340,
+              "x": 500,
               "y": 40
             },
             "type": "custom"
@@ -778,7 +828,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 500,
+              "x": 660,
               "y": 40
             },
             "type": "custom"
@@ -793,8 +843,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 660,
-              "y": 40
+              "x": 20,
+              "y": 110
             },
             "type": "custom"
           },
@@ -808,7 +858,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 20,
+              "x": 180,
               "y": 110
             },
             "type": "custom"
@@ -823,7 +873,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 180,
+              "x": 340,
               "y": 110
             },
             "type": "custom"
@@ -838,7 +888,7 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 340,
+              "x": 500,
               "y": 110
             },
             "type": "custom"
@@ -970,6 +1020,16 @@
             "target": "ui-shared"
           },
           {
+            "id": "client-components-architecture-ai-oracle-panel-to-ui-shared",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "ui-shared"
+          },
+          {
+            "id": "client-components-architecture-explorer-panel-to-ui-shared",
+            "source": "client-components-architecture-explorer-panel",
+            "target": "ui-shared"
+          },
+          {
             "id": "client-components-architecture-flow-toolbar-to-ui-shared",
             "source": "client-components-architecture-flow-toolbar",
             "target": "ui-shared"
@@ -1020,9 +1080,14 @@
             "target": "ui-shared"
           },
           {
-            "id": "client-components-search-panel-to-ui-shared",
+            "id": "client-components-search-panel-to-client-components-architecture-ai-oracle-panel",
             "source": "client-components-search-panel",
-            "target": "ui-shared"
+            "target": "client-components-architecture-ai-oracle-panel"
+          },
+          {
+            "id": "client-components-search-panel-to-client-components-architecture-explorer-panel",
+            "source": "client-components-search-panel",
+            "target": "client-components-architecture-explorer-panel"
           },
           {
             "id": "client-components-stats-card-to-ui-shared",

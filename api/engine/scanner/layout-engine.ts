@@ -21,12 +21,14 @@ export function applyGridLayout(nodes: Node[], uiId: string) {
     }
   });
 
-  // Scale folder containers to fit the grid
+  // Scale folder containers to fit the grid and stack them vertically
+  let currentY = 50;
+  
   nodes.forEach(node => {
-    if (node.type === 'group' && counts[node.id]) {
-      const count = counts[node.id];
-      const actualCols = Math.min(count, MAX_COLS);
-      const rows = Math.ceil(count / MAX_COLS);
+    if (node.type === 'group') {
+      const count = counts[node.id] || 0;
+      const actualCols = Math.min(Math.max(count, 1), MAX_COLS);
+      const rows = Math.max(Math.ceil(count / MAX_COLS), 1);
       
       const width = (actualCols * COL_WIDTH) + 40;
       const height = (rows * ROW_HEIGHT) + 60;
@@ -40,7 +42,18 @@ export function applyGridLayout(nodes: Node[], uiId: string) {
       if (node.data) {
         node.data.origWidth = width;
         node.data.origHeight = height;
+        // Also persist the dynamic Y position
+        node.data.origY = currentY;
       }
+      
+      // Update position dynamically based on previous heights
+      node.position = {
+        x: 50,
+        y: currentY
+      };
+      
+      // Add gap for the next group
+      currentY += height + 50;
     }
   });
 }
