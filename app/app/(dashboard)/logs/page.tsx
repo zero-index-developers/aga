@@ -3,13 +3,13 @@
 import { useState, useEffect } from 'react';
 import Header from '@/components/header';
 import { DynamicBreadcrumbs } from '@/components/dynamic-breadcrumbs';
-import { 
-  History, 
-  Search, 
-  CheckCircle2, 
-  AlertCircle, 
-  Clock, 
-  Database, 
+import {
+  History,
+  Search,
+  CheckCircle2,
+  AlertCircle,
+  Clock,
+  Database,
   ArrowRight,
   Download,
   Trash2
@@ -17,13 +17,13 @@ import {
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from '@/components/ui/table';
 import { Skeleton } from '@/components/ui/skeleton';
 
@@ -83,7 +83,7 @@ export default function LogsPage() {
             </div>
           </div>
 
-          <Card className="border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden">
+          <Card className="border-border/50 bg-card/30 backdrop-blur-sm overflow-hidden p-0">
             <Table>
               <TableHeader className="bg-muted/50">
                 <TableRow>
@@ -117,11 +117,11 @@ export default function LogsPage() {
                   logs.map((log) => (
                     <TableRow key={log.id} className="hover:bg-muted/30 transition-colors group">
                       <TableCell className="font-mono text-xs text-muted-foreground">
-                        {new Date(log.timestamp).toLocaleString([], { 
-                          month: 'short', 
-                          day: '2-digit', 
-                          hour: '2-digit', 
-                          minute: '2-digit' 
+                        {new Date(log.timestamp).toLocaleString([], {
+                          month: 'short',
+                          day: '2-digit',
+                          hour: '2-digit',
+                          minute: '2-digit'
                         })}
                       </TableCell>
                       <TableCell className="font-medium">{log.repoName}</TableCell>
