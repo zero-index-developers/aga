@@ -67,7 +67,7 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
   return (
     <div className="h-full flex flex-col overflow-y-auto">
       {/* Header */}
-      <div className="p-6 border-b border-border">
+      <div className="p-6 pr-12 border-b border-border">
         <div className="flex items-start justify-between gap-3">
           <div className="flex items-start gap-3">
             <div className="p-2 bg-accent/20 rounded-lg">
