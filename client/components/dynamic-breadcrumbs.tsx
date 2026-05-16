@@ -21,19 +21,17 @@ export function DynamicBreadcrumbs() {
   const labelMap: Record<string, string> = {
     'repos': 'Repositories',
     'logs': 'Scan Logs',
-    'settings': 'Settings',
+    'settings': 'Account Settings',
+    'configs': 'System Configurations',
   };
 
-  const breadcrumbs = [
-    { title: 'Console', href: '/' },
-    ...segments.map((segment) => {
-      const actualSegments = pathname.split('/').filter(Boolean);
-      const actualIndex = actualSegments.indexOf(segment);
-      const href = `/${actualSegments.slice(0, actualIndex + 1).join('/')}`;
-      const title = labelMap[segment] || decodeURIComponent(segment);
-      return { title, href };
-    })
-  ];
+  const breadcrumbs = segments.map((segment) => {
+    const actualSegments = pathname.split('/').filter(Boolean);
+    const actualIndex = actualSegments.indexOf(segment);
+    const href = `/${actualSegments.slice(0, actualIndex + 1).join('/')}`;
+    const title = labelMap[segment] || decodeURIComponent(segment);
+    return { title, href };
+  });
 
   if (breadcrumbs.length === 0) return null;
 
