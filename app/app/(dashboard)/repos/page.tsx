@@ -5,12 +5,13 @@ import Header from '@/components/header';
 import { DynamicBreadcrumbs } from '@/components/dynamic-breadcrumbs';
 import { RepositoryCard } from '@/components/repository-card';
 import { useRepos } from '@/hooks/use-repos';
-import { Activity } from 'lucide-react';
+import { Activity, Plus } from 'lucide-react';
 import { slugify } from '@/lib/utils';
+import { ConnectRepoDialog } from '@/components/connect-repo-dialog';
 
 export default function RepositoriesPage() {
   const router = useRouter();
-  const { repos, connectedRepo, isLoading, switchRepo } = useRepos();
+  const { repos, connectedRepo, isLoading, switchRepo, refreshRepos } = useRepos();
 
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
@@ -39,9 +40,12 @@ export default function RepositoriesPage() {
             <h1 className="text-3xl font-bold tracking-tight">Repository Library</h1>
             <p className="text-muted-foreground mt-1">Manage and explore your connected architectural scans.</p>
           </div>
-          <div className="flex items-center gap-2 px-4 py-2 bg-primary/5 border border-primary/10 rounded-xl">
-            <Activity className="w-4 h-4 text-primary" />
-            <span className="text-sm font-medium text-primary">{repos.length} Total Systems</span>
+          <div className="flex items-center gap-3">
+            <div className="flex items-center gap-2 px-4 py-2 bg-primary/5 border border-primary/10 rounded-xl h-10">
+              <Activity className="w-4 h-4 text-primary" />
+              <span className="text-sm font-medium text-primary">{repos.length} Total Systems</span>
+            </div>
+            <ConnectRepoDialog onSuccess={refreshRepos} />
           </div>
         </div>
 
