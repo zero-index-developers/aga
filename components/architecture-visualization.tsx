@@ -45,6 +45,7 @@ function ArchitectureFlow({
   const [nodes, setNodes, onNodesChange] = useNodesState([]);
   const [edges, setEdges, onEdgesChange] = useEdgesState([]);
   const initialNodesRef = useRef<Node[]>([]);
+  const prevExplodedRef = useRef(false);
   const [showFolders, setShowFolders] = useState(true);
   const [showPaths, setShowPaths] = useState(true);
   const [isExploded, setIsExploded] = useState(false);
