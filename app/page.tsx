@@ -11,24 +11,24 @@ export default function LandingPage() {
             <Network className="w-12 h-12 text-primary-foreground" />
           </div>
         </div>
-        
+
         <h1 className="text-5xl font-bold tracking-tight">
           Architecture Governance Agent
         </h1>
-        
+
         <p className="text-xl text-muted-foreground">
           Google Maps for Software Architecture. Visualize, analyze, and understand your codebase dependencies with AI-powered insights.
         </p>
-        
+
         <div className="flex justify-center gap-4 pt-8">
           <Link href={process.env.NEXT_PUBLIC_APP_URL || "http://app.localhost:3000/"}>
             <Button size="lg" className="h-12 px-8 text-lg">
               Open Dashboard
             </Button>
           </Link>
-          <Link href={`${process.env.NEXT_PUBLIC_APP_URL || "http://app.localhost:3000"}/login`}>
+          <Link href={`${process.env.NEXT_PUBLIC_APP_URL || "http://app.localhost:3000"}/register`}>
             <Button size="lg" variant="outline" className="h-12 px-8 text-lg">
-              Login
+              Sign Up
             </Button>
           </Link>
         </div>
