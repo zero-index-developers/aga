@@ -139,7 +139,7 @@ export default function LogsPage() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ ids })
       });
-      
+
       if (res.ok) {
         setAiHistory(prev => prev.filter(item => !ids.includes(item.id)));
         setSelectedAIIds(new Set());
@@ -153,7 +153,7 @@ export default function LogsPage() {
   const clearAllLogs = () => {
     // Mock clear for now
     setLogs([]);
-    toast.success("All scan logs cleared");
+    toast.success("All logs cleared");
   };
 
   return (
@@ -169,20 +169,20 @@ export default function LogsPage() {
             <span className="text-sm font-bold">{selectedAIIds.size} selected</span>
             <div className="w-[1px] h-4 bg-primary-foreground/20" />
             <div className="flex items-center gap-2">
-              <Button 
-                variant="ghost" 
-                size="sm" 
+              <Button
+                variant="ghost"
+                size="sm"
                 className="text-primary-foreground hover:bg-primary-foreground/10 h-8 gap-2"
                 onClick={() => setSelectedAIIds(new Set())}
               >
                 Cancel
               </Button>
-              
+
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button 
-                    variant="destructive" 
-                    size="sm" 
+                  <Button
+                    variant="destructive"
+                    size="sm"
                     className="h-8 gap-2 bg-red-600 hover:bg-red-700"
                   >
                     <Trash className="w-3.5 h-3.5" />
@@ -198,7 +198,7 @@ export default function LogsPage() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction 
+                    <AlertDialogAction
                       className="bg-red-600 hover:bg-red-700"
                       onClick={() => deleteAIEntries(Array.from(selectedAIIds))}
                     >
@@ -216,7 +216,7 @@ export default function LogsPage() {
             <div>
               <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3 text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50">
                 <HistoryIcon className="w-8 h-8 text-primary" />
-                History & Logs
+                Audit Logs
               </h1>
               <p className="text-muted-foreground mt-1">Audit history of architectural operations and AI analysis.</p>
             </div>
@@ -228,9 +228,9 @@ export default function LogsPage() {
 
               <AlertDialog>
                 <AlertDialogTrigger asChild>
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
+                  <Button
+                    variant="outline"
+                    size="sm"
                     className="gap-2 text-red-500 hover:text-red-600 border-red-500/20 hover:bg-red-500/5 bg-background/50 backdrop-blur-sm"
                   >
                     <Trash2 className="w-4 h-4" />
@@ -246,7 +246,7 @@ export default function LogsPage() {
                   </AlertDialogHeader>
                   <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction 
+                    <AlertDialogAction
                       className="bg-red-600 hover:bg-red-700 text-white"
                       onClick={clearAllLogs}
                     >
@@ -262,7 +262,7 @@ export default function LogsPage() {
             <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8 bg-muted/30 p-1 border border-border/50 rounded-xl">
               <TabsTrigger value="scans" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
                 <Database className="w-4 h-4" />
-                Scan History
+                Logs
               </TabsTrigger>
               <TabsTrigger value="ai" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
                 <MessageSquare className="w-4 h-4" />
@@ -433,7 +433,7 @@ export default function LogsPage() {
                               <div key={item.id} className="relative group/session">
                                 {/* Selection Checkbox */}
                                 <div className="absolute -left-[30px] top-2">
-                                  <Checkbox 
+                                  <Checkbox
                                     checked={selectedAIIds.has(item.id)}
                                     onCheckedChange={() => toggleAISelection(item.id)}
                                     className="border-primary/20 data-[state=checked]:bg-primary data-[state=checked]:border-primary"
@@ -444,9 +444,9 @@ export default function LogsPage() {
                                 <div className="absolute top-0 right-0 opacity-0 group-hover/session:opacity-100 transition-opacity">
                                   <AlertDialog>
                                     <AlertDialogTrigger asChild>
-                                      <Button 
-                                        variant="ghost" 
-                                        size="icon" 
+                                      <Button
+                                        variant="ghost"
+                                        size="icon"
                                         className="h-8 w-8 text-muted-foreground hover:text-red-500 hover:bg-red-500/10"
                                       >
                                         <Trash className="w-3.5 h-3.5" />
@@ -461,7 +461,7 @@ export default function LogsPage() {
                                       </AlertDialogHeader>
                                       <AlertDialogFooter>
                                         <AlertDialogCancel>Cancel</AlertDialogCancel>
-                                        <AlertDialogAction 
+                                        <AlertDialogAction
                                           className="bg-red-600 hover:bg-red-700"
                                           onClick={() => deleteAIEntries([item.id])}
                                         >
