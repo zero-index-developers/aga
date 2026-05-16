@@ -14,30 +14,30 @@ import {
 
 export function DynamicBreadcrumbs() {
   const pathname = usePathname();
-  
+
   // Generate segments from pathname
   // e.g., /repos/aga -> ["repos", "aga"]
   const segments = pathname.split('/').filter(Boolean);
-  
+
   // Define custom labels for specific segments
   const labelMap: Record<string, string> = {
     'repos': 'Repositories',
   };
 
-  const breadcrumbs = segments[0] === 'repos' 
+  const breadcrumbs = segments[0] === 'repos'
     ? segments.map((segment, index) => {
+      const href = `/${segments.slice(0, index + 1).join('/')}`;
+      const title = labelMap[segment] || decodeURIComponent(segment);
+      return { title, href };
+    })
+    : [
+      { title: 'Overview', href: '/' },
+      ...segments.map((segment, index) => {
         const href = `/${segments.slice(0, index + 1).join('/')}`;
         const title = labelMap[segment] || decodeURIComponent(segment);
         return { title, href };
-      })
-    : [
-        { title: 'Console', href: '/' },
-        ...segments.map((segment, index) => {
-          const href = `/${segments.slice(0, index + 1).join('/')}`;
-          const title = labelMap[segment] || decodeURIComponent(segment);
-          return { title, href };
-        }),
-      ];
+      }),
+    ];
 
   if (breadcrumbs.length === 0) return null;
 
