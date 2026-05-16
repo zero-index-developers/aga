@@ -121,7 +121,7 @@ export default function Home() {
             disabled={isRefreshing}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">{isRefreshing ? 'Scanning...' : 'Scan / Refresh'}</span>
+            <span className="hidden sm:inline">{isRefreshing ? 'Refreshing...' : 'Refresh'}</span>
           </Button>
         )}
       </Header>
