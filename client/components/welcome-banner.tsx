@@ -14,9 +14,9 @@ export function WelcomeBanner({ connectedRepo, onOpenRecent, onOpenSample, onCon
   return (
     <div className="mx-auto w-full space-y-6">
       <div className="text-left space-y-2">
-        <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to AGA</h1>
+        <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to AGA!</h1>
         <p className="text-muted-foreground text-lg">
-          Google Maps for Software Architecture. Connect repositories to visualize their architecture and analyze dependencies.
+          Connect repositories to visualize their architecture and analyze dependencies.
         </p>
       </div>
 
