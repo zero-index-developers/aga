@@ -173,15 +173,6 @@ export default function ArchitectureVisualization({
           Reset Selection
         </button>
       )}
-
-      {!selectedNode && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="text-center">
-            <h2 className="text-2xl font-bold text-foreground mb-2">Architecture Overview</h2>
-            <p className="text-muted-foreground">Click on any node to see the blast radius and dependencies</p>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
