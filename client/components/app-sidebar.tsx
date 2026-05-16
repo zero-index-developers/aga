@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderGit2, Home, History } from "lucide-react"
+import { FolderGit2, Home, History, Sliders } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -65,6 +65,12 @@ export function AppSidebar() {
       url: "/logs",
       icon: History,
       isActive: pathname === "/logs",
+    },
+    {
+      title: "Configs",
+      url: "/configs",
+      icon: Sliders,
+      isActive: pathname === "/configs",
     },
   ];
 

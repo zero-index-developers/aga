@@ -1,74 +1,25 @@
 "use client";
 
-import { useState } from 'react';
 import Header from '@client/components/header';
 import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
-import { useSettings } from '@client/hooks/use-settings';
 import { 
   Settings as SettingsIcon, 
-  Search, 
-  Bot, 
-  Eye, 
-  Trash2, 
-  Plus, 
+  User, 
+  Mail, 
   Shield, 
-  Zap,
-  Globe
+  Github,
+  Key
 } from 'lucide-react';
 import { Button } from '@client/components/ui/button';
 import { Input } from '@client/components/ui/input';
 import { Card } from '@client/components/ui/card';
 import { Badge } from '@client/components/ui/badge';
-import { 
-  Select, 
-  SelectContent, 
-  SelectItem, 
-  SelectTrigger, 
-  SelectValue 
-} from '@client/components/ui/select';
 import { toast } from 'sonner';
 
 export default function SettingsPage() {
-  const { settings, isLoading, isSaving, updateSettings } = useSettings();
-  const [newExclusion, setNewExclusion] = useState('');
-
-  const handleAddExclusion = async () => {
-    if (!newExclusion || !settings) return;
-    if (settings.scanner.exclusions.includes(newExclusion)) {
-      toast.error('Exclusion already exists');
-      return;
-    }
-
-    const updatedExclusions = [...settings.scanner.exclusions, newExclusion];
-    const success = await updateSettings({
-      scanner: { ...settings.scanner, exclusions: updatedExclusions }
-    });
-    
-    if (success) {
-      setNewExclusion('');
-      toast.success('Exclusion added');
-    }
+  const handleSave = () => {
+    toast.success('Account settings saved successfully');
   };
-
-  const handleRemoveExclusion = async (pattern: string) => {
-    if (!settings) return;
-    const updatedExclusions = settings.scanner.exclusions.filter(e => e !== pattern);
-    const success = await updateSettings({
-      scanner: { ...settings.scanner, exclusions: updatedExclusions }
-    });
-    
-    if (success) {
-      toast.success('Exclusion removed');
-    }
-  };
-
-  if (isLoading) {
-    return (
-      <div className="h-screen flex items-center justify-center bg-background">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
-      </div>
-    );
-  }
 
   return (
     <div className="h-screen flex flex-col bg-background text-foreground">
@@ -82,140 +33,95 @@ export default function SettingsPage() {
             <div>
               <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
                 <SettingsIcon className="w-8 h-8 text-primary" />
-                Settings
+                Account Settings
               </h1>
-              <p className="text-muted-foreground mt-1">Configure your architectural discovery engine.</p>
+              <p className="text-muted-foreground mt-1">Manage your personal profile and security preferences.</p>
             </div>
-            {isSaving && (
-              <Badge variant="secondary" className="animate-pulse bg-primary/10 text-primary border-primary/20">
-                Saving changes...
-              </Badge>
-            )}
+            <Button onClick={handleSave} className="bg-primary hover:bg-primary/90">
+              Save Changes
+            </Button>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Sidebar Navigation */}
-            <div className="md:col-span-1 space-y-2">
-              <nav className="flex flex-col gap-1">
-                <Button variant="secondary" className="justify-start gap-3 bg-primary/10 text-primary hover:bg-primary/20">
-                  <Search className="w-4 h-4" />
-                  Scanner Config
-                </Button>
-                <Button variant="ghost" className="justify-start gap-3 text-muted-foreground hover:text-foreground">
-                  <Bot className="w-4 h-4" />
-                  AI Preferences
-                </Button>
-                <Button variant="ghost" className="justify-start gap-3 text-muted-foreground hover:text-foreground">
-                  <Eye className="w-4 h-4" />
-                  Visualization
-                </Button>
-              </nav>
-            </div>
-
-            {/* Content Area */}
-            <div className="md:col-span-2 space-y-8">
-              {/* Scanner Section */}
+          {/* Content Area */}
+          <div className="space-y-8">
+              {/* Profile Details */}
               <section className="space-y-4">
                 <div className="flex items-center gap-2 text-lg font-semibold">
-                  <Search className="w-5 h-5 text-primary" />
-                  Scanner Exclusions
-                </div>
-                <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50">
-                  <p className="text-sm text-muted-foreground mb-4">
-                    Directories and file patterns to ignore during architectural discovery.
-                  </p>
-                  
-                  <div className="flex gap-2 mb-6">
-                    <Input 
-                      placeholder="e.g. node_modules, dist, .test.ts"
-                      value={newExclusion}
-                      onChange={(e) => setNewExclusion(e.target.value)}
-                      onKeyPress={(e) => e.key === 'Enter' && handleAddExclusion()}
-                      className="bg-background/50 border-border/50"
-                    />
-                    <Button onClick={handleAddExclusion} className="gap-2 shrink-0">
-                      <Plus className="w-4 h-4" />
-                      Add
-                    </Button>
-                  </div>
-
-                  <div className="flex flex-wrap gap-2">
-                    {settings?.scanner.exclusions.map((pattern) => (
-                      <Badge 
-                        key={pattern} 
-                        variant="secondary" 
-                        className="pl-3 pr-1 py-1 gap-2 bg-secondary/50 border-border/50 group hover:border-red-500/30 transition-all"
-                      >
-                        <span className="text-xs font-mono">{pattern}</span>
-                        <button 
-                          onClick={() => handleRemoveExclusion(pattern)}
-                          className="p-1 hover:bg-red-500/10 hover:text-red-500 rounded-md transition-colors"
-                        >
-                          <Trash2 className="w-3 h-3" />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                </Card>
-              </section>
-
-              {/* AI Preferences Section */}
-              <section className="space-y-4">
-                <div className="flex items-center gap-2 text-lg font-semibold">
-                  <Bot className="w-5 h-5 text-primary" />
-                  AI Oracle (Bob)
+                  <User className="w-5 h-5 text-primary" />
+                  Profile Details
                 </div>
                 <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 space-y-6">
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Insight Depth</label>
-                      <Select 
-                        value={settings?.ai.insightDepth} 
-                        onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, insightDepth: val } })}
-                      >
-                        <SelectTrigger className="bg-background/50 border-border/50">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="concise">Concise Summaries</SelectItem>
-                          <SelectItem value="detailed">Deep Audits</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <label className="text-sm font-medium">Full Name</label>
+                      <Input defaultValue="John Doe" className="bg-background/50 border-border/50" />
                     </div>
                     <div className="space-y-2">
-                      <label className="text-sm font-medium">Analysis Focus</label>
-                      <Select 
-                        value={settings?.ai.focus} 
-                        onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, focus: val } })}
-                      >
-                        <SelectTrigger className="bg-background/50 border-border/50">
-                          <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="architecture">Architecture</SelectItem>
-                          <SelectItem value="security">Security</SelectItem>
-                          <SelectItem value="performance">Performance</SelectItem>
-                        </SelectContent>
-                      </Select>
+                      <label className="text-sm font-medium">Display Name</label>
+                      <Input defaultValue="johndoe" className="bg-background/50 border-border/50" />
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-2">
+                    <label className="text-sm font-medium flex items-center gap-2">
+                      <Mail className="w-4 h-4 text-muted-foreground" />
+                      Email Address
+                    </label>
+                    <div className="flex gap-4 items-center">
+                      <Input defaultValue="john@example.com" type="email" className="bg-background/50 border-border/50 max-w-md" />
+                      <Badge variant="outline" className="text-emerald-500 border-emerald-500/30 bg-emerald-500/10 shrink-0">Verified</Badge>
                     </div>
                   </div>
                 </Card>
               </section>
 
-              {/* Danger Zone */}
-              <section className="space-y-4 pt-4">
-                <div className="flex items-center gap-2 text-lg font-semibold text-red-500">
-                  <Trash2 className="w-5 h-5" />
-                  Danger Zone
+              {/* Security Section */}
+              <section className="space-y-4">
+                <div className="flex items-center gap-2 text-lg font-semibold">
+                  <Shield className="w-5 h-5 text-primary" />
+                  Security
                 </div>
-                <Card className="p-6 border-red-500/20 bg-red-500/5 backdrop-blur-sm">
-                  <div className="flex items-center justify-between gap-4">
-                    <div>
-                      <h4 className="font-bold text-red-500">Reset Local Database</h4>
-                      <p className="text-xs text-red-500/70">Wipe all connected repositories and start from scratch. This cannot be undone.</p>
+                <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 space-y-6">
+                  <div className="space-y-4">
+                    <h4 className="font-medium text-sm">Change Password</h4>
+                    <div className="grid grid-cols-1 gap-4 max-w-md">
+                      <div className="space-y-2">
+                        <Input type="password" placeholder="Current Password" className="bg-background/50 border-border/50" />
+                      </div>
+                      <div className="space-y-2">
+                        <Input type="password" placeholder="New Password" className="bg-background/50 border-border/50" />
+                      </div>
+                      <div className="space-y-2">
+                        <Input type="password" placeholder="Confirm New Password" className="bg-background/50 border-border/50" />
+                      </div>
+                      <Button variant="outline" className="w-fit gap-2">
+                        <Key className="w-4 h-4" />
+                        Update Password
+                      </Button>
                     </div>
-                    <Button variant="destructive" size="sm" className="bg-red-500 hover:bg-red-600">
-                      Wipe Data
+                  </div>
+                </Card>
+              </section>
+
+              {/* Connected Accounts */}
+              <section className="space-y-4 pt-4">
+                <div className="flex items-center gap-2 text-lg font-semibold">
+                  <Github className="w-5 h-5 text-primary" />
+                  Connected Accounts
+                </div>
+                <Card className="p-6 border-border/50 bg-card/30 backdrop-blur-sm">
+                  <div className="flex items-center justify-between gap-4">
+                    <div className="flex items-center gap-4">
+                      <div className="w-10 h-10 rounded-full bg-secondary flex items-center justify-center">
+                        <Github className="w-6 h-6" />
+                      </div>
+                      <div>
+                        <h4 className="font-bold">GitHub</h4>
+                        <p className="text-xs text-muted-foreground">Connected as @johndoe</p>
+                      </div>
+                    </div>
+                    <Button variant="outline" size="sm" className="text-red-500 hover:text-red-600 hover:bg-red-500/10 border-border/50">
+                      Disconnect
                     </Button>
                   </div>
                 </Card>
@@ -223,7 +129,6 @@ export default function SettingsPage() {
             </div>
           </div>
         </div>
-      </div>
     </div>
   );
 }

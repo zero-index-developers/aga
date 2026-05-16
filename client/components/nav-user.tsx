@@ -8,6 +8,7 @@ import {
   LogOut,
   Sparkles,
   Settings,
+  Sliders,
   User,
 } from "lucide-react"
 import Link from "next/link"
@@ -83,6 +84,12 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border/50" />
+            <Link href="/configs">
+              <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
+                <Sliders className="size-4" />
+                Configs
+              </DropdownMenuItem>
+            </Link>
             <Link href="/settings">
               <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
                 <Settings className="size-4" />
