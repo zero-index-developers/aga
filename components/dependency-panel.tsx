@@ -1,6 +1,8 @@
 'use client';
 
 import { AlertCircle, TrendingDown, TrendingUp } from 'lucide-react';
+import { useState } from 'react';
+import { ReviewImpactDialog } from './review-impact-dialog';
 
 const DEPENDENCIES_MAP: {
   [key: string]: {
@@ -62,6 +64,7 @@ interface DependencyPanelProps {
 }
 
 export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
+  const [isReviewOpen, setIsReviewOpen] = useState(false);
   const deps = DEPENDENCIES_MAP[nodeId] || DEPENDENCIES_MAP.default;
 
   return (
@@ -161,10 +164,21 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
       {/* Action */}
       <div className="p-6 border-t border-border bg-secondary/20">
-        <button className="w-full px-3 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors">
+        <button 
+          onClick={() => setIsReviewOpen(true)}
+          className="w-full px-3 py-2 bg-primary text-primary-foreground text-sm font-medium rounded-lg hover:bg-primary/90 transition-colors"
+        >
           Review Impact
         </button>
       </div>
+
+      <ReviewImpactDialog 
+        open={isReviewOpen}
+        onOpenChange={setIsReviewOpen}
+        nodeId={nodeId}
+        risk={deps.risk}
+        impactCount={deps.impactCount}
+      />
     </div>
   );
 }
