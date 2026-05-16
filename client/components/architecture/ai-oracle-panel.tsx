@@ -7,6 +7,13 @@ import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
 import { useSettings } from '@client/hooks/use-settings';
 import { Badge } from '@client/components/ui/badge';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from '@client/components/ui/select';
 
 interface AIOraclePanelProps {
   nodes: any[];
@@ -15,7 +22,7 @@ interface AIOraclePanelProps {
 }
 
 export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps) {
-  const { settings } = useSettings();
+  const { settings, updateSettings } = useSettings();
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -96,14 +103,38 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
         <div className="flex gap-1.5">
           {settings && (
             <>
-              <Badge variant="outline" className="text-[9px] h-5 px-1.5 gap-1 bg-primary/5 text-primary border-primary/20 font-medium capitalize">
-                {getFocusIcon(settings.ai.focus)}
-                {settings.ai.focus}
-              </Badge>
-              <Badge variant="outline" className="text-[9px] h-5 px-1.5 gap-1 bg-secondary/50 text-muted-foreground border-border/50 font-medium capitalize">
-                <Bot className="w-3 h-3" />
-                {settings.ai.insightDepth}
-              </Badge>
+              <Select
+                value={settings.ai.focus}
+                onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, focus: val } })}
+              >
+                <SelectTrigger className="h-5 px-2 text-[10px] gap-1 border-primary/20 bg-primary/5 text-primary capitalize font-medium rounded-full min-w-0 w-fit [&>svg]:w-3 [&>svg]:h-3 focus:ring-0 focus:ring-offset-0">
+                  <div className="flex items-center gap-1 truncate">
+                    {getFocusIcon(settings.ai.focus)}
+                    <SelectValue />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="architecture" className="text-xs">Architecture</SelectItem>
+                  <SelectItem value="security" className="text-xs">Security</SelectItem>
+                  <SelectItem value="performance" className="text-xs">Performance</SelectItem>
+                </SelectContent>
+              </Select>
+
+              <Select
+                value={settings.ai.insightDepth}
+                onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, insightDepth: val } })}
+              >
+                <SelectTrigger className="h-5 px-2 text-[10px] gap-1 border-border/50 bg-secondary/50 text-muted-foreground capitalize font-medium rounded-full min-w-0 w-fit [&>svg]:w-3 [&>svg]:h-3 focus:ring-0 focus:ring-offset-0">
+                  <div className="flex items-center gap-1 truncate">
+                    <Bot className="w-3 h-3" />
+                    <SelectValue />
+                  </div>
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="concise" className="text-xs">Concise</SelectItem>
+                  <SelectItem value="detailed" className="text-xs">Detailed</SelectItem>
+                </SelectContent>
+              </Select>
             </>
           )}
         </div>
