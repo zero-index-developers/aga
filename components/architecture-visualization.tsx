@@ -15,8 +15,9 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './custom-node';
-import { Folder, FolderMinus, FileText, EyeOff, Maximize2 } from 'lucide-react';
+import { Folder, FolderMinus, FileText, EyeOff, Maximize2, Zap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { useRef } from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -28,68 +29,7 @@ const nodeTypes = {
   custom: CustomNode,
 };
 
-const initialNodes: Node[] = [
-  // Folder Groups (Parents)
-  { id: 'group-api', data: { label: '/api' }, position: { x: 50, y: 50 }, className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 700, height: 100 } },
-  { id: 'group-middleware', data: { label: '/middleware' }, position: { x: 300, y: -80 }, className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 190, height: 100 } },
-  { id: 'group-controllers', data: { label: '/controllers' }, position: { x: 50, y: 180 }, className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 700, height: 100 } },
-  { id: 'group-services', data: { label: '/services' }, position: { x: 50, y: 310 }, className: 'bg-green-500/5 border-green-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 700, height: 100 } },
-  { id: 'group-db', data: { label: '/db' }, position: { x: 50, y: 440 }, className: 'bg-orange-500/5 border-orange-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 700, height: 100 } },
-  { id: 'group-workers', data: { label: '/workers' }, position: { x: 50, y: 570 }, className: 'bg-rose-500/5 border-rose-500/20 rounded-xl z-[-1] pointer-events-none', style: { width: 700, height: 100 } },
 
-  // API Routes
-  { id: 'api-users', parentNode: 'group-api', data: { label: 'GET /api/users', type: 'route', path: 'api/users/route.ts', color: 'bg-blue-600' }, position: { x: 20, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'api-payments', parentNode: 'group-api', data: { label: 'POST /api/payments', type: 'route', path: 'api/payments/route.ts', color: 'bg-blue-600' }, position: { x: 250, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'api-inventory', parentNode: 'group-api', data: { label: 'GET /api/inventory', type: 'route', path: 'api/inventory/route.ts', color: 'bg-blue-600' }, position: { x: 480, y: 40 }, type: 'custom', extent: 'parent' },
-
-  // Middleware
-  { id: 'auth-middleware', parentNode: 'group-middleware', data: { label: 'AuthMiddleware', type: 'middleware', path: 'middleware.ts', color: 'bg-amber-600' }, position: { x: 20, y: 40 }, type: 'custom', extent: 'parent' },
-
-  // Controllers
-  { id: 'user-controller', parentNode: 'group-controllers', data: { label: 'UserController', type: 'controller', path: 'controllers/user.ts', color: 'bg-purple-600' }, position: { x: 20, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'payment-controller', parentNode: 'group-controllers', data: { label: 'PaymentController', type: 'controller', path: 'controllers/payment.ts', color: 'bg-purple-600' }, position: { x: 250, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'inventory-controller', parentNode: 'group-controllers', data: { label: 'InventoryController', type: 'controller', path: 'controllers/inv.ts', color: 'bg-purple-600' }, position: { x: 480, y: 40 }, type: 'custom', extent: 'parent' },
-
-  // Services
-  { id: 'user-service', parentNode: 'group-services', data: { label: 'UserService', type: 'service', path: 'services/user.service.ts', color: 'bg-green-600' }, position: { x: 20, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'auth-service', parentNode: 'group-services', data: { label: 'AuthService', type: 'service', path: 'services/auth.service.ts', color: 'bg-green-600' }, position: { x: 250, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'payment-service', parentNode: 'group-services', data: { label: 'PaymentService', type: 'service', path: 'services/payment.service.ts', color: 'bg-green-600' }, position: { x: 480, y: 40 }, type: 'custom', extent: 'parent' },
-
-  // Database
-  { id: 'db-users', parentNode: 'group-db', data: { label: 'Users Table', type: 'database', path: 'db/schema.ts', color: 'bg-orange-600' }, position: { x: 20, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'db-products', parentNode: 'group-db', data: { label: 'Products Table', type: 'database', path: 'db/schema.ts', color: 'bg-orange-600' }, position: { x: 250, y: 40 }, type: 'custom', extent: 'parent' },
-  { id: 'db-transactions', parentNode: 'group-db', data: { label: 'Transactions Table', type: 'database', path: 'db/schema.ts', color: 'bg-orange-600' }, position: { x: 480, y: 40 }, type: 'custom', extent: 'parent' },
-
-  // Workers
-  { id: 'analytics-worker', parentNode: 'group-workers', data: { label: 'AnalyticsWorker', type: 'worker', path: 'workers/analytics.ts', color: 'bg-rose-600' }, position: { x: 250, y: 40 }, type: 'custom', extent: 'parent' },
-];
-
-const initialEdges: Edge[] = [
-  // API to Middleware
-  { id: 'api-users-to-auth', source: 'api-users', target: 'auth-middleware', animated: false },
-  { id: 'api-payments-to-auth', source: 'api-payments', target: 'auth-middleware', animated: false },
-
-  // Middleware to Controllers
-  { id: 'auth-to-user-ctrl', source: 'auth-middleware', target: 'user-controller', animated: false },
-  { id: 'auth-to-payment-ctrl', source: 'auth-middleware', target: 'payment-controller', animated: false },
-
-  // Controllers to Services
-  { id: 'user-ctrl-to-service', source: 'user-controller', target: 'user-service', animated: false },
-  { id: 'payment-ctrl-to-service', source: 'payment-controller', target: 'payment-service', animated: false },
-  { id: 'inv-ctrl-to-service', source: 'inventory-controller', target: 'payment-service', animated: false },
-
-  // Services to Services (Dependencies)
-  { id: 'payment-service-to-auth', source: 'payment-service', target: 'auth-service', animated: false },
-
-  // Services to Database
-  { id: 'user-service-to-db', source: 'user-service', target: 'db-users', animated: false },
-  { id: 'auth-service-to-db', source: 'auth-service', target: 'db-users', animated: false },
-  { id: 'payment-service-to-db-tx', source: 'payment-service', target: 'db-transactions', animated: false },
-  { id: 'payment-service-to-db-users', source: 'payment-service', target: 'db-users', animated: false },
-
-  // Database to Workers
-  { id: 'db-tx-to-analytics', source: 'db-transactions', target: 'analytics-worker', animated: true },
-];
 
 interface ArchitectureVisualizationProps {
   selectedNode: string | null;
@@ -102,29 +42,65 @@ function ArchitectureFlow({
   onNodeSelect,
   onShowDependencies,
 }: ArchitectureVisualizationProps) {
-  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
-  const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const [nodes, setNodes, onNodesChange] = useNodesState([]);
+  const [edges, setEdges, onEdgesChange] = useEdgesState([]);
+  const initialNodesRef = useRef<Node[]>([]);
   const [showFolders, setShowFolders] = useState(true);
   const [showPaths, setShowPaths] = useState(true);
+  const [isExploded, setIsExploded] = useState(false);
   const { setCenter, fitView } = useReactFlow();
 
-  // Handle Visibility Toggles
+  // Fetch Graph Data
+  useEffect(() => {
+    async function fetchGraph() {
+      try {
+        const res = await fetch('/api/repo/graph');
+        const data = await res.json();
+        setNodes(data.nodes || []);
+        initialNodesRef.current = data.nodes || [];
+        setEdges(data.edges || []);
+      } catch (error) {
+        console.error('Failed to fetch graph:', error);
+      }
+    }
+    fetchGraph();
+  }, [setNodes, setEdges]);
+
+  // Handle Visibility and Explode Toggles
   useEffect(() => {
     setNodes((nds) =>
       nds.map((n) => {
         // Handle folder nodes
         if (n.id.startsWith('group-')) {
+          const originalGroup = initialNodesRef.current.find(inNode => inNode.id === n.id);
+          const baseWidth = (n.style?.width as number) || 800;
           return {
             ...n,
-            style: { ...n.style, opacity: showFolders ? 1 : 0 },
+            style: { 
+              ...n.style, 
+              opacity: showFolders ? 1 : 0,
+              width: isExploded ? baseWidth * 2.2 : baseWidth,
+              height: isExploded ? 180 : 120,
+            },
+            position: {
+              x: originalGroup?.position.x ?? n.position.x,
+              y: isExploded 
+                ? (originalGroup?.position.y || 0) * 1.5 
+                : (originalGroup?.position.y ?? n.position.y)
+            },
             className: showFolders ? n.className : 'opacity-0 pointer-events-none',
             selectable: showFolders,
             draggable: showFolders,
           };
         }
-        // Handle component nodes (paths)
+        // Handle component nodes
+        const originalPos = initialNodesRef.current.find(inNode => inNode.id === n.id)?.position || n.position;
         return {
           ...n,
+          position: {
+            x: isExploded ? (originalPos.x - 20) * 2.2 + 20 : originalPos.x,
+            y: originalPos.y,
+          },
           data: {
             ...n.data,
             showPath: showPaths,
@@ -132,14 +108,20 @@ function ArchitectureFlow({
         };
       })
     );
-  }, [showFolders, showPaths, setNodes]);
+
+    // Auto-fit view ONLY when Explode state changes
+    if (prevExplodedRef.current !== isExploded) {
+      setTimeout(() => fitView({ duration: 800 }), 100);
+      prevExplodedRef.current = isExploded;
+    }
+  }, [showFolders, showPaths, isExploded, setNodes, fitView]);
 
   useEffect(() => {
     if (!selectedNode) {
       setNodes((nds) =>
         nds.map((n) => ({
           ...n,
-          data: { ...n.data, isSelected: false, isRelated: false },
+          data: { ...n.data, isSelected: false, isRelated: false, isAnySelected: false },
         }))
       );
       setEdges((eds) => eds.map((e) => ({ ...e, animated: false })));
@@ -150,7 +132,7 @@ function ArchitectureFlow({
     const relatedNodeIds = new Set<string>([selectedNode]);
 
     const findUpstream = (nodeId: string) => {
-      initialEdges.forEach((edge) => {
+      edges.forEach((edge) => {
         if (edge.target === nodeId && !relatedNodeIds.has(edge.source)) {
           relatedNodeIds.add(edge.source);
           findUpstream(edge.source);
@@ -159,7 +141,7 @@ function ArchitectureFlow({
     };
 
     const findDownstream = (nodeId: string) => {
-      initialEdges.forEach((edge) => {
+      edges.forEach((edge) => {
         if (edge.source === nodeId && !relatedNodeIds.has(edge.target)) {
           relatedNodeIds.add(edge.target);
           findDownstream(edge.target);
@@ -177,6 +159,7 @@ function ArchitectureFlow({
           ...n.data,
           isSelected: n.id === selectedNode,
           isRelated: relatedNodeIds.has(n.id),
+          isAnySelected: true,
         },
       }))
     );
@@ -274,6 +257,22 @@ function ArchitectureFlow({
               </TooltipTrigger>
               <TooltipContent side="left">
                 <p>{showPaths ? 'Hide File Paths' : 'Show File Paths'}</p>
+              </TooltipContent>
+            </Tooltip>
+
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className={`w-9 h-9 rounded-lg transition-all ${isExploded ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'hover:bg-accent'}`}
+                  onClick={() => setIsExploded(!isExploded)}
+                >
+                  <Zap className={`w-4 h-4 ${isExploded ? 'fill-current' : ''}`} />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="left">
+                <p>{isExploded ? 'Compress View' : 'Explode View'}</p>
               </TooltipContent>
             </Tooltip>
 

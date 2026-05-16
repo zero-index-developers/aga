@@ -12,13 +12,22 @@ interface CustomNodeData {
 
 export default function CustomNode({ data }: { data: CustomNodeData }) {
   const getColorClasses = () => {
+    const isAnySelected = (data as any).isAnySelected;
+    
     if (data.isSelected) {
-      return 'ring-2 ring-primary shadow-lg shadow-primary/50 scale-110 z-50';
+      return 'ring-2 ring-primary shadow-lg shadow-primary/50 scale-110 z-50 grayscale-0 opacity-100';
     }
     if (data.isRelated) {
-      return 'ring-1 ring-accent/50 opacity-100 z-40';
+      return 'ring-1 ring-accent/50 opacity-100 z-40 grayscale-0';
     }
-    return 'opacity-40 hover:opacity-100 grayscale hover:grayscale-0';
+    
+    // Default state when nothing is selected
+    if (!isAnySelected) {
+      return 'opacity-100 grayscale-0 shadow-md hover:scale-105';
+    }
+
+    // Dimmed state when something else is selected
+    return 'opacity-20 grayscale hover:grayscale-0 hover:opacity-100 transition-all';
   };
 
   return (
