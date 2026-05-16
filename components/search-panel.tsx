@@ -16,13 +16,28 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [nodes, setNodes] = useState<any[]>([]);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
     const fetchNodes = async () => {
       try {
         const res = await fetch('/api/repo/graph');
         const data = await res.json();
-        setNodes(data.nodes?.filter((n: any) => n.type === 'custom') || []);
+        const components = data.nodes?.filter((n: any) => n.type === 'custom') || [];
+        setNodes(components);
+
+        // Generate dynamic suggestions from real project nodes
+        if (components.length > 0) {
+          const shuffled = [...components].sort(() => 0.5 - Math.random());
+          const selected = shuffled.slice(0, 4);
+          const prompts = selected.map((n, i) => {
+            if (i === 0) return `What is the purpose of ${n.data.label}?`;
+            if (i === 1) return `Tell me about ${n.data.path}`;
+            if (i === 2) return `How does ${n.data.label} fit in?`;
+            return `Explain the ${n.data.type} logic here.`;
+          });
+          setSuggestions(prompts);
+        }
       } catch (e) {
         console.error('Failed to fetch nodes for search', e);
       }
@@ -30,15 +45,16 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
     fetchNodes();
   }, []);
 
-  const handleSearch = async () => {
-    if (!query.trim()) return;
+  const handleSearch = async (overrideQuery?: string) => {
+    const activeQuery = overrideQuery || query;
+    if (!activeQuery.trim()) return;
 
     setLoading(true);
     // Simulate AI response based on current components
     setTimeout(() => {
       const match = nodes.find(n => 
-        query.toLowerCase().includes(n.data.label.toLowerCase()) || 
-        query.toLowerCase().includes(n.data.type.toLowerCase())
+        activeQuery.toLowerCase().includes(n.data.label.toLowerCase()) || 
+        activeQuery.toLowerCase().includes(n.data.type.toLowerCase())
       );
 
       if (match) {
@@ -58,13 +74,13 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
 
   return (
     <div className="flex flex-col h-full p-6 overflow-y-auto">
-      <div className="space-y-4">
+      <div className="space-y-6">
         {/* Contextual Oracle Search */}
         <div>
-          <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-3 block">
+          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 block">
             Contextual Oracle
           </label>
-          <div className="space-y-2">
+          <div className="space-y-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
               <Input
@@ -72,24 +88,39 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
                 value={query}
                 onChange={(e) => setQuery(e.target.value)}
                 onKeyPress={handleKeyPress}
-                className="pl-10 bg-input border-border text-sm"
+                className="pl-10 bg-input border-border text-sm h-10"
               />
             </div>
             <Button
-              onClick={handleSearch}
+              onClick={() => handleSearch()}
               disabled={loading || !query.trim()}
-              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm gap-2"
-              size="sm"
+              className="w-full bg-primary hover:bg-primary/90 text-primary-foreground text-sm gap-2 h-10 shadow-lg shadow-primary/20"
             >
               {loading ? 'Analyzing...' : 'Ask Bob'}
               <Send className="w-3.5 h-3.5" />
             </Button>
+
+            {/* Suggestions */}
+            <div className="flex flex-wrap gap-1.5 pt-1">
+              {suggestions.map((s, i) => (
+                <button
+                  key={i}
+                  onClick={() => {
+                    setQuery(s);
+                    handleSearch(s);
+                  }}
+                  className="text-[10px] px-2 py-1 rounded-full bg-secondary/50 text-muted-foreground hover:bg-primary/10 hover:text-primary border border-border/50 transition-all"
+                >
+                  {s}
+                </button>
+              ))}
+            </div>
           </div>
 
           {aiResponse && (
-            <div className="mt-4 p-3 bg-accent/10 border border-accent/20 rounded-lg">
-              <p className="text-xs font-semibold text-accent mb-2">Oracle Response:</p>
-              <p className="text-xs text-foreground/80 leading-relaxed">{aiResponse}</p>
+            <div className="mt-4 p-4 bg-primary/5 border border-primary/20 rounded-xl animate-in fade-in slide-in-from-top-2">
+              <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Oracle Analysis:</p>
+              <p className="text-xs text-foreground/90 leading-relaxed italic">"{aiResponse}"</p>
             </div>
           )}
         </div>
