@@ -10,5 +10,6 @@
     "build": "npm run build --prefix client",
     "start": "npm run start --prefix client",
     "lint": "npm run lint --prefix client"
-  }
+  },
+  "version": "1.0.0"
 }

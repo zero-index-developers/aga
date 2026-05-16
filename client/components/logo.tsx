@@ -2,7 +2,7 @@
 
 import * as React from "react"
 import { Network } from "lucide-react"
-import pkg from "../package.json"
+import pkg from "../../package.json"
 import { cn } from "@client/lib/utils"
 
 interface LogoProps extends React.HTMLAttributes<HTMLDivElement> {
