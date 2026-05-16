@@ -19,8 +19,8 @@ export function useFlowView(
 
         // Handle folder nodes
         if (n.id.startsWith('group-')) {
-          const baseWidth = (n.style?.width as number) || 800;
-          const baseHeight = (n.style?.height as number) || 120;
+          const baseWidth = n.data.origWidth ?? (n.style?.width as number) ?? 840;
+          const baseHeight = n.data.origHeight ?? (n.style?.height as number) ?? 120;
           return {
             ...n,
             style: { 

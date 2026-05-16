@@ -45,6 +45,17 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
     fetchNodes();
   }, []);
 
+  useEffect(() => {
+    const handleTrigger = (e: any) => {
+      const prompt = e.detail.prompt;
+      setQuery(prompt);
+      handleSearch(prompt);
+    };
+
+    window.addEventListener('trigger-refactor-review', handleTrigger);
+    return () => window.removeEventListener('trigger-refactor-review', handleTrigger);
+  }, [nodes]); // Depends on nodes so handleSearch has the context it needs
+
   const handleSearch = async (overrideQuery?: string) => {
     const activeQuery = overrideQuery || query;
     if (!activeQuery.trim()) return;

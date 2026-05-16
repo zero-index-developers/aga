@@ -24,10 +24,22 @@ export function applyGridLayout(nodes: Node[], uiId: string) {
   // Scale folder containers to fit the grid
   nodes.forEach(node => {
     if (node.type === 'group' && counts[node.id]) {
-      const rows = Math.ceil(counts[node.id] / MAX_COLS);
+      const count = counts[node.id];
+      const actualCols = Math.min(count, MAX_COLS);
+      const rows = Math.ceil(count / MAX_COLS);
+      
+      const width = (actualCols * COL_WIDTH) + 40;
+      const height = (rows * ROW_HEIGHT) + 60;
+
       if (node.style) {
-        node.style.width = (MAX_COLS * COL_WIDTH) + 40;
-        node.style.height = (rows * ROW_HEIGHT) + 60;
+        node.style.width = width;
+        node.style.height = height;
+      }
+      
+      // Persist original dimensions for transformations
+      if (node.data) {
+        node.data.origWidth = width;
+        node.data.origHeight = height;
       }
     }
   });

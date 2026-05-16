@@ -36,9 +36,18 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
   const { node, upstream, downstream, risk, radius } = analysis;
 
+  const handleTriggerReview = () => {
+    const prompt = `Conduct a refactor review for ${node.data.label}. It has a ${risk} risk level and a propagation radius of ${radius}%. Based on its ${upstream.length} consumers and ${downstream.length} dependencies, what are the primary architectural concerns?`;
+
+    // Dispatch custom event to be picked up by SearchPanel (Bob)
+    window.dispatchEvent(new CustomEvent('trigger-refactor-review', {
+      detail: { prompt }
+    }));
+  };
+
   return (
     <div className="flex flex-col h-full bg-background/50 backdrop-blur-xl border-l border-border/50">
-      {/* Panel Header */}
+      {/* ... Panel Header ... */}
       <div className="p-6 border-b border-border/50 bg-gradient-to-b from-primary/5 to-transparent">
         <div className="flex items-center justify-between mb-2 pr-7">
           <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 gap-1.5 px-2.5 py-1">
@@ -53,10 +62,15 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
           </Badge>
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-foreground truncate">{node.data.label}</h2>
-        <p className="text-xs text-muted-foreground mt-1 font-mono uppercase tracking-widest flex items-center gap-1">
-          <Info className="w-3 h-3" />
-          Impact Analysis
-        </p>
+        <div className="flex flex-col gap-1.5 mt-1.5">
+          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest flex items-center gap-1">
+            <Info className="w-3 h-3" />
+            Impact Analysis
+          </p>
+          <p className="text-[10px] text-muted-foreground font-mono bg-accent/30 px-2 py-0.5 rounded border border-border/50 w-fit truncate max-w-full">
+            {node.data.path}
+          </p>
+        </div>
       </div>
 
       <div className="flex-1 overflow-y-auto p-6 space-y-6">
@@ -97,7 +111,10 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
       {/* Action Footer */}
       <div className="p-6 bg-gradient-to-t from-background to-transparent border-t border-border/50">
-        <button className="w-full group relative flex items-center justify-center gap-2 py-3 bg-primary text-primary-foreground rounded-xl font-bold transition-all hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:-translate-y-0.5 overflow-hidden active:translate-y-0">
+        <button
+          onClick={handleTriggerReview}
+          className="w-full group relative flex items-center justify-center gap-2 py-3 bg-primary text-primary-foreground rounded-xl font-bold transition-all hover:shadow-[0_0_20px_rgba(var(--primary),0.3)] hover:-translate-y-0.5 overflow-hidden active:translate-y-0"
+        >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
           <ShieldAlert className="w-4 h-4" />
           Trigger Refactor Review

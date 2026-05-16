@@ -4,7 +4,10 @@ export interface Node {
     label: string;
     type: string;
     path: string;
-    color: string;
+    origX?: number;
+    origY?: number;
+    origWidth?: number;
+    origHeight?: number;
   };
   position: { x: number; y: number };
   parentNode?: string;

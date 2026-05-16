@@ -18,8 +18,10 @@ export function useArchitectureData(repoName: string) {
         ...n,
         data: {
           ...n.data,
-          origX: n.position.x,
-          origY: n.position.y
+          origX: n.data.origX ?? n.position.x,
+          origY: n.data.origY ?? n.position.y,
+          origWidth: n.data.origWidth ?? n.style?.width,
+          origHeight: n.data.origHeight ?? n.style?.height,
         }
       }));
 

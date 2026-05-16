@@ -6,11 +6,11 @@ import { applyGridLayout } from './scanner/layout-engine';
 export async function scanProject(rootPath: string) {
   const nodes: Node[] = [
     // Folder Groups
-    { id: 'group-pages', data: { label: '/app (Pages)', type: 'folder', path: 'app/', color: '' }, position: { x: 50, y: 50 }, style: { width: 840, height: 200 }, className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-api', data: { label: '/api (Routes)', type: 'folder', path: 'app/api/', color: '' }, position: { x: 50, y: 190 }, style: { width: 840, height: 120 }, className: 'bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-components', data: { label: '/components', type: 'folder', path: 'components/', color: '' }, position: { x: 50, y: 330 }, style: { width: 840, height: 120 }, className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-ui', data: { label: '/components/ui', type: 'folder', path: 'components/ui/', color: '' }, position: { x: 50, y: 470 }, style: { width: 840, height: 120 }, className: 'bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-lib', data: { label: '/lib', type: 'folder', path: 'lib/', color: '' }, position: { x: 50, y: 610 }, style: { width: 840, height: 120 }, className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]', type: 'group' },
+    { id: 'group-pages', data: { label: '/app (Pages)', type: 'folder', path: 'app/' }, position: { x: 50, y: 50 }, style: {}, className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]', type: 'group' },
+    { id: 'group-api', data: { label: '/api (Routes)', type: 'folder', path: 'app/api/' }, position: { x: 50, y: 250 }, style: {}, className: 'bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]', type: 'group' },
+    { id: 'group-components', data: { label: '/components', type: 'folder', path: 'components/' }, position: { x: 50, y: 450 }, style: {}, className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]', type: 'group' },
+    { id: 'group-ui', data: { label: '/components/ui', type: 'folder', path: 'components/ui/' }, position: { x: 50, y: 650 }, style: {}, className: 'bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]', type: 'group' },
+    { id: 'group-lib', data: { label: '/lib', type: 'folder', path: 'lib/' }, position: { x: 50, y: 850 }, style: {}, className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]', type: 'group' },
   ];
   const edges: Edge[] = [];
   const fileMap = new Map<string, string>();
@@ -44,7 +44,6 @@ export async function scanProject(rootPath: string) {
             label: file.replace(/\.tsx?$/, ''),
             type,
             path: relPath,
-            color: config.color,
           },
           position: { x: 0, y: 0 },
           type: 'custom',
@@ -65,7 +64,6 @@ export async function scanProject(rootPath: string) {
       label: 'Shared UI Library',
       type: 'ui',
       path: 'components/ui/',
-      color: TYPE_CONFIG.ui.color,
     },
     position: { x: 20, y: 40 },
     type: 'custom',
@@ -81,23 +79,35 @@ export async function scanProject(rootPath: string) {
       const content = fs.readFileSync(path.join(rootPath, node.data.path), 'utf8');
       const importMatches = content.matchAll(/from ['"](.+?)['"]/g);
       
+      const currentDir = path.dirname(node.data.path);
+
       for (const match of importMatches) {
         const importPath = match[1];
         let targetId: string | undefined;
 
-        if (importPath.includes('components/ui/')) {
-          targetId = uiId;
-        } else if (importPath.startsWith('@/')) {
-          const resolvedRelPath = importPath.replace('@/', '') + '.tsx';
+        // Resolve Path
+        let resolvedRelPath = '';
+        if (importPath.startsWith('@/')) {
+          resolvedRelPath = importPath.replace('@/', '');
+        } else if (importPath.startsWith('.')) {
+          resolvedRelPath = path.join(currentDir, importPath).replace(/\\/g, '/');
+        } else {
+          // Check for explicit folder paths that match our groups
+          if (importPath.includes('components/ui/')) targetId = uiId;
+          else continue; // Skip external packages
+        }
+
+        if (!targetId && resolvedRelPath) {
           const possiblePaths = [
             resolvedRelPath,
-            resolvedRelPath.replace('.tsx', '.ts'),
-            resolvedRelPath.replace('.tsx', '/index.tsx'),
-            resolvedRelPath.replace('.tsx', '/index.ts'),
+            resolvedRelPath + '.tsx',
+            resolvedRelPath + '.ts',
+            path.join(resolvedRelPath, 'index.tsx').replace(/\\/g, '/'),
+            path.join(resolvedRelPath, 'index.ts').replace(/\\/g, '/'),
           ];
 
           for (const p of possiblePaths) {
-            const foundId = fileMap.get(p);
+            const foundId = fileMap.get(p) || fileMap.get(p.replace(/\.tsx?$/, ''));
             if (foundId) {
               targetId = foundId;
               break;
