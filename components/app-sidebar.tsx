@@ -59,7 +59,7 @@ export function AppSidebar() {
 
   return (
     <Sidebar collapsible="icon">
-      <SidebarHeader className="border-b border-border p-3 h-14 flex flex-row items-center justify-between">
+      <SidebarHeader className="border-b border-border p-3 h-14 flex flex-row items-center justify-between group-data-[collapsible=icon]:p-0 group-data-[collapsible=icon]:justify-center">
         <div className="flex items-center gap-2 overflow-hidden group-data-[collapsible=icon]:hidden">
           <div className="p-1.5 bg-primary rounded-md shrink-0">
             <Network className="w-4 h-4 text-primary-foreground" />

@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import ArchitectureVisualization from '@/components/architecture-visualization';
 import SearchPanel from '@/components/search-panel';
@@ -21,18 +21,34 @@ import { useRepos } from '@/hooks/use-repos';
 import { WelcomeBanner } from '@/components/welcome-banner';
 import { StatsCard } from '@/components/stats-card';
 import { RepositoryCard } from '@/components/repository-card';
+import { useSidebar } from '@/components/ui/sidebar';
 
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeRepoParam = searchParams.get('repo');
-  
+
+
   const { repos, connectedRepo, isLoading, refreshRepos, switchRepo } = useRepos();
 
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDependencies, setShowDependencies] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  const { setOpen, open } = useSidebar();
+
+  const hasCollapsed = useRef(false);
+
+  useEffect(() => {
+    if (activeRepoParam && !hasCollapsed.current) {
+      // Small delay to ensure sidebar is mounted
+      setTimeout(() => {
+        setOpen(false);
+        hasCollapsed.current = true;
+      }, 0);
+    }
+  }, [activeRepoParam, setOpen]);
 
   async function handleRefresh() {
     setIsRefreshing(true);
@@ -53,8 +69,8 @@ export default function Home() {
     totalRepos: repos.length,
     totalNodes: repos.reduce((acc, r) => acc + (r.analytics?.nodes || 0), 0),
     totalEdges: repos.reduce((acc, r) => acc + (r.analytics?.edges || 0), 0),
-    avgHealth: repos.length > 0 
-      ? Math.round(repos.reduce((acc, r) => acc + (r.analytics?.health || 0), 0) / repos.length) 
+    avgHealth: repos.length > 0
+      ? Math.round(repos.reduce((acc, r) => acc + (r.analytics?.health || 0), 0) / repos.length)
       : 0
   };
 
@@ -127,7 +143,7 @@ export default function Home() {
           </main>
           {showDependencies && selectedNode && (
             <aside className="w-80 border-l border-border/50 bg-card/40 overflow-y-auto relative shrink-0">
-              <button 
+              <button
                 onClick={() => setShowDependencies(false)}
                 className="absolute top-4 right-4 p-1 hover:bg-muted rounded-md transition-colors z-50 bg-background/50 backdrop-blur-sm border border-border/50"
               >
@@ -139,7 +155,7 @@ export default function Home() {
         </div>
       ) : (
         <div className="flex-1 overflow-y-auto p-6 space-y-8">
-          <WelcomeBanner 
+          <WelcomeBanner
             connectedRepo={connectedRepo}
             onOpenRecent={() => router.push(`/?repo=${encodeURIComponent(connectedRepo!)}`)}
             onOpenSample={() => handleOpenRepo('facebook/react (Sample)', 'https://github.com/facebook/react')}
