@@ -61,7 +61,7 @@ export function AppSidebar() {
       })),
     },
     {
-      title: "Scan Logs",
+      title: "Logs",
       url: "/logs",
       icon: History,
       isActive: pathname === "/logs",

@@ -20,7 +20,7 @@ export function DynamicBreadcrumbs() {
 
   const labelMap: Record<string, string> = {
     'repos': 'Repositories',
-    'logs': 'Scan Logs',
+    'logs': 'Logs',
     'settings': 'Settings',
     'configs': 'Configurations',
   };
