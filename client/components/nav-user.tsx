@@ -10,6 +10,7 @@ import {
   Settings,
   Sliders,
   User,
+  Github,
 } from "lucide-react"
 import Link from "next/link"
 
@@ -83,6 +84,13 @@ export function NavUser({
                 </div>
               </div>
             </DropdownMenuLabel>
+            <DropdownMenuSeparator className="bg-border/50" />
+            <a href="https://github.com/zero-index-developers/aga" target="_blank" rel="noopener noreferrer">
+              <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
+                <Github className="size-4" />
+                GitHub Repository
+              </DropdownMenuItem>
+            </a>
             <DropdownMenuSeparator className="bg-border/50" />
 
             <Link href="/settings">
