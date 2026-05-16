@@ -24,20 +24,11 @@ export function DynamicBreadcrumbs() {
     'repos': 'Repositories',
   };
 
-  const breadcrumbs = segments[0] === 'repos'
-    ? segments.map((segment, index) => {
-      const href = `/${segments.slice(0, index + 1).join('/')}`;
-      const title = labelMap[segment] || decodeURIComponent(segment);
-      return { title, href };
-    })
-    : [
-      { title: 'Overview', href: '/' },
-      ...segments.map((segment, index) => {
-        const href = `/${segments.slice(0, index + 1).join('/')}`;
-        const title = labelMap[segment] || decodeURIComponent(segment);
-        return { title, href };
-      }),
-    ];
+  const breadcrumbs = segments.map((segment, index) => {
+    const href = `/${segments.slice(0, index + 1).join('/')}`;
+    const title = labelMap[segment] || decodeURIComponent(segment);
+    return { title, href };
+  });
 
   if (breadcrumbs.length === 0) return null;
 

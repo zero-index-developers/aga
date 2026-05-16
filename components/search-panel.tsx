@@ -1,10 +1,23 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Send, Box, FileCode, Database, Globe } from 'lucide-react';
+import { 
+  Search, 
+  Send, 
+  Box, 
+  FileCode, 
+  Database, 
+  Globe, 
+  Bot, 
+  Zap, 
+  Shield, 
+  Cpu 
+} from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Skeleton } from '@/components/ui/skeleton';
+import { useSettings } from '@/hooks/use-settings';
+import { Badge } from '@/components/ui/badge';
 
 interface SearchPanelProps {
   onSearch: (query: string) => void;
@@ -15,6 +28,7 @@ interface SearchPanelProps {
 }
 
 export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, nodes, isLoading }: SearchPanelProps) {
+  const { settings } = useSettings();
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -46,6 +60,14 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, no
     window.addEventListener('trigger-refactor-review', handleTrigger);
     return () => window.removeEventListener('trigger-refactor-review', handleTrigger);
   }, [nodes]); // Depends on nodes so handleSearch has the context it needs
+
+  const getFocusIcon = (focus: string) => {
+    switch(focus) {
+      case 'security': return <Shield className="w-3 h-3" />;
+      case 'performance': return <Zap className="w-3 h-3" />;
+      default: return <Cpu className="w-3 h-3" />;
+    }
+  };
 
   const handleSearch = async (overrideQuery?: string) => {
     const activeQuery = overrideQuery || query;
@@ -79,9 +101,25 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, no
       <div className="space-y-6">
         {/* Contextual Oracle Search */}
         <div>
-          <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mb-3 block">
-            Contextual Oracle
-          </label>
+          <div className="flex items-center justify-between mb-3">
+            <label className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest">
+              AI Oracle
+            </label>
+            <div className="flex gap-1.5">
+              {settings && (
+                <>
+                  <Badge variant="outline" className="text-[9px] h-5 px-1.5 gap-1 bg-primary/5 text-primary border-primary/20 font-medium capitalize">
+                    {getFocusIcon(settings.ai.focus)}
+                    {settings.ai.focus}
+                  </Badge>
+                  <Badge variant="outline" className="text-[9px] h-5 px-1.5 gap-1 bg-secondary/50 text-muted-foreground border-border/50 font-medium capitalize">
+                    <Bot className="w-3 h-3" />
+                    {settings.ai.insightDepth}
+                  </Badge>
+                </>
+              )}
+            </div>
+          </div>
           <div className="space-y-3">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />

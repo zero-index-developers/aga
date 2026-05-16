@@ -83,32 +83,12 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator className="bg-border/50" />
-            {/* <DropdownMenuGroup>
-              <DropdownMenuItem className="gap-2 focus:bg-primary/10 focus:text-primary">
-                <Sparkles className="size-4" />
-                Upgrade to Pro
+            <Link href="/settings">
+              <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
+                <Settings className="size-4" />
+                Settings
               </DropdownMenuItem>
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-border/50" /> */}
-            <DropdownMenuGroup>
-              <Link href="/profile">
-                <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
-                  <User className="size-4" />
-                  Profile
-                </DropdownMenuItem>
-              </Link>
-              <Link href="/settings">
-                <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
-                  <Settings className="size-4" />
-                  Settings
-                </DropdownMenuItem>
-              </Link>
-              {/* <DropdownMenuItem className="gap-2 focus:bg-primary/10 focus:text-primary">
-                <Bell className="size-4" />
-                Notifications
-              </DropdownMenuItem> */}
-            </DropdownMenuGroup>
-            <DropdownMenuSeparator className="bg-border/50" />
+            </Link>
             <DropdownMenuItem className="gap-2 text-red-500 focus:bg-red-500/10 focus:text-red-500 cursor-pointer">
               <LogOut className="size-4" />
               Log out
