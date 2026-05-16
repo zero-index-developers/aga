@@ -11,17 +11,22 @@ import { Button } from '@/components/ui/button';
 import { RefreshCw, X, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRepos } from '@/hooks/use-repos';
+import { slugify } from '@/lib/utils';
 
 export default function RepositoryGraphPage({ params }: { params: Promise<{ name: string }> }) {
   const router = useRouter();
   const resolvedParams = use(params);
-  const repoName = decodeURIComponent(resolvedParams.name);
+  const repoSlug = decodeURIComponent(resolvedParams.name);
   
-  const { connectedRepo, isLoading, refreshRepos } = useRepos();
+  const { repos, isLoading, refreshRepos } = useRepos();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDependencies, setShowDependencies] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
+
+  // Find the actual repo name from the slug
+  const actualRepo = repos.find(r => slugify(r.name) === repoSlug);
+  const repoName = actualRepo?.name || repoSlug;
 
   async function handleRefresh() {
     setIsRefreshing(true);

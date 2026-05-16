@@ -6,6 +6,7 @@ import { DynamicBreadcrumbs } from '@/components/dynamic-breadcrumbs';
 import { RepositoryCard } from '@/components/repository-card';
 import { useRepos } from '@/hooks/use-repos';
 import { Activity } from 'lucide-react';
+import { slugify } from '@/lib/utils';
 
 export default function RepositoriesPage() {
   const router = useRouter();
@@ -14,7 +15,7 @@ export default function RepositoriesPage() {
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
     if (success) {
-      router.push(`/repos/${encodeURIComponent(name)}`);
+      router.push(`/repos/${slugify(name)}`);
     }
   };
 

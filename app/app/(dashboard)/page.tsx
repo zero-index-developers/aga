@@ -11,31 +11,28 @@ import { RefreshCw, Activity, Network as NetworkIcon, Box, X } from 'lucide-reac
 import { toast } from 'sonner';
 import { DynamicBreadcrumbs } from '@/components/dynamic-breadcrumbs';
 import { useRepos } from '@/hooks/use-repos';
+import { useGlobalStats } from '@/hooks/use-global-stats';
 import { WelcomeBanner } from '@/components/welcome-banner';
 import { StatsCard } from '@/components/stats-card';
 import { RepositoryCard } from '@/components/repository-card';
 import { useSidebar } from '@/components/ui/sidebar';
+import { slugify } from '@/lib/utils';
 
 export default function Home() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const activeRepoParam = searchParams.get('repo');
 
-
   const { repos, connectedRepo, isLoading, refreshRepos, switchRepo } = useRepos();
+  const globalStats = useGlobalStats(repos);
 
-  const [selectedNode, setSelectedNode] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [showDependencies, setShowDependencies] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
-
-  const { setOpen, open } = useSidebar();
-
+  const { setOpen } = useSidebar();
   const hasCollapsed = useRef(false);
 
   useEffect(() => {
     if (activeRepoParam) {
-      router.replace(`/repos/${encodeURIComponent(activeRepoParam)}`);
+      router.replace(`/repos/${slugify(activeRepoParam)}`);
     }
   }, [activeRepoParam, router]);
 
@@ -49,28 +46,11 @@ export default function Home() {
     }
   }, [activeRepoParam, setOpen]);
 
-  async function handleRefresh() {
-    setIsRefreshing(true);
-    await new Promise((resolve) => setTimeout(resolve, 1500));
-    setIsRefreshing(false);
-    toast.success('Repository successfully scanned and updated!');
-  }
-
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
     if (success) {
-      router.push(`/?repo=${encodeURIComponent(name)}`);
+      router.push(`/repos/${slugify(name)}`);
     }
-  };
-
-  // Calculate Global Stats
-  const globalStats = {
-    totalRepos: repos.length,
-    totalNodes: repos.reduce((acc, r) => acc + (r.analytics?.nodes || 0), 0),
-    totalEdges: repos.reduce((acc, r) => acc + (r.analytics?.edges || 0), 0),
-    avgHealth: repos.length > 0
-      ? Math.round(repos.reduce((acc, r) => acc + (r.analytics?.health || 0), 0) / repos.length)
-      : 0
   };
 
   if (isLoading) {
