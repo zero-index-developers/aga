@@ -13,6 +13,7 @@ import CustomNode from './custom-node';
 import { useArchitectureData } from '@/hooks/use-architecture-data';
 import { useFlowView } from '@/hooks/use-flow-view';
 import { FlowToolbar } from './architecture/flow-toolbar';
+import { useTheme } from 'next-themes';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -31,6 +32,7 @@ function ArchitectureFlow({
   onShowDependencies,
   repoName,
 }: ArchitectureVisualizationProps) {
+  const { resolvedTheme } = useTheme();
   const { 
     nodes, setNodes, onNodesChange, 
     edges, setEdges, onEdgesChange, 
@@ -44,6 +46,22 @@ function ArchitectureFlow({
   } = useFlowView(setNodes, initialNodes);
 
   const { setCenter, fitView, zoomIn, zoomOut, getNodes, getEdges } = useReactFlow();
+
+  // Theme-aware edge styling
+  const styledEdges = useMemo(() => {
+    const isDark = resolvedTheme === 'dark';
+    return edges.map((edge) => ({
+      ...edge,
+      style: {
+        ...edge.style,
+        stroke: edge.animated 
+          ? (isDark ? '#3b82f6' : '#2563eb') // Primary Blue
+          : (isDark ? '#334155' : '#94a3b8'), // Slate contrast
+        strokeWidth: edge.animated ? 3 : 1.5,
+        opacity: edge.animated ? 1 : (isDark ? 0.4 : 0.6),
+      },
+    }));
+  }, [edges, resolvedTheme]);
 
   // Highlight Logic
   useEffect(() => {
@@ -96,7 +114,6 @@ function ArchitectureFlow({
     });
 
     setEdges((eds) => {
-      // Re-calculate relations for animation (simplified)
       return eds.map((e) => ({
         ...e,
         animated: e.source === selectedNode || e.target === selectedNode,
@@ -152,7 +169,7 @@ function ArchitectureFlow({
 
       <ReactFlow
         nodes={nodes}
-        edges={edges}
+        edges={styledEdges}
         onNodesChange={onNodesChange}
         onEdgesChange={onEdgesChange}
         nodeTypes={nodeTypes}
@@ -163,7 +180,11 @@ function ArchitectureFlow({
         fitView
         className="bg-transparent"
       >
-        <Background color="#334155" gap={20} variant={BackgroundVariant.Dots} />
+        <Background 
+          color={resolvedTheme === 'dark' ? '#334155' : '#94a3b8'} 
+          gap={20} 
+          variant={BackgroundVariant.Dots} 
+        />
       </ReactFlow>
     </div>
   );
