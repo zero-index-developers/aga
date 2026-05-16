@@ -78,12 +78,11 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
               <p className="text-xs text-muted-foreground mt-1">Impact of changes to this component</p>
             </div>
           </div>
-          <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
-            deps.risk === 'High' ? 'bg-red-500/10 text-red-500' :
+          <div className={`px-2 py-1 rounded text-[10px] text-center font-bold uppercase tracking-wider ${deps.risk === 'High' ? 'bg-red-500/10 text-red-500' :
             deps.risk === 'Medium' ? 'bg-amber-500/10 text-amber-500' :
-            'bg-emerald-500/10 text-emerald-500'
-          }`}>
-            {deps.risk} Risk
+              'bg-emerald-500/10 text-emerald-500'
+            }`}>
+            {deps.risk}
           </div>
         </div>
       </div>
@@ -96,12 +95,11 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
             <span className="text-sm font-bold text-foreground">{deps.radius}%</span>
           </div>
           <div className="h-2 w-full bg-secondary/30 rounded-full overflow-hidden border border-border/50">
-            <div 
-              className={`h-full transition-all duration-1000 ease-out ${
-                deps.risk === 'High' ? 'bg-red-500' :
+            <div
+              className={`h-full transition-all duration-1000 ease-out ${deps.risk === 'High' ? 'bg-red-500' :
                 deps.risk === 'Medium' ? 'bg-amber-500' :
-                'bg-emerald-500'
-              }`}
+                  'bg-emerald-500'
+                }`}
               style={{ width: `${deps.radius}%` }}
             />
           </div>
