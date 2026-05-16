@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderGit2, Home } from "lucide-react"
+import { FolderGit2, Home, History } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -42,6 +42,32 @@ export function AppSidebar() {
     avatar: "https://github.com/shadcn.png",
   };
 
+  const navItems = [
+    {
+      title: "Overview",
+      url: "/",
+      icon: Home,
+      isActive: pathname === "/" && !activeRepoParam,
+    },
+    {
+      title: "Repositories",
+      url: "/repos",
+      icon: FolderGit2,
+      isActive: pathname === "/repos",
+      subItems: repos.map((repo) => ({
+        title: repo.name,
+        url: `/?repo=${encodeURIComponent(repo.name)}`,
+        isActive: activeRepoParam === repo.name,
+      })),
+    },
+    {
+      title: "Scan Logs",
+      url: "/logs",
+      icon: History,
+      isActive: pathname === "/logs",
+    },
+  ];
+
   useEffect(() => {
     async function fetchRepos() {
       try {
@@ -66,48 +92,50 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {/* Overview */}
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild isActive={pathname === "/" && !activeRepoParam}>
-                  <Link href="/">
-                    <Home />
-                    <span>Overview</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-
-              {/* Repositories Dropdown */}
-              <Collapsible defaultOpen className="group/collapsible">
-                <SidebarMenuItem className="relative">
-                  <SidebarMenuButton asChild isActive={pathname === "/repos"} className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
-                    <Link href="/repos">
-                      <FolderGit2 />
-                      <span>Repositories</span>
-                    </Link>
-                  </SidebarMenuButton>
-                  <CollapsibleTrigger asChild>
-                    <SidebarMenuAction
-                      className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2 group-data-[collapsible=icon]:hidden"
-                      showOnHover={false}
-                    >
-                      <ChevronRight className="w-4 h-4" />
-                    </SidebarMenuAction>
-                  </CollapsibleTrigger>
-                  <CollapsibleContent>
-                    <SidebarMenuSub>
-                      {repos.map((repo) => (
-                        <SidebarMenuSubItem key={repo.name}>
-                          <SidebarMenuSubButton asChild isActive={activeRepoParam === repo.name}>
-                            <Link href={`/?repo=${encodeURIComponent(repo.name)}`}>
-                              <span className="truncate">{repo.name}</span>
-                            </Link>
-                          </SidebarMenuSubButton>
-                        </SidebarMenuSubItem>
-                      ))}
-                    </SidebarMenuSub>
-                  </CollapsibleContent>
-                </SidebarMenuItem>
-              </Collapsible>
+              {navItems.map((item) => (
+                item.subItems ? (
+                  <Collapsible key={item.title} defaultOpen className="group/collapsible">
+                    <SidebarMenuItem className="relative">
+                      <SidebarMenuButton asChild isActive={item.isActive} className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
+                        <Link href={item.url}>
+                          <item.icon />
+                          <span>{item.title}</span>
+                        </Link>
+                      </SidebarMenuButton>
+                      <CollapsibleTrigger asChild>
+                        <SidebarMenuAction
+                          className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2 group-data-[collapsible=icon]:hidden"
+                          showOnHover={false}
+                        >
+                          <ChevronRight className="w-4 h-4" />
+                        </SidebarMenuAction>
+                      </CollapsibleTrigger>
+                      <CollapsibleContent>
+                        <SidebarMenuSub>
+                          {item.subItems.map((subItem) => (
+                            <SidebarMenuSubItem key={subItem.title}>
+                              <SidebarMenuSubButton asChild isActive={subItem.isActive}>
+                                <Link href={subItem.url}>
+                                  <span className="truncate">{subItem.title}</span>
+                                </Link>
+                              </SidebarMenuSubButton>
+                            </SidebarMenuSubItem>
+                          ))}
+                        </SidebarMenuSub>
+                      </CollapsibleContent>
+                    </SidebarMenuItem>
+                  </Collapsible>
+                ) : (
+                  <SidebarMenuItem key={item.title}>
+                    <SidebarMenuButton asChild isActive={item.isActive}>
+                      <Link href={item.url}>
+                        <item.icon />
+                        <span>{item.title}</span>
+                      </Link>
+                    </SidebarMenuButton>
+                  </SidebarMenuItem>
+                )
+              ))}
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>

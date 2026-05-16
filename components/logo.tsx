@@ -23,12 +23,12 @@ export function LogoIcon({ className, ...props }: React.HTMLAttributes<HTMLDivEl
 export function LogoFull({ className, showVersion = true, ...props }: LogoProps) {
   return (
     <div className={cn("flex items-center gap-2 overflow-hidden", className)} {...props}>
-      <LogoIcon />
-      <div className="flex flex-col items-start justify-center truncate">
-        <span className="text-xs font-bold tracking-tight leading-none mb-1">AGA Console</span>
+      {/* <LogoIcon /> */}
+      <div className="flex items-baseline gap-1 truncate">
+        <span className="text-2xl font-bold tracking-tight leading-none">AGA</span>
         {showVersion && (
-          <span className="text-[8px] text-muted-foreground font-mono opacity-60 leading-none">
-            v{pkg.version}
+          <span className="text-[9px] text-muted-foreground font-mono opacity-60 leading-none">
+            v{pkg.version.split('.')[0]}
           </span>
         )}
       </div>
