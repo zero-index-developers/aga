@@ -6,25 +6,23 @@ import { Input } from '@client/components/ui/input';
 import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
 import { useSettings } from '@client/hooks/use-settings';
-import { Badge } from '@client/components/ui/badge';
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
-  SelectValue,
 } from '@client/components/ui/select';
 
 interface AIOraclePanelProps {
   nodes: any[];
   isLoading: boolean;
   onSearch?: (query: string) => void;
+  onResponse?: (response: string | null) => void;
 }
 
-export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps) {
+export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOraclePanelProps) {
   const { settings, updateSettings } = useSettings();
   const [query, setQuery] = useState('');
-  const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
@@ -52,8 +50,11 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
     };
 
     window.addEventListener('trigger-refactor-review', handleTrigger);
-    return () => window.removeEventListener('trigger-refactor-review', handleTrigger);
-  }, [nodes]);
+    return () => {
+      window.removeEventListener('trigger-refactor-review', handleTrigger);
+      if (onResponse) onResponse(null);
+    };
+  }, [nodes, onResponse]);
 
   const getFocusIcon = (focus: string) => {
     switch(focus) {
@@ -79,10 +80,12 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
         activeQuery.toLowerCase().includes(n.data.type.toLowerCase())
       );
 
-      if (match) {
-        setAiResponse(`The ${match.data.label} is a ${match.data.type} located at ${match.data.path}. It is a core part of the architectural layer and interacts with related modules to ensure system stability.`);
-      } else {
-        setAiResponse("Based on the current architecture scan, I couldn't find a direct match for that query. Try asking about a specific component or layer shown in the graph.");
+      const response = match 
+        ? `The ${match.data.label} is a ${match.data.type} located at ${match.data.path}. It is a core part of the architectural layer and interacts with related modules to ensure system stability.`
+        : "Based on the current architecture scan, I couldn't find a direct match for that query. Try asking about a specific component or layer shown in the graph.";
+      
+      if (onResponse) {
+        onResponse(response);
       }
       setLoading(false);
     }, 800);
@@ -182,13 +185,6 @@ export function AIOraclePanel({ nodes, isLoading, onSearch }: AIOraclePanelProps
           )}
         </div>
       </div>
-
-      {aiResponse && (
-        <div className="mt-4 p-4 bg-primary/5 border border-primary/20 rounded-xl animate-in fade-in slide-in-from-top-2">
-          <p className="text-[10px] font-bold text-primary uppercase tracking-widest mb-2">Oracle Analysis:</p>
-          <p className="text-xs text-foreground/90 leading-relaxed italic">"{aiResponse}"</p>
-        </div>
-      )}
     </div>
   );
 }

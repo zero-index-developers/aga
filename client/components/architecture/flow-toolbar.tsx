@@ -19,6 +19,8 @@ interface FlowToolbarProps {
   onFitView: () => void;
   onZoomIn: () => void;
   onZoomOut: () => void;
+  canZoomIn?: boolean;
+  canZoomOut?: boolean;
 }
 
 export function FlowToolbar({
@@ -31,11 +33,13 @@ export function FlowToolbar({
   onFitView,
   onZoomIn,
   onZoomOut,
+  canZoomIn = true,
+  canZoomOut = true,
 }: FlowToolbarProps) {
   return (
     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <TooltipProvider delayDuration={0}>
-        <div className="flex flex-row items-center gap-2 p-2 bg-background/80 backdrop-blur-md border border-border/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
+        <div className="flex flex-row items-center gap-2 p-2 bg-background/80 backdrop-blur-xl border border-border/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
@@ -109,8 +113,9 @@ export function FlowToolbar({
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
+                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
                 onClick={onZoomOut}
+                disabled={!canZoomOut}
               >
                 <Minus className="w-4 h-4" />
               </Button>
@@ -125,8 +130,9 @@ export function FlowToolbar({
               <Button
                 variant="ghost"
                 size="icon"
-                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
+                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground disabled:opacity-30 disabled:cursor-not-allowed"
                 onClick={onZoomIn}
+                disabled={!canZoomIn}
               >
                 <Plus className="w-4 h-4" />
               </Button>

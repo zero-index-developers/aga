@@ -7,6 +7,7 @@ import ReactFlow, {
   Controls,
   ReactFlowProvider,
   useReactFlow,
+  useStore,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './custom-node';
@@ -57,6 +58,14 @@ function ArchitectureFlow({
   } = useFlowView(setNodes, nodes);
 
   const { setCenter, fitView, zoomIn, zoomOut, getNodes, getEdges } = useReactFlow();
+  
+  // Get zoom state for toolbar buttons
+  const zoom = useStore((s) => s.transform[2]);
+  const minZoom = useStore((s) => s.minZoom);
+  const maxZoom = useStore((s) => s.maxZoom);
+
+  const canZoomIn = zoom < maxZoom;
+  const canZoomOut = zoom > minZoom;
 
   // Theme-aware edge styling
   const styledEdges = useMemo(() => {
@@ -101,6 +110,8 @@ function ArchitectureFlow({
         onFitView={() => fitView({ duration: 800 })}
         onZoomIn={() => zoomIn({ duration: 400 })}
         onZoomOut={() => zoomOut({ duration: 400 })}
+        canZoomIn={canZoomIn}
+        canZoomOut={canZoomOut}
       />
 
       <ReactFlow

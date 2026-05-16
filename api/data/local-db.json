@@ -12,7 +12,7 @@
     },
     "ai": {
       "insightDepth": "concise",
-      "focus": "performance"
+      "focus": "architecture"
     }
   },
   "scanLogs": [
@@ -39,6 +39,15 @@
       "timestamp": "2026-05-16T09:20:05.000Z",
       "duration": "2.5s",
       "nodesFound": 15
+    }
+  ],
+  "aiHistory": [
+    {
+      "id": "ai-2",
+      "repoName": "aga (Self-Scan)",
+      "timestamp": "2026-05-16T15:25:45.000Z",
+      "prompt": "How do components interact with the API?",
+      "response": "Components in the /client/components directory typically use hooks from /client/hooks to make fetch requests to the Next.js API routes defined in /client/app/api."
     }
   ],
   "repositories": [

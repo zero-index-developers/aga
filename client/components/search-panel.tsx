@@ -9,9 +9,10 @@ interface SearchPanelProps {
   selectedNodeId?: string | null;
   nodes: any[];
   isLoading: boolean;
+  onOracleResponse?: (response: string | null) => void;
 }
 
-export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, nodes, isLoading }: SearchPanelProps) {
+export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, nodes, isLoading, onOracleResponse }: SearchPanelProps) {
   return (
     <div className="flex flex-col h-full p-6 overflow-y-auto">
       <div className="space-y-6">
@@ -19,6 +20,7 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, no
           nodes={nodes} 
           isLoading={isLoading} 
           onSearch={onSearch}
+          onResponse={onOracleResponse}
         />
         
         <ExplorerPanel 
