@@ -118,6 +118,8 @@ function ArchitectureFlow({
             ...n,
             style: { ...n.style, opacity: showFolders ? 1 : 0 },
             className: showFolders ? n.className : 'opacity-0 pointer-events-none',
+            selectable: showFolders,
+            draggable: showFolders,
           };
         }
         // Handle component nodes (paths)
@@ -191,11 +193,22 @@ function ArchitectureFlow({
     );
 
     // Focus on the node
-    const node = initialNodes.find((n) => n.id === selectedNode);
+    const node = nodes.find((n) => n.id === selectedNode);
     if (node) {
-      const x = node.position.x + 100; // Average node half-width
-      const y = node.position.y + 20;  // Average node half-height
-      setCenter(x, y, { zoom: 1.5, duration: 800 });
+      let absX = node.position.x;
+      let absY = node.position.y;
+
+      if (node.parentNode) {
+        const parent = nodes.find(n => n.id === node.parentNode);
+        if (parent) {
+          absX += parent.position.x;
+          absY += parent.position.y;
+        }
+      }
+
+      // Offset the center to the right (+180) to push the node to the left
+      // This ensures it's not covered by the right-hand dependency panel
+      setCenter(absX + 90, absY + 100, { zoom: 1.5, duration: 800 });
     }
   }, [selectedNode, setNodes, setEdges, setCenter]);
 
