@@ -18,7 +18,9 @@ import {
   SidebarMenuSubButton,
   SidebarMenu,
   SidebarMenuAction,
+  SidebarFooter,
 } from "@/components/ui/sidebar"
+import pkg from "../package.json"
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible"
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
@@ -105,6 +107,12 @@ export function AppSidebar() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+      <SidebarFooter className="p-4 border-t border-border/40">
+        <div className="flex items-center justify-between text-[10px] text-muted-foreground uppercase tracking-widest font-semibold opacity-70">
+          <span>AGA Console</span>
+          <span>v{pkg.version}</span>
+        </div>
+      </SidebarFooter>
     </Sidebar>
   )
 }
