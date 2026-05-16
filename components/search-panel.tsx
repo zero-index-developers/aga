@@ -19,9 +19,10 @@ const SAMPLE_NODES = [
 interface SearchPanelProps {
   onSearch: (query: string) => void;
   onNodeSelect: (nodeId: string) => void;
+  selectedNodeId?: string | null;
 }
 
-export default function SearchPanel({ onSearch, onNodeSelect }: SearchPanelProps) {
+export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: SearchPanelProps) {
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
@@ -107,7 +108,11 @@ export default function SearchPanel({ onSearch, onNodeSelect }: SearchPanelProps
               <button
                 key={node.id}
                 onClick={() => onNodeSelect(node.id)}
-                className="w-full text-left px-3 py-2 rounded-md hover:bg-secondary/50 transition-colors text-sm font-medium text-foreground/80 hover:text-foreground"
+                className={`w-full text-left px-3 py-2 rounded-md transition-all text-sm font-medium border border-transparent ${
+                  selectedNodeId === node.id
+                    ? 'bg-primary/10 text-primary border-primary/20 shadow-sm'
+                    : 'hover:bg-secondary/50 text-foreground/80 hover:text-foreground'
+                }`}
               >
                 <div className="flex items-center gap-2">
                   <div

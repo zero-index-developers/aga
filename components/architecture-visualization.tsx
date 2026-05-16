@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useState } from 'react';
+import { useCallback, useState, useEffect, useMemo } from 'react';
 import ReactFlow, {
   Node,
   Edge,
@@ -9,6 +9,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   NodeMouseHandler,
+  ReactFlowProvider,
+  useReactFlow,
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './custom-node';
@@ -69,84 +71,92 @@ interface ArchitectureVisualizationProps {
   onShowDependencies: (show: boolean) => void;
 }
 
-export default function ArchitectureVisualization({
+function ArchitectureFlow({
   selectedNode,
   onNodeSelect,
   onShowDependencies,
 }: ArchitectureVisualizationProps) {
   const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(initialEdges);
+  const { setCenter } = useReactFlow();
 
-  const onNodeClick: NodeMouseHandler = useCallback(
-    (event, node) => {
-      onNodeSelect(node.id);
-      onShowDependencies(true);
-
-      // Highlight related nodes
-      const relatedNodeIds = new Set<string>([node.id]);
-
-      // Find upstream dependencies
-      const findUpstream = (nodeId: string) => {
-        edges.forEach((edge) => {
-          if (edge.target === nodeId && !relatedNodeIds.has(edge.source)) {
-            relatedNodeIds.add(edge.source);
-            findUpstream(edge.source);
-          }
-        });
-      };
-
-      // Find downstream dependencies
-      const findDownstream = (nodeId: string) => {
-        edges.forEach((edge) => {
-          if (edge.source === nodeId && !relatedNodeIds.has(edge.target)) {
-            relatedNodeIds.add(edge.target);
-            findDownstream(edge.target);
-          }
-        });
-      };
-
-      findUpstream(node.id);
-      findDownstream(node.id);
-
-      // Update node styles
+  useEffect(() => {
+    if (!selectedNode) {
       setNodes((nds) =>
         nds.map((n) => ({
           ...n,
-          data: {
-            ...n.data,
-            isSelected: n.id === node.id,
-            isRelated: relatedNodeIds.has(n.id),
-          },
+          data: { ...n.data, isSelected: false, isRelated: false },
         }))
       );
+      setEdges((eds) => eds.map((e) => ({ ...e, animated: false })));
+      return;
+    }
 
-      // Update edge styles
-      setEdges((eds) =>
-        eds.map((e) => ({
-          ...e,
-          animated: (relatedNodeIds.has(e.source) || relatedNodeIds.has(e.target)) && e.source !== node.id && e.target !== node.id,
-          data: {
-            ...e.data,
-            highlight: relatedNodeIds.has(e.source) && relatedNodeIds.has(e.target),
-          },
-        }))
-      );
-    },
-    [edges, setNodes, setEdges, onNodeSelect, onShowDependencies]
-  );
+    // Highlight logic
+    const relatedNodeIds = new Set<string>([selectedNode]);
 
-  const handleResetSelection = () => {
+    const findUpstream = (nodeId: string) => {
+      initialEdges.forEach((edge) => {
+        if (edge.target === nodeId && !relatedNodeIds.has(edge.source)) {
+          relatedNodeIds.add(edge.source);
+          findUpstream(edge.source);
+        }
+      });
+    };
+
+    const findDownstream = (nodeId: string) => {
+      initialEdges.forEach((edge) => {
+        if (edge.source === nodeId && !relatedNodeIds.has(edge.target)) {
+          relatedNodeIds.add(edge.target);
+          findDownstream(edge.target);
+        }
+      });
+    };
+
+    findUpstream(selectedNode);
+    findDownstream(selectedNode);
+
     setNodes((nds) =>
       nds.map((n) => ({
         ...n,
         data: {
           ...n.data,
-          isSelected: false,
-          isRelated: false,
+          isSelected: n.id === selectedNode,
+          isRelated: relatedNodeIds.has(n.id),
         },
       }))
     );
-    setEdges((eds) => eds.map((e) => ({ ...e, animated: false })));
+
+    setEdges((eds) =>
+      eds.map((e) => ({
+        ...e,
+        animated: (relatedNodeIds.has(e.source) || relatedNodeIds.has(e.target)) && e.source !== selectedNode && e.target !== selectedNode,
+        data: {
+          ...e.data,
+          highlight: relatedNodeIds.has(e.source) && relatedNodeIds.has(e.target),
+        },
+      }))
+    );
+
+    // Focus on the node
+    const node = initialNodes.find((n) => n.id === selectedNode);
+    if (node) {
+      const x = node.position.x + 100; // Average node half-width
+      const y = node.position.y + 20;  // Average node half-height
+      setCenter(x, y, { zoom: 1.5, duration: 800 });
+    }
+  }, [selectedNode, setNodes, setEdges, setCenter]);
+
+  const onNodeClick: NodeMouseHandler = useCallback(
+    (event, node) => {
+      onNodeSelect(node.id);
+      onShowDependencies(true);
+    },
+    [onNodeSelect, onShowDependencies]
+  );
+
+  const handleResetSelection = () => {
+    onNodeSelect('');
     onShowDependencies(false);
   };
 
@@ -174,5 +184,13 @@ export default function ArchitectureVisualization({
         </button>
       )}
     </div>
+  );
+}
+
+export default function ArchitectureVisualization(props: ArchitectureVisualizationProps) {
+  return (
+    <ReactFlowProvider>
+      <ArchitectureFlow {...props} />
+    </ReactFlowProvider>
   );
 }

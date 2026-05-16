@@ -132,6 +132,7 @@ export default function Home() {
             <SearchPanel
               onSearch={setSearchQuery}
               onNodeSelect={setSelectedNode}
+              selectedNodeId={selectedNode}
             />
           </aside>
           <main className="flex-1 relative bg-slate-950/20 overflow-hidden min-w-0">
