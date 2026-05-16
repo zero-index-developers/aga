@@ -38,9 +38,9 @@ export function FlowToolbar({
         <div className="flex flex-row items-center gap-2 p-2 bg-background/80 backdrop-blur-md border border-border/50 rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.3)]">
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className={`w-9 h-9 rounded-lg transition-all ${showFolders ? 'bg-primary/10 text-primary' : 'text-foreground/60 hover:bg-accent hover:text-foreground'}`}
                 onClick={() => setShowFolders(!showFolders)}
               >
@@ -54,9 +54,9 @@ export function FlowToolbar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className={`w-9 h-9 rounded-lg transition-all ${showPaths ? 'bg-primary/10 text-primary' : 'text-foreground/60 hover:bg-accent hover:text-foreground'}`}
                 onClick={() => setShowPaths(!showPaths)}
               >
@@ -70,9 +70,9 @@ export function FlowToolbar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className={`w-9 h-9 rounded-lg transition-all ${isExploded ? 'bg-amber-500 text-white shadow-lg shadow-amber-500/20' : 'text-foreground/60 hover:bg-accent hover:text-foreground'}`}
                 onClick={() => setIsExploded(!isExploded)}
               >
@@ -88,9 +88,9 @@ export function FlowToolbar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
                 onClick={onFitView}
               >
@@ -106,25 +106,9 @@ export function FlowToolbar({
 
           <Tooltip>
             <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
-                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
-                onClick={onZoomIn}
-              >
-                <Plus className="w-4 h-4" />
-              </Button>
-            </TooltipTrigger>
-            <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm border-border/50 text-popover-foreground font-medium">
-              <p>Zoom In</p>
-            </TooltipContent>
-          </Tooltip>
-
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <Button 
-                variant="ghost" 
-                size="icon" 
+              <Button
+                variant="ghost"
+                size="icon"
                 className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
                 onClick={onZoomOut}
               >
@@ -133,6 +117,22 @@ export function FlowToolbar({
             </TooltipTrigger>
             <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm border-border/50 text-popover-foreground font-medium">
               <p>Zoom Out</p>
+            </TooltipContent>
+          </Tooltip>
+
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="icon"
+                className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
+                onClick={onZoomIn}
+              >
+                <Plus className="w-4 h-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm border-border/50 text-popover-foreground font-medium">
+              <p>Zoom In</p>
             </TooltipContent>
           </Tooltip>
         </div>
