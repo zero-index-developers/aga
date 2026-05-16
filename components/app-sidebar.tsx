@@ -1,6 +1,6 @@
 "use client";
 
-import { FolderGit2, Home, Settings, Network } from "lucide-react"
+import { FolderGit2, Home, Network } from "lucide-react"
 import Link from "next/link"
 
 import {
@@ -23,23 +23,7 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/component
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 
-const items = [
-  {
-    title: "Overview",
-    url: "/", // Maps to / in the subdomain
-    icon: Home,
-  },
-  {
-    title: "Repositories",
-    url: "/repos",
-    icon: FolderGit2,
-  },
-  {
-    title: "Settings",
-    url: "#",
-    icon: Settings,
-  },
-]
+
 
 export function AppSidebar() {
   const [repos, setRepos] = useState<any[]>([]);
@@ -116,15 +100,7 @@ export function AppSidebar() {
                 </SidebarMenuItem>
               </Collapsible>
 
-              {/* Settings */}
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="#">
-                    <Settings />
-                    <span>Settings</span>
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
+
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
