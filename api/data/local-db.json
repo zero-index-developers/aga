@@ -41,6 +41,22 @@
       "nodesFound": 15
     }
   ],
+  "aiHistory": [
+    {
+      "id": "ai-1",
+      "repoName": "aga (Self-Scan)",
+      "timestamp": "2026-05-16T15:20:10.000Z",
+      "prompt": "What is the purpose of layout-engine?",
+      "response": "The layout-engine is an engine located at api/engine/scanner/layout-engine.ts. It is a core part of the architectural layer and interacts with related modules to ensure system stability."
+    },
+    {
+      "id": "ai-2",
+      "repoName": "aga (Self-Scan)",
+      "timestamp": "2026-05-16T15:25:45.000Z",
+      "prompt": "How do components interact with the API?",
+      "response": "Components in the /client/components directory typically use hooks from /client/hooks to make fetch requests to the Next.js API routes defined in /client/app/api."
+    }
+  ],
   "repositories": [
     {
       "name": "aga (Self-Scan)",
