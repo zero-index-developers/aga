@@ -1,26 +1,9 @@
 'use client';
 
-import { useState } from 'react';
-import { Search, Send } from 'lucide-react';
+import { useState, useEffect } from 'react';
+import { Search, Send, Box, FileCode, Database, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
-
-const SAMPLE_NODES = [
-  { id: 'auth-middleware', label: 'AuthMiddleware', type: 'middleware' },
-  { id: 'user-controller', label: 'UserController', type: 'controller' },
-  { id: 'payment-controller', label: 'PaymentController', type: 'controller' },
-  { id: 'inventory-controller', label: 'InventoryController', type: 'controller' },
-  { id: 'user-service', label: 'UserService', type: 'service' },
-  { id: 'payment-service', label: 'PaymentService', type: 'service' },
-  { id: 'auth-service', label: 'AuthService', type: 'service' },
-  { id: 'db-users', label: 'Users Table', type: 'database' },
-  { id: 'db-products', label: 'Products Table', type: 'database' },
-  { id: 'db-transactions', label: 'Transactions Table', type: 'database' },
-  { id: 'api-users', label: 'GET /api/users', type: 'route' },
-  { id: 'api-payments', label: 'POST /api/payments', type: 'route' },
-  { id: 'api-inventory', label: 'GET /api/inventory', type: 'route' },
-  { id: 'analytics-worker', label: 'AnalyticsWorker', type: 'worker' },
-];
 
 interface SearchPanelProps {
   onSearch: (query: string) => void;
@@ -32,32 +15,39 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
+  const [nodes, setNodes] = useState<any[]>([]);
+
+  useEffect(() => {
+    const fetchNodes = async () => {
+      try {
+        const res = await fetch('/api/repo/graph');
+        const data = await res.json();
+        setNodes(data.nodes?.filter((n: any) => n.type === 'custom') || []);
+      } catch (e) {
+        console.error('Failed to fetch nodes for search', e);
+      }
+    };
+    fetchNodes();
+  }, []);
 
   const handleSearch = async () => {
     if (!query.trim()) return;
 
     setLoading(true);
-    // Simulate AI response
+    // Simulate AI response based on current components
     setTimeout(() => {
-      const responses: { [key: string]: string } = {
-        'auth': 'AuthMiddleware was implemented in Q2 2024 to prevent race conditions during concurrent user sessions. It validates JWT tokens and enforces role-based access control across all protected routes. Removing it would expose the API to unauthorized access.',
-        'payment': 'PaymentService integrates with Stripe API and handles transaction processing. It connects to both the Users table for account validation and Transactions table for audit logging. Any changes here impact 3 API routes and 2 services.',
-        'bypass': 'Bypassing AuthMiddleware would expose your entire API to unauthorized access. This would affect 8 API routes and impact both user authentication and payment processing systems.',
-        'postgresql': 'PostgreSQL was chosen for this architecture because it provides ACID compliance and complex relational queries needed for financial transaction tracking and user audit logs.',
-        'default': 'This component is critical to the architecture. It integrates with multiple services and database tables. Before making changes, review the blast radius analysis to understand all downstream impacts.',
-      };
+      const match = nodes.find(n => 
+        query.toLowerCase().includes(n.data.label.toLowerCase()) || 
+        query.toLowerCase().includes(n.data.type.toLowerCase())
+      );
 
-      let response = responses.default;
-      for (const [key, value] of Object.entries(responses)) {
-        if (query.toLowerCase().includes(key)) {
-          response = value;
-          break;
-        }
+      if (match) {
+        setAiResponse(`The ${match.data.label} is a ${match.data.type} located at ${match.data.path}. It is a core part of the architectural layer and interacts with related modules to ensure system stability.`);
+      } else {
+        setAiResponse("Based on the current architecture scan, I couldn't find a direct match for that query. Try asking about a specific component or layer shown in the graph.");
       }
-
-      setAiResponse(response);
       setLoading(false);
-    }, 1000);
+    }, 800);
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -110,7 +100,7 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
             Components
           </label>
           <div className="space-y-1.5">
-            {SAMPLE_NODES.map((node) => (
+            {nodes.map((node) => (
               <button
                 key={node.id}
                 onClick={() => onNodeSelect(node.id)}
@@ -123,19 +113,24 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
                 <div className="flex items-center gap-2">
                   <div
                     className={`w-2 h-2 rounded-full ${
-                      node.type === 'controller'
-                        ? 'bg-blue-400'
-                        : node.type === 'service'
-                          ? 'bg-green-400'
-                          : node.type === 'database'
-                            ? 'bg-orange-400'
-                            : 'bg-purple-400'
+                      node.data.type === 'component'
+                        ? 'bg-blue-500'
+                        : node.data.type === 'page'
+                          ? 'bg-purple-500'
+                          : node.data.type === 'api'
+                            ? 'bg-emerald-500'
+                            : 'bg-amber-500'
                     }`}
                   ></div>
-                  <span className="flex-1">{node.label}</span>
+                  <span className="flex-1 truncate">{node.data.label}</span>
                 </div>
               </button>
             ))}
+            {nodes.length === 0 && (
+              <div className="text-[11px] text-muted-foreground italic text-center py-4">
+                No components detected in this view.
+              </div>
+            )}
           </div>
         </div>
       </div>
