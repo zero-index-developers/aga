@@ -43,13 +43,6 @@
   ],
   "aiHistory": [
     {
-      "id": "ai-1",
-      "repoName": "aga (Self-Scan)",
-      "timestamp": "2026-05-16T15:20:10.000Z",
-      "prompt": "What is the purpose of layout-engine?",
-      "response": "The layout-engine is an engine located at api/engine/scanner/layout-engine.ts. It is a core part of the architectural layer and interacts with related modules to ensure system stability."
-    },
-    {
       "id": "ai-2",
       "repoName": "aga (Self-Scan)",
       "timestamp": "2026-05-16T15:25:45.000Z",
