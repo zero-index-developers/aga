@@ -21,7 +21,7 @@ import { Button } from "@/components/ui/button";
 import { flushSync } from "react-dom";
 
 export default function Header({ children }: { children?: React.ReactNode }) {
-  const { setTheme, theme } = useTheme();
+  const { setTheme, resolvedTheme } = useTheme();
 
   const toggleTheme = (newTheme: string, e: React.MouseEvent) => {
     // Check if the browser supports the View Transition API
@@ -50,12 +50,12 @@ export default function Header({ children }: { children?: React.ReactNode }) {
       ];
       document.documentElement.animate(
         {
-          clipPath: theme === "dark" ? [...clipPath].reverse() : clipPath,
+          clipPath: clipPath,
         },
         {
-          duration: 400,
+          duration: 500,
           easing: "ease-in-out",
-          pseudoElement: theme === "dark" ? "::view-transition-old(root)" : "::view-transition-new(root)",
+          pseudoElement: "::view-transition-new(root)",
         }
       );
     });
