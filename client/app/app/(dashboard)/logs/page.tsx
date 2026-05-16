@@ -5,14 +5,15 @@ import Header from '@client/components/header';
 import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
 import {
   History,
-  Search,
   CheckCircle2,
   AlertCircle,
   Clock,
   Database,
   ArrowRight,
   Download,
-  Trash2
+  Trash2,
+  ChevronLeft,
+  ChevronRight
 } from 'lucide-react';
 import { Button } from '@client/components/ui/button';
 import { Card } from '@client/components/ui/card';
@@ -25,6 +26,13 @@ import {
   TableHeader,
   TableRow
 } from '@client/components/ui/table';
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue
+} from '@client/components/ui/select';
 import { Skeleton } from '@client/components/ui/skeleton';
 
 interface ScanLog {
@@ -40,6 +48,10 @@ export default function LogsPage() {
   const [logs, setLogs] = useState<ScanLog[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
+  // Pagination state
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rowsPerPage, setRowsPerPage] = useState(10);
+
   useEffect(() => {
     async function fetchLogs() {
       try {
@@ -54,6 +66,13 @@ export default function LogsPage() {
     }
     fetchLogs();
   }, []);
+
+  // Pagination logic
+  const totalLogs = logs.length;
+  const totalPages = Math.ceil(totalLogs / rowsPerPage);
+  const startIndex = (currentPage - 1) * rowsPerPage;
+  const endIndex = Math.min(startIndex + rowsPerPage, totalLogs);
+  const currentLogs = logs.slice(startIndex, endIndex);
 
   return (
     <div className="h-screen flex flex-col bg-background text-foreground">
@@ -114,7 +133,7 @@ export default function LogsPage() {
                     </TableCell>
                   </TableRow>
                 ) : (
-                  logs.map((log) => (
+                  currentLogs.map((log) => (
                     <TableRow key={log.id} className="hover:bg-muted/30 transition-colors group">
                       <TableCell className="font-mono text-xs text-muted-foreground">
                         {new Date(log.timestamp).toLocaleString([], {
@@ -151,6 +170,58 @@ export default function LogsPage() {
               </TableBody>
             </Table>
           </Card>
+
+          {/* Pagination Controls */}
+          {!isLoading && logs.length > 0 && (
+            <div className="flex items-center justify-between px-2 text-sm text-muted-foreground mt-4">
+              <div className="flex items-center gap-2">
+                <span>Rows per page</span>
+                <Select
+                  value={rowsPerPage.toString()}
+                  onValueChange={(val) => {
+                    setRowsPerPage(Number(val));
+                    setCurrentPage(1);
+                  }}
+                >
+                  <SelectTrigger className="h-8 w-[70px] bg-background/50 border-border/50 focus:ring-0 focus:ring-offset-0">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent>
+                    <SelectItem value="5">5</SelectItem>
+                    <SelectItem value="10">10</SelectItem>
+                    <SelectItem value="20">20</SelectItem>
+                    <SelectItem value="50">50</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
+
+              <div className="flex items-center gap-6">
+                <div>
+                  {startIndex + 1}-{endIndex} of {totalLogs}
+                </div>
+                <div className="flex items-center gap-2">
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 bg-background/50 border-border/50 hover:bg-muted"
+                    onClick={() => setCurrentPage(p => Math.max(1, p - 1))}
+                    disabled={currentPage === 1}
+                  >
+                    <ChevronLeft className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="icon"
+                    className="h-8 w-8 bg-background/50 border-border/50 hover:bg-muted"
+                    onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
+                    disabled={currentPage === totalPages}
+                  >
+                    <ChevronRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>

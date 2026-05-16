@@ -11,7 +11,7 @@
       ]
     },
     "ai": {
-      "insightDepth": "detailed",
+      "insightDepth": "concise",
       "focus": "performance"
     }
   },
