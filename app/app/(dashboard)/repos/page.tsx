@@ -34,7 +34,8 @@ export default function RepositoriesPage() {
         <DynamicBreadcrumbs />
       </Header>
 
-      <div className="flex-1 overflow-y-auto p-8 space-y-8 max-w-7xl mx-auto w-full">
+      <div className="flex-1 overflow-y-auto p-8">
+        <div className="max-w-5xl mx-auto w-full space-y-8">
         <div className="flex items-center justify-between border-b border-border/50 pb-6">
           <div>
             <h1 className="text-3xl font-bold tracking-tight">Repository Library</h1>
@@ -61,5 +62,6 @@ export default function RepositoriesPage() {
         </div>
       </div>
     </div>
+  </div>
   );
 }

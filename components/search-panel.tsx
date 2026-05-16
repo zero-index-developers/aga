@@ -4,46 +4,37 @@ import { useState, useEffect } from 'react';
 import { Search, Send, Box, FileCode, Database, Globe } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
+import { Skeleton } from '@/components/ui/skeleton';
 
 interface SearchPanelProps {
   onSearch: (query: string) => void;
   onNodeSelect: (nodeId: string) => void;
   selectedNodeId?: string | null;
+  nodes: any[];
+  isLoading: boolean;
 }
 
-export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: SearchPanelProps) {
+export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, nodes, isLoading }: SearchPanelProps) {
   const [query, setQuery] = useState('');
   const [aiResponse, setAiResponse] = useState('');
   const [loading, setLoading] = useState(false);
-  const [nodes, setNodes] = useState<any[]>([]);
   const [suggestions, setSuggestions] = useState<string[]>([]);
 
   useEffect(() => {
-    const fetchNodes = async () => {
-      try {
-        const res = await fetch('/api/repo/graph');
-        const data = await res.json();
-        const components = data.nodes?.filter((n: any) => n.type === 'custom') || [];
-        setNodes(components);
-
-        // Generate dynamic suggestions from real project nodes
-        if (components.length > 0) {
-          const shuffled = [...components].sort(() => 0.5 - Math.random());
-          const selected = shuffled.slice(0, 4);
-          const prompts = selected.map((n, i) => {
-            if (i === 0) return `What is the purpose of ${n.data.label}?`;
-            if (i === 1) return `Tell me about ${n.data.path}`;
-            if (i === 2) return `How does ${n.data.label} fit in?`;
-            return `Explain the ${n.data.type} logic here.`;
-          });
-          setSuggestions(prompts);
-        }
-      } catch (e) {
-        console.error('Failed to fetch nodes for search', e);
-      }
-    };
-    fetchNodes();
-  }, []);
+    // Generate dynamic suggestions from real project nodes
+    const components = nodes.filter((n: any) => n.type === 'custom') || [];
+    if (components.length > 0) {
+      const shuffled = [...components].sort(() => 0.5 - Math.random());
+      const selected = shuffled.slice(0, 4);
+      const prompts = selected.map((n, i) => {
+        if (i === 0) return `What is the purpose of ${n.data.label}?`;
+        if (i === 1) return `Tell me about ${n.data.path}`;
+        if (i === 2) return `How does ${n.data.label} fit in?`;
+        return `Explain the ${n.data.type} logic here.`;
+      });
+      setSuggestions(prompts);
+    }
+  }, [nodes]);
 
   useEffect(() => {
     const handleTrigger = (e: any) => {
@@ -113,18 +104,27 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
 
             {/* Suggestions */}
             <div className="flex flex-wrap gap-1.5 pt-1">
-              {suggestions.map((s, i) => (
-                <button
-                  key={i}
-                  onClick={() => {
-                    setQuery(s);
-                    handleSearch(s);
-                  }}
-                  className="text-[10px] px-2 py-1 rounded-full bg-secondary/50 text-muted-foreground hover:bg-primary/10 hover:text-primary border border-border/50 transition-all"
-                >
-                  {s}
-                </button>
-              ))}
+              {isLoading ? (
+                <>
+                  <Skeleton className="h-5 w-20 rounded-full" />
+                  <Skeleton className="h-5 w-24 rounded-full" />
+                  <Skeleton className="h-5 w-16 rounded-full" />
+                  <Skeleton className="h-5 w-28 rounded-full" />
+                </>
+              ) : (
+                suggestions.map((s, i) => (
+                  <button
+                    key={i}
+                    onClick={() => {
+                      setQuery(s);
+                      handleSearch(s);
+                    }}
+                    className="text-[10px] px-2 py-1 rounded-full bg-secondary/50 text-muted-foreground hover:bg-primary/10 hover:text-primary border border-border/50 transition-all"
+                  >
+                    {s}
+                  </button>
+                ))
+              )}
             </div>
           </div>
 
@@ -142,36 +142,47 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId }: 
             Components
           </label>
           <div className="space-y-1.5">
-            {nodes.map((node) => (
-              <button
-                key={node.id}
-                onClick={() => onNodeSelect(node.id)}
-                className={`w-full text-left px-3 py-2 rounded-md transition-all text-sm font-medium border border-transparent ${
-                  selectedNodeId === node.id
-                    ? 'bg-primary/10 text-primary border-primary/20 shadow-sm'
-                    : 'hover:bg-secondary/50 text-foreground/80 hover:text-foreground'
-                }`}
-              >
-                <div className="flex items-center gap-2">
-                  <div
-                    className={`w-2 h-2 rounded-full ${
-                      node.data.type === 'component'
-                        ? 'bg-blue-500'
-                        : node.data.type === 'page'
-                          ? 'bg-purple-500'
-                          : node.data.type === 'api'
-                            ? 'bg-emerald-500'
-                            : 'bg-amber-500'
-                    }`}
-                  ></div>
-                  <span className="flex-1 truncate">{node.data.label}</span>
+            {isLoading ? (
+              Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="flex items-center gap-2 px-3 py-2">
+                  <Skeleton className="w-2 h-2 rounded-full" />
+                  <Skeleton className="h-4 flex-1" />
                 </div>
-              </button>
-            ))}
-            {nodes.length === 0 && (
-              <div className="text-[11px] text-muted-foreground italic text-center py-4">
-                No components detected in this view.
-              </div>
+              ))
+            ) : (
+              <>
+                {nodes.filter(n => n.type === 'custom').map((node) => (
+                  <button
+                    key={node.id}
+                    onClick={() => onNodeSelect(node.id)}
+                    className={`w-full text-left px-3 py-2 rounded-md transition-all text-sm font-medium border border-transparent ${
+                      selectedNodeId === node.id
+                        ? 'bg-primary/10 text-primary border-primary/20 shadow-sm'
+                        : 'hover:bg-secondary/50 text-foreground/80 hover:text-foreground'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <div
+                        className={`w-2 h-2 rounded-full ${
+                          node.data.type === 'component'
+                            ? 'bg-blue-500'
+                            : node.data.type === 'page'
+                              ? 'bg-purple-500'
+                              : node.data.type === 'api'
+                                ? 'bg-emerald-500'
+                                : 'bg-amber-500'
+                        }`}
+                      ></div>
+                      <span className="flex-1 truncate">{node.data.label}</span>
+                    </div>
+                  </button>
+                ))}
+                {nodes.filter(n => n.type === 'custom').length === 0 && (
+                  <div className="text-[11px] text-muted-foreground italic text-center py-4">
+                    No components detected in this view.
+                  </div>
+                )}
+              </>
             )}
           </div>
         </div>

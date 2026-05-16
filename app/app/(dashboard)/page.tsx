@@ -70,44 +70,46 @@ export default function Home() {
         <DynamicBreadcrumbs />
       </Header>
 
-      <div className="flex-1 overflow-y-auto p-6 space-y-8">
-        <WelcomeBanner
-          connectedRepo={connectedRepo}
-          onOpenRecent={() => router.push(`/repos/${encodeURIComponent(connectedRepo!)}`)}
-          onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
-          onConnectSuccess={refreshRepos}
-        />
+      <div className="flex-1 overflow-y-auto p-8">
+        <div className="max-w-5xl mx-auto w-full space-y-8">
+          <WelcomeBanner
+            connectedRepo={connectedRepo}
+            onOpenRecent={() => router.push(`/repos/${encodeURIComponent(connectedRepo!)}`)}
+            onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
+            onConnectSuccess={refreshRepos}
+          />
 
-        <div className="max-w-5xl mx-auto w-full space-y-4">
-          <h3 className="text-lg font-semibold flex items-center gap-2">
-            <Activity className="w-5 h-5 text-primary" />
-            Global Architecture Insights
-          </h3>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <StatsCard title="Active Repos" value={globalStats.totalRepos} description="Connected to local-db" icon={NetworkIcon} />
-            <StatsCard title="Total Components" value={globalStats.totalNodes} description="Across all environments" icon={Box} />
-            <StatsCard title="Total Dependencies" value={globalStats.totalEdges} description="System-wide links" icon={NetworkIcon} />
-            <StatsCard title="Global Health" value={`${globalStats.avgHealth}%`} description="Weighted average" icon={Activity} trendColor="text-primary" />
-          </div>
-        </div>
+          <section className="space-y-4">
+            <h3 className="text-lg font-semibold flex items-center gap-2">
+              <Activity className="w-5 h-5 text-primary" />
+              Global Architecture Insights
+            </h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+              <StatsCard title="Active Repos" value={globalStats.totalRepos} description="Connected to local-db" icon={NetworkIcon} />
+              <StatsCard title="Total Components" value={globalStats.totalNodes} description="Across all environments" icon={Box} />
+              <StatsCard title="Total Dependencies" value={globalStats.totalEdges} description="System-wide links" icon={NetworkIcon} />
+              <StatsCard title="Global Health" value={`${globalStats.avgHealth}%`} description="Weighted average" icon={Activity} trendColor="text-primary" />
+            </div>
+          </section>
 
-        <div className="max-w-5xl mx-auto w-full space-y-4">
-          <div className="flex items-center justify-between">
-            <h3 className="text-lg font-semibold">Recent Architecture Scans</h3>
-            <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs">
-              View All Repositories
-            </Button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 pb-12 items-start">
-            {repos.slice(0, 3).map((repo) => (
-              <RepositoryCard
-                key={repo.name}
-                repo={repo}
-                isActive={connectedRepo === repo.name}
-                onClick={() => handleOpenRepo(repo.name, repo.url)}
-              />
-            ))}
-          </div>
+          <section className="space-y-4 pb-12">
+            <div className="flex items-center justify-between">
+              <h3 className="text-lg font-semibold">Recent Architecture Scans</h3>
+              <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs p-0 h-auto">
+                View All Repositories
+              </Button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-start">
+              {repos.slice(0, 3).map((repo) => (
+                <RepositoryCard
+                  key={repo.name}
+                  repo={repo}
+                  isActive={connectedRepo === repo.name}
+                  onClick={() => handleOpenRepo(repo.name, repo.url)}
+                />
+              ))}
+            </div>
+          </section>
         </div>
       </div>
     </div>

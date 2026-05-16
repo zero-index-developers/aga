@@ -13,6 +13,7 @@ import {
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Progress } from '@/components/ui/progress';
+import { Skeleton } from '@/components/ui/skeleton';
 import { useDependencyAnalysis } from '@/hooks/use-dependency-analysis';
 
 interface DependencyPanelProps {
@@ -24,10 +25,28 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
   if (loading) {
     return (
-      <div className="flex flex-col gap-6 p-6 animate-pulse">
-        <div className="h-8 bg-muted rounded-md w-1/2" />
-        <div className="h-40 bg-muted rounded-xl" />
-        <div className="h-40 bg-muted rounded-xl" />
+      <div className="flex flex-col h-full bg-background/50 backdrop-blur-xl border-l border-border/50">
+        <div className="p-6 border-b border-border/50 space-y-4">
+          <div className="flex items-center justify-between pr-7">
+            <Skeleton className="h-6 w-24 rounded-full" />
+            <Skeleton className="h-6 w-16 rounded-full" />
+          </div>
+          <Skeleton className="h-8 w-3/4" />
+          <Skeleton className="h-4 w-1/2" />
+        </div>
+        <div className="flex-1 p-6 space-y-8">
+          <div className="space-y-3">
+            <div className="flex justify-between">
+              <Skeleton className="h-4 w-24" />
+              <Skeleton className="h-4 w-8" />
+            </div>
+            <Skeleton className="h-3 w-full rounded-full" />
+          </div>
+          <div className="space-y-4">
+            <Skeleton className="h-32 w-full rounded-xl" />
+            <Skeleton className="h-32 w-full rounded-xl" />
+          </div>
+        </div>
       </div>
     );
   }

@@ -10,10 +10,10 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './custom-node';
-import { useArchitectureData } from '@/hooks/use-architecture-data';
 import { useFlowView } from '@/hooks/use-flow-view';
 import { FlowToolbar } from './architecture/flow-toolbar';
 import { useTheme } from 'next-themes';
+import { Node, Edge, OnNodesChange, OnEdgesChange } from 'reactflow';
 
 const nodeTypes = {
   custom: CustomNode,
@@ -24,26 +24,34 @@ interface ArchitectureVisualizationProps {
   onNodeSelect: (nodeId: string | null) => void;
   onShowDependencies: (show: boolean) => void;
   repoName: string;
+  nodes: Node[];
+  setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
+  onNodesChange: OnNodesChange;
+  edges: Edge[];
+  setEdges: React.Dispatch<React.SetStateAction<Edge[]>>;
+  onEdgesChange: OnEdgesChange;
+  isLoading: boolean;
 }
 
 function ArchitectureFlow({
   selectedNode,
   onNodeSelect,
   onShowDependencies,
-  repoName,
+  nodes,
+  setNodes,
+  onNodesChange,
+  edges,
+  setEdges,
+  onEdgesChange,
+  isLoading,
 }: ArchitectureVisualizationProps) {
   const { resolvedTheme } = useTheme();
-  const {
-    nodes, setNodes, onNodesChange,
-    edges, setEdges, onEdgesChange,
-    initialNodes, isLoading
-  } = useArchitectureData(repoName);
 
   const {
     showFolders, setShowFolders,
     showPaths, setShowPaths,
     isExploded, setIsExploded
-  } = useFlowView(setNodes, initialNodes);
+  } = useFlowView(setNodes, nodes);
 
   const { setCenter, fitView, zoomIn, zoomOut, getNodes, getEdges } = useReactFlow();
 

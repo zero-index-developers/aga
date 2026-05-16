@@ -12,7 +12,7 @@ interface WelcomeBannerProps {
 
 export function WelcomeBanner({ connectedRepo, onOpenRecent, onOpenSample, onConnectSuccess }: WelcomeBannerProps) {
   return (
-    <div className="max-w-5xl mx-auto w-full space-y-6 pt-4">
+    <div className="mx-auto w-full space-y-6">
       <div className="text-left space-y-2">
         <h1 className="text-3xl font-bold tracking-tight text-foreground">Welcome to AGA</h1>
         <p className="text-muted-foreground text-lg">
@@ -45,17 +45,17 @@ export function WelcomeBanner({ connectedRepo, onOpenRecent, onOpenSample, onCon
               {connectedRepo ? 'Recent Repository' : 'Explore Sample'}
             </CardTitle>
             <CardDescription className="text-sm">
-              {connectedRepo 
+              {connectedRepo
                 ? `Jump back into your last analyzed project: ${connectedRepo}`
                 : 'Open facebook/react to see how the architecture graph works.'
               }
             </CardDescription>
           </CardHeader>
           <CardContent className="mt-auto">
-            <Button 
-              variant="secondary" 
-              size="sm" 
-              className="w-full" 
+            <Button
+              variant="secondary"
+              size="sm"
+              className="w-full"
               onClick={connectedRepo ? onOpenRecent : onOpenSample}
             >
               {connectedRepo ? `Open ${connectedRepo}` : 'Open Sample Repo'}

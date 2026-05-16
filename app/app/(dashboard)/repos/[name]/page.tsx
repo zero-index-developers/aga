@@ -11,6 +11,7 @@ import { Button } from '@/components/ui/button';
 import { RefreshCw, X, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
 import { useRepos } from '@/hooks/use-repos';
+import { useArchitectureData } from '@/hooks/use-architecture-data';
 import { slugify } from '@/lib/utils';
 
 export default function RepositoryGraphPage({ params }: { params: Promise<{ name: string }> }) {
@@ -18,7 +19,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const resolvedParams = use(params);
   const repoSlug = decodeURIComponent(resolvedParams.name);
   
-  const { repos, isLoading, refreshRepos } = useRepos();
+  const { repos, isLoading: isReposLoading } = useRepos();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [showDependencies, setShowDependencies] = useState(false);
@@ -28,14 +29,21 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const actualRepo = repos.find(r => slugify(r.name) === repoSlug);
   const repoName = actualRepo?.name || repoSlug;
 
+  const {
+    nodes, setNodes, onNodesChange,
+    edges, setEdges, onEdgesChange,
+    isLoading: isGraphLoading,
+    refreshGraph
+  } = useArchitectureData(repoName);
+
   async function handleRefresh() {
     setIsRefreshing(true);
-    await refreshRepos();
+    await Promise.all([refreshGraph()]);
     setIsRefreshing(false);
     toast.success('Repository successfully scanned and updated!');
   }
 
-  if (isLoading) {
+  if (isReposLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
         <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
@@ -77,6 +85,8 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             onSearch={setSearchQuery}
             onNodeSelect={setSelectedNode}
             selectedNodeId={selectedNode}
+            nodes={nodes}
+            isLoading={isGraphLoading}
           />
         </aside>
         <main className="flex-1 relative bg-slate-950/20 overflow-hidden min-w-0">
@@ -85,6 +95,13 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             selectedNode={selectedNode}
             onNodeSelect={setSelectedNode}
             onShowDependencies={setShowDependencies}
+            nodes={nodes}
+            setNodes={setNodes}
+            onNodesChange={onNodesChange}
+            edges={edges}
+            setEdges={setEdges}
+            onEdgesChange={onEdgesChange}
+            isLoading={isGraphLoading}
           />
         </main>
         {showDependencies && selectedNode && (
