@@ -41,7 +41,7 @@ const formSchema = z.object({
   token: z.string().optional(),
 });
 
-export function ConnectRepoDialog() {
+export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) => void }) {
   const [open, setOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
 
@@ -64,6 +64,11 @@ export function ConnectRepoDialog() {
     toast.success("Repository connected successfully!");
     setOpen(false);
     form.reset();
+    if (onSuccess) {
+      // Use the URL or provider name as a mock repo name
+      const repoName = values.url.split('/').pop() || "repository";
+      onSuccess(repoName);
+    }
   }
 
   return (

@@ -1,7 +1,7 @@
 import { Network } from 'lucide-react';
 import { ConnectRepoDialog } from './connect-repo-dialog';
 
-export default function Header() {
+export default function Header({ onConnect }: { onConnect?: (repo: string) => void }) {
   return (
     <header className="h-16 border-b border-border bg-card flex items-center px-8 sticky top-0 z-50">
       <div className="flex items-center gap-3">
@@ -14,7 +14,7 @@ export default function Header() {
         </div>
       </div>
       <div className="flex-1"></div>
-      <ConnectRepoDialog />
+      <ConnectRepoDialog onSuccess={onConnect} />
     </header>
   );
 }
