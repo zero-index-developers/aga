@@ -96,18 +96,19 @@ function HomeContent() {
             <div className="flex items-center justify-between">
               <h3 className="text-lg font-semibold flex items-center gap-2">
                 Recent Architecture Scans
-                <Button 
-                  variant="ghost" 
-                  size="icon" 
-                  className="h-6 w-6 ml-2" 
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 gap-2 ml-2 text-muted-foreground hover:text-foreground"
                   onClick={async () => {
                     setIsRefreshing(true);
                     await refreshRepos();
                     setIsRefreshing(false);
+                    toast.success('Recent scans updated!');
                   }}
-                  title="Refresh repositories"
+                  disabled={isRefreshing}
                 >
-                  <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
+                  <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
                 </Button>
               </h3>
               <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs p-0 h-auto">

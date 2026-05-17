@@ -18,7 +18,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const router = useRouter();
   const resolvedParams = use(params);
   const repoSlug = decodeURIComponent(resolvedParams.name);
-  
+
   const { repos, isLoading: isReposLoading } = useRepos();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -67,7 +67,6 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             disabled={isRefreshing}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Refresh Scan</span>
           </Button>
           <Button
             variant="ghost"
@@ -104,7 +103,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
                     Oracle Analysis
                   </span>
                 </div>
-                <button 
+                <button
                   onClick={() => setOracleResponse(null)}
                   className="p-1 hover:bg-muted rounded-full transition-colors"
                 >
@@ -126,7 +125,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
               </div>
             </div>
           )}
-          
+
           <ArchitectureVisualization
             repoName={repoName}
             selectedNode={selectedNode}
