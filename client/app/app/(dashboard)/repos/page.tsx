@@ -15,13 +15,17 @@ import { toast } from 'sonner';
 export default function RepositoriesPage() {
   const router = useRouter();
   const [isRefreshing, setIsRefreshing] = useState(false);
-  const { repos, connectedRepo, isLoading, switchRepo, refreshRepos } = useRepos();
+  const { repos, connectedRepo, isLoading, switchRepo, refreshRepos, deleteRepo } = useRepos();
 
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
     if (success) {
       router.push(`/repos/${slugify(name)}`);
     }
+  };
+
+  const handleDeleteRepo = async (repoName: string) => {
+    await deleteRepo(repoName);
   };
 
   if (isLoading) {
@@ -73,6 +77,7 @@ export default function RepositoriesPage() {
                 repo={repo}
                 isActive={connectedRepo === repo.name}
                 onClick={() => handleOpenRepo(repo.name, repo.url)}
+                onDelete={handleDeleteRepo}
               />
             ))}
           </div>

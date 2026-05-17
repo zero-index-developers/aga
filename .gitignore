@@ -28,5 +28,11 @@ api/data/local-db.json
 # TypeScript cache
 *.tsbuildinfo
 
+# Documentation (if you want to keep docs private)
+docs/
+BACKEND_SETUP.md
+
 # Personal dev context
 context.md
+CONTEXT.md
+.gitignore

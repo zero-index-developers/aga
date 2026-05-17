@@ -19,9 +19,11 @@ interface AIOraclePanelProps {
   isLoading: boolean;
   onSearch?: (query: string) => void;
   onResponse?: (response: string | null) => void;
+  onNodeSelect?: (nodeId: string) => void;
+  selectedNodeId?: string | null;
 }
 
-export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOraclePanelProps) {
+export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse, onNodeSelect, selectedNodeId }: AIOraclePanelProps) {
   const { settings, updateSettings } = useSettings();
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,23 +36,39 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
     if (components.length > 0) {
       setIsShuffling(true);
       const timer = setTimeout(() => {
-        const shuffled = [...components].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 3);
-        const prompts = selected.map((n, i) => {
-          if (i === 0) return `What is the purpose of ${n.data.label}?`;
-          if (i === 1) return `Tell me about ${n.data.path}`;
-          if (i === 2) return `How does ${n.data.label} fit in?`;
-          return `Explain the ${n.data.type} logic here.`;
-        });
+        let prompts: string[] = [];
+
+        if (selectedNodeId) {
+          const selectedNode = components.find((n: any) => n.id === selectedNodeId);
+          if (selectedNode) {
+            prompts = [
+              `What is the purpose of ${selectedNode.data.label}?`,
+              `Show references to ${selectedNode.data.label}`,
+              `Explain the logic in ${selectedNode.data.path}`,
+            ];
+          }
+        }
+
+        if (prompts.length === 0) {
+          const shuffled = [...components].sort(() => 0.5 - Math.random());
+          const selected = shuffled.slice(0, 3);
+          prompts = selected.map((n, i) => {
+            if (i === 0) return `What is the purpose of ${n.data.label}?`;
+            if (i === 1) return `Tell me about ${n.data.path}`;
+            if (i === 2) return `How does ${n.data.label} fit in?`;
+            return `Explain the ${n.data.type} logic here.`;
+          });
+        }
+
         setSuggestions(prompts);
         setIsShuffling(false);
-      }, 600); // Premium shuffling simulation delay
+      }, 400); // Shorter premium delay for responsiveness
 
       return () => clearTimeout(timer);
     } else {
       setSuggestions([]);
     }
-  }, [nodes]);
+  }, [selectedNodeId, nodes.length]);
 
   useEffect(() => {
     const handleTrigger = (e: any) => {
@@ -93,6 +111,12 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
       const response = match
         ? `The ${match.data.label} is a ${match.data.type} located at ${match.data.path}. It is a core part of the architectural layer and interacts with related modules to ensure system stability.`
         : "Based on the current architecture scan, I couldn't find a direct match for that query. Try asking about a specific component or layer shown in the graph.";
+
+      if (match) {
+        if (onNodeSelect) onNodeSelect(match.id);
+        // Dispatch custom event to center the graph on this node
+        window.dispatchEvent(new CustomEvent('focus-node', { detail: { nodeId: match.id } }));
+      }
 
       if (onResponse) {
         onResponse(response);

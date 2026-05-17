@@ -16,18 +16,20 @@ export default function SearchPanel({ onSearch, onNodeSelect, selectedNodeId, no
   return (
     <div className="flex flex-col h-full p-6 overflow-y-auto">
       <div className="space-y-6">
-        <AIOraclePanel 
-          nodes={nodes} 
-          isLoading={isLoading} 
+        <AIOraclePanel
+          nodes={nodes}
+          isLoading={isLoading}
           onSearch={onSearch}
           onResponse={onOracleResponse}
+          onNodeSelect={onNodeSelect}
+          selectedNodeId={selectedNodeId}
         />
-        
-        <ExplorerPanel 
-          nodes={nodes} 
-          isLoading={isLoading} 
-          onNodeSelect={onNodeSelect} 
-          selectedNodeId={selectedNodeId} 
+
+        <ExplorerPanel
+          nodes={nodes}
+          isLoading={isLoading}
+          onNodeSelect={onNodeSelect}
+          selectedNodeId={selectedNodeId}
         />
       </div>
     </div>

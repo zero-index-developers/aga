@@ -74,11 +74,38 @@ export function useRepos() {
     return false;
   };
 
+  const deleteRepo = async (repoName: string) => {
+    try {
+      const res = await fetch(`/api/repo/delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repoName }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        // If we deleted the currently connected repo, clear it
+        if (connectedRepo === repoName) {
+          setConnectedRepo(null);
+        }
+        await fetchRepos(); // Refresh list
+        toast.success(`Repository "${repoName}" deleted successfully`);
+        return true;
+      } else {
+        toast.error(data.error || "Failed to delete repository");
+      }
+    } catch (error) {
+      toast.error("Failed to delete repository");
+      console.error('Delete error:', error);
+    }
+    return false;
+  };
+
   return {
     repos,
     connectedRepo,
     isLoading,
     refreshRepos: fetchRepos,
-    switchRepo
+    switchRepo,
+    deleteRepo
   };
 }

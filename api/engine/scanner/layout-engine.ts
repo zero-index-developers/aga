@@ -1,14 +1,14 @@
 import { Node } from './types';
 
-export function applyGridLayout(nodes: Node[], uiId: string) {
+export function applyGridLayout(nodes: Node[]) {
   const MAX_COLS = 4;
   const COL_WIDTH = 220;
   const ROW_HEIGHT = 100;
-  const counts: Record<string, number> = { 'group-ui': 1 };
+  const counts: Record<string, number> = {};
   
   // Layout components in a wrapped grid
   nodes.forEach(node => {
-    if (node.parentNode && node.id !== uiId) {
+    if (node.parentNode) {
       const index = counts[node.parentNode] || 0;
       const col = index % MAX_COLS;
       const row = Math.floor(index / MAX_COLS);
@@ -54,6 +54,27 @@ export function applyGridLayout(nodes: Node[], uiId: string) {
       
       // Add gap for the next group
       currentY += height + 50;
+    }
+  });
+
+  // Finally, layout any ungrouped nodes below all the groups
+  let ungroupedIndex = 0;
+  nodes.forEach(node => {
+    if (node.type === 'custom' && !node.parentNode) {
+      const col = ungroupedIndex % MAX_COLS;
+      const row = Math.floor(ungroupedIndex / MAX_COLS);
+      
+      const newX = 50 + (col * COL_WIDTH);
+      const newY = currentY + (row * ROW_HEIGHT);
+      
+      node.position = { x: newX, y: newY };
+      
+      if (node.data) {
+        node.data.origX = newX;
+        node.data.origY = newY;
+      }
+      
+      ungroupedIndex++;
     }
   });
 }

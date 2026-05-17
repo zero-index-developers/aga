@@ -1,133 +1,90 @@
-import fs from 'fs';
-import path from 'path';
-import { Node, Edge, TYPE_CONFIG } from './scanner/types';
+import { walkDirectory } from './scanner/file-walker';
+import { buildGraph } from './scanner/graph-builder';
 import { applyGridLayout } from './scanner/layout-engine';
+import { calculateHealthScore } from './scanner/health-analyzer';
+import { ScanOptions, generateGroups, generateTypeConfig } from './scanner/types';
+import { detectProjectStructure, generateClassificationRules } from './scanner/file-classifier';
 
-export async function scanProject(rootPath: string) {
-  const nodes: Node[] = [
-    // Folder Groups
-    { id: 'group-pages', data: { label: '/client/app (Routes)', type: 'folder', path: 'client/app/' }, position: { x: 50, y: 50 }, style: {}, className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-components', data: { label: '/client/components', type: 'folder', path: 'client/components/' }, position: { x: 50, y: 250 }, style: {}, className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-ui', data: { label: '/client/components/ui', type: 'folder', path: 'client/components/ui/' }, position: { x: 50, y: 450 }, style: {}, className: 'bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-engine', data: { label: '/api/engine', type: 'folder', path: 'api/engine/' }, position: { x: 50, y: 650 }, style: {}, className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]', type: 'group' },
-    { id: 'group-hooks', data: { label: '/client/hooks', type: 'folder', path: 'client/hooks/' }, position: { x: 50, y: 850 }, style: {}, className: 'bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]', type: 'group' },
+export async function scanProject(rootPath: string, options: ScanOptions = {}) {
+  const exclusions = options.exclusions || [
+    'node_modules',
+    'vendor',
+    'dist',
+    'build',
+    '.git',
+    '.next',
+    'coverage',
+    '__pycache__',
+    'venv',
+    'env',
+    '.venv',
+    'target',
+    'out',
   ];
-  const edges: Edge[] = [];
-  const fileMap = new Map<string, string>();
 
-  function walk(dir: string) {
-    const files = fs.readdirSync(dir);
-    for (const file of files) {
-      const fullPath = path.join(dir, file);
-      const relPath = path.relative(rootPath, fullPath).replace(/\\/g, '/');
-      
-      if (fs.statSync(fullPath).isDirectory()) {
-        if (file !== 'node_modules' && file !== '.next' && file !== '.git') {
-          walk(fullPath);
-        }
-      } else if (file.endsWith('.tsx') || file.endsWith('.ts')) {
-        let type = 'engine';
-        if (relPath.includes('client/app/api')) type = 'api';
-        else if (relPath.includes('client/app/')) type = 'page';
-        else if (relPath.includes('client/components/ui')) {
-          return; // Skip individual UI components for consolidation
-        }
-        else if (relPath.includes('client/components/')) type = 'component';
-        else if (relPath.includes('client/hooks/')) type = 'hook';
-        else if (relPath.includes('api/engine/')) type = 'engine';
+  console.log('🔍 Starting repository scan...');
+  console.log(`📁 Root path: ${rootPath}`);
+  console.log(`🚫 Exclusions: ${exclusions.join(', ')}`);
 
-        const id = relPath.replace(/\//g, '-').replace(/\.tsx?$/, '');
-        const config = TYPE_CONFIG[type];
+  // Phase 1: Discover files
+  console.log('📂 Phase 1: Discovering files...');
+  const filePaths = await walkDirectory(rootPath, rootPath, exclusions);
+  console.log(`✅ Found ${filePaths.length} source files`);
 
-        nodes.push({
-          id,
-          parentNode: config.parent,
-          data: {
-            label: file.replace(/\.tsx?$/, ''),
-            type,
-            path: relPath,
-            color: config.color,
-          },
-          position: { x: 0, y: 0 },
-          type: 'custom',
-        });
-        fileMap.set(relPath, id);
-      }
-    }
+  if (filePaths.length === 0) {
+    console.warn('⚠️  No source files found. Check if the repository has supported file types.');
+    return {
+      nodes: [],
+      edges: [],
+      healthScore: { overall: 0, metrics: {} }
+    };
   }
 
-  walk(rootPath);
-
-  // Add the Collapsed UI Node
-  const uiId = 'ui-shared';
-  nodes.push({
-    id: uiId,
-    parentNode: 'group-ui',
-    data: {
-      label: 'Shared UI Library',
-      type: 'ui',
-      path: 'client/components/ui/',
-    },
-    position: { x: 20, y: 40 },
-    type: 'custom',
+  // Phase 2: Auto-detect project structure
+  console.log('🔎 Phase 2: Detecting project structure...');
+  const structure = detectProjectStructure(filePaths);
+  console.log('📊 Detected structure:', {
+    components: structure.componentDirs.length,
+    pages: structure.pageDirs.length,
+    hooks: structure.hookDirs.length,
+    libs: structure.libDirs.length,
+    apis: structure.apiDirs.length,
+    services: structure.serviceDirs.length,
+    models: structure.modelDirs.length,
+    controllers: structure.controllerDirs.length,
   });
 
-  // Apply Grid Layout
-  applyGridLayout(nodes, uiId);
+  // Phase 3: Generate dynamic classification rules
+  console.log('📋 Phase 3: Generating classification rules...');
+  const classificationRules = generateClassificationRules(structure);
+  console.log(`✅ Generated ${classificationRules.length} classification rules`);
 
-  // Extract Edges from Imports
-  const addedEdges = new Set<string>();
-  nodes.forEach(node => {
-    if (node.type === 'custom' && node.id !== uiId) {
-      const content = fs.readFileSync(path.join(rootPath, node.data.path), 'utf8');
-      const importMatches = content.matchAll(/from ['"](.+?)['"]/g);
-      
-      const currentDir = path.dirname(node.data.path);
+  // Phase 4: Generate dynamic groups
+  console.log('📦 Phase 4: Generating groups...');
+  const groups = generateGroups(structure);
+  console.log(`✅ Generated ${groups.length} groups`);
 
-      for (const match of importMatches) {
-        const importPath = match[1];
-        let targetId: string | undefined;
+  // Phase 5: Build graph with dynamic configuration
+  console.log('🔗 Phase 5: Building dependency graph...');
+  const { nodes, edges } = await buildGraph(filePaths, rootPath, classificationRules, groups);
+  console.log(`✅ Created ${nodes.length} nodes and ${edges.length} edges`);
 
-        // Resolve Path
-        let resolvedRelPath = '';
-        if (importPath.startsWith('@/')) {
-          resolvedRelPath = importPath.replace('@/', '');
-        } else if (importPath.startsWith('.')) {
-          resolvedRelPath = path.join(currentDir, importPath).replace(/\\/g, '/');
-        } else {
-          // Check for explicit folder paths that match our groups
-          if (importPath.includes('components/ui/')) targetId = uiId;
-          else continue; // Skip external packages
-        }
+  // Phase 6: Position nodes dynamically
+  console.log('📐 Phase 6: Calculating layout...');
+  applyGridLayout(nodes);
+  console.log('✅ Layout applied');
 
-        if (!targetId && resolvedRelPath) {
-          const possiblePaths = [
-            resolvedRelPath,
-            resolvedRelPath + '.tsx',
-            resolvedRelPath + '.ts',
-            path.join(resolvedRelPath, 'index.tsx').replace(/\\/g, '/'),
-            path.join(resolvedRelPath, 'index.ts').replace(/\\/g, '/'),
-          ];
+  // Phase 7: Analyze graph metrics
+  console.log('📈 Phase 7: Analyzing health metrics...');
+  const healthScore = calculateHealthScore(nodes, edges);
+  console.log(`✅ Health score: ${healthScore.overall}/100`);
 
-          for (const p of possiblePaths) {
-            const foundId = fileMap.get(p) || fileMap.get(p.replace(/\.tsx?$/, ''));
-            if (foundId) {
-              targetId = foundId;
-              break;
-            }
-          }
-        }
+  console.log('🎉 Scan complete!');
 
-        if (targetId && targetId !== node.id) {
-          const edgeId = `${node.id}-to-${targetId}`;
-          if (!addedEdges.has(edgeId)) {
-            edges.push({ id: edgeId, source: node.id, target: targetId });
-            addedEdges.add(edgeId);
-          }
-        }
-      }
-    }
-  });
-
-  return { nodes, edges };
+  return {
+    nodes,
+    edges,
+    healthScore,
+    structure, // Include structure info for debugging
+  };
 }

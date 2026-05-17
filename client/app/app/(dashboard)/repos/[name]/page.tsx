@@ -75,23 +75,23 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
     <div className="flex-1 flex flex-col bg-background text-foreground overflow-hidden">
       <HeaderActions>
         <Button
-            variant="outline"
-            size="sm"
-            className="gap-2 h-8"
-            onClick={handleRefresh}
-            disabled={isRefreshing}
-          >
-            <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-          </Button>
-          <Button
-            variant="ghost"
-            size="sm"
-            className="h-8"
-            onClick={() => router.push('/repos')}
-          >
-            <ChevronLeft className="w-3.5 h-3.5 mr-1" />
-            Back
-          </Button>
+          variant="outline"
+          size="sm"
+          className="gap-2 h-8"
+          onClick={handleRefresh}
+          disabled={isRefreshing}
+        >
+          <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+        </Button>
+        <Button
+          variant="ghost"
+          size="sm"
+          className="h-8"
+          onClick={() => router.push('/repos')}
+        >
+          <ChevronLeft className="w-3.5 h-3.5 mr-1" />
+          Back
+        </Button>
       </HeaderActions>
 
       <div className="flex-1 flex overflow-hidden relative">
