@@ -20,6 +20,13 @@ api/.env
 node_modules
 .next/
 .DS_Store
+
 # local data
 /data/
 api/data/local-db.json
+
+# TypeScript cache
+*.tsbuildinfo
+
+# Personal dev context
+context.md

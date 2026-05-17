@@ -1,7 +1,6 @@
 "use client";
 
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+
 import { 
   User, 
   Mail, 
@@ -36,10 +35,7 @@ export default function ProfilePage() {
   };
 
   return (
-    <div className="h-screen flex flex-col bg-background text-foreground">
-      <Header>
-        <DynamicBreadcrumbs />
-      </Header>
+    <div className="flex-1 flex flex-col bg-background text-foreground overflow-hidden">
 
       <div className="flex-1 overflow-y-auto p-8">
         <div className="max-w-5xl mx-auto w-full space-y-8 pb-12">

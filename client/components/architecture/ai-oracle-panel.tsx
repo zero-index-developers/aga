@@ -1,8 +1,9 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Send, Bot, Zap, Shield, Cpu } from 'lucide-react';
+import { Search, Send, Bot, Zap, Shield, Cpu, AlignLeft, AlignJustify } from 'lucide-react';
 import { Input } from '@client/components/ui/input';
+import { Textarea } from '@client/components/ui/textarea';
 import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
 import { useSettings } from '@client/hooks/use-settings';
@@ -25,20 +26,29 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
   const [query, setQuery] = useState('');
   const [loading, setLoading] = useState(false);
   const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isShuffling, setIsShuffling] = useState(false);
 
   useEffect(() => {
     // Generate dynamic suggestions from real project nodes
     const components = nodes.filter((n: any) => n.type === 'custom') || [];
     if (components.length > 0) {
-      const shuffled = [...components].sort(() => 0.5 - Math.random());
-      const selected = shuffled.slice(0, 4);
-      const prompts = selected.map((n, i) => {
-        if (i === 0) return `What is the purpose of ${n.data.label}?`;
-        if (i === 1) return `Tell me about ${n.data.path}`;
-        if (i === 2) return `How does ${n.data.label} fit in?`;
-        return `Explain the ${n.data.type} logic here.`;
-      });
-      setSuggestions(prompts);
+      setIsShuffling(true);
+      const timer = setTimeout(() => {
+        const shuffled = [...components].sort(() => 0.5 - Math.random());
+        const selected = shuffled.slice(0, 3);
+        const prompts = selected.map((n, i) => {
+          if (i === 0) return `What is the purpose of ${n.data.label}?`;
+          if (i === 1) return `Tell me about ${n.data.path}`;
+          if (i === 2) return `How does ${n.data.label} fit in?`;
+          return `Explain the ${n.data.type} logic here.`;
+        });
+        setSuggestions(prompts);
+        setIsShuffling(false);
+      }, 600); // Premium shuffling simulation delay
+
+      return () => clearTimeout(timer);
+    } else {
+      setSuggestions([]);
     }
   }, [nodes]);
 
@@ -57,7 +67,7 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
   }, [nodes, onResponse]);
 
   const getFocusIcon = (focus: string) => {
-    switch(focus) {
+    switch (focus) {
       case 'security': return <Shield className="w-3 h-3" />;
       case 'performance': return <Zap className="w-3 h-3" />;
       default: return <Cpu className="w-3 h-3" />;
@@ -75,15 +85,15 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
     setLoading(true);
     // Simulate AI response based on current components
     setTimeout(() => {
-      const match = nodes.find(n => 
-        activeQuery.toLowerCase().includes(n.data.label.toLowerCase()) || 
+      const match = nodes.find(n =>
+        activeQuery.toLowerCase().includes(n.data.label.toLowerCase()) ||
         activeQuery.toLowerCase().includes(n.data.type.toLowerCase())
       );
 
-      const response = match 
+      const response = match
         ? `The ${match.data.label} is a ${match.data.type} located at ${match.data.path}. It is a core part of the architectural layer and interacts with related modules to ensure system stability.`
         : "Based on the current architecture scan, I couldn't find a direct match for that query. Try asking about a specific component or layer shown in the graph.";
-      
+
       if (onResponse) {
         onResponse(response);
       }
@@ -91,8 +101,9 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
     }, 800);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSearch();
     }
   };
@@ -110,7 +121,7 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
                 value={settings.ai.focus}
                 onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, focus: val } })}
               >
-                <SelectTrigger className="h-6 w-6 p-0 border-primary/20 bg-primary/5 text-primary rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-primary/10">
+                <SelectTrigger className="h-6 w-6 p-0 border-primary/20 bg-primary/5 text-primary rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-primary/10 rounded-none">
                   <span className="flex items-center justify-center">
                     {getFocusIcon(settings.ai.focus)}
                   </span>
@@ -126,9 +137,9 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
                 value={settings.ai.insightDepth}
                 onValueChange={(val: any) => updateSettings({ ai: { ...settings.ai, insightDepth: val } })}
               >
-                <SelectTrigger className="h-6 w-6 p-0 border-border/50 bg-secondary/50 text-muted-foreground rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-secondary/80">
+                <SelectTrigger className="h-6 w-6 p-0 border-border/50 bg-secondary/50 text-muted-foreground rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-secondary/80 rounded-none">
                   <span className="flex items-center justify-center">
-                    <Bot className="w-3 h-3" />
+                    {settings.ai.insightDepth === 'concise' ? <AlignLeft className="w-3 h-3" /> : <AlignJustify className="w-3 h-3" />}
                   </span>
                 </SelectTrigger>
                 <SelectContent>
@@ -142,13 +153,13 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
       </div>
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
+          <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+          <Textarea
             placeholder="Ask about the architecture..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="pl-10 bg-input border-border text-sm h-10"
+            onKeyDown={handleKeyDown}
+            className="pl-10 pt-2.5 bg-input border-border text-sm min-h-[80px] resize-none"
           />
         </div>
         <Button
@@ -162,11 +173,10 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
 
         {/* Suggestions */}
         <div className="flex flex-wrap gap-1.5 pt-1">
-          {isLoading ? (
+          {isLoading || isShuffling ? (
             <>
               <Skeleton className="h-5 w-20 rounded-full" />
               <Skeleton className="h-5 w-24 rounded-full" />
-              <Skeleton className="h-5 w-16 rounded-full" />
               <Skeleton className="h-5 w-28 rounded-full" />
             </>
           ) : (

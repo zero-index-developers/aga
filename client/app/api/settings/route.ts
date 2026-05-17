@@ -1,20 +1,28 @@
-import { backendFetch, jsonResponse } from "@client/lib/backend";
+import { NextResponse } from 'next/server';
+import { readDB, writeDB } from '@client/lib/db';
 
 export async function GET() {
-  const response = await backendFetch("/api/settings");
-
-  return jsonResponse(response);
+  try {
+    const db = readDB();
+    return NextResponse.json(db.settings || {});
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch settings' }, { status: 500 });
+  }
 }
 
 export async function POST(request: Request) {
-  const body = await request.text();
-  const response = await backendFetch("/api/settings", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-    },
-    body,
-  });
-
-  return jsonResponse(response);
+  try {
+    const newSettings = await request.json();
+    const db = readDB();
+    
+    db.settings = {
+      ...db.settings,
+      ...newSettings
+    };
+    
+    writeDB(db);
+    return NextResponse.json({ success: true, settings: db.settings });
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to update settings' }, { status: 500 });
+  }
 }

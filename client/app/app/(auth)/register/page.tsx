@@ -1,14 +1,63 @@
+'use client';
+
 import Link from "next/link";
+import { useState } from "react";
 import { Github, Gitlab } from "lucide-react";
 import { Button } from "@client/components/ui/button";
 import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
+import { useAuth } from "@/contexts/auth-context";
 
 export default function RegisterPage() {
+  const { register } = useAuth();
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    
+    if (password !== passwordConfirmation) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    setLoading(true);
+
+    try {
+      await register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      });
+    } catch (error) {
+      console.error('Registration error:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="grid gap-6">
-      <form>
+      <form onSubmit={handleSubmit}>
         <div className="grid gap-4">
+          <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="John Doe"
+              type="text"
+              autoCapitalize="words"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -18,6 +67,10 @@ export default function RegisterPage() {
               autoCapitalize="none"
               autoComplete="email"
               autoCorrect="off"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+              disabled={loading}
             />
           </div>
           <div className="grid gap-2">
@@ -27,7 +80,15 @@ export default function RegisterPage() {
               type="password"
               autoCapitalize="none"
               autoComplete="new-password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+              disabled={loading}
+              minLength={8}
             />
+            <p className="text-xs text-muted-foreground">
+              Must be at least 8 characters
+            </p>
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -36,10 +97,15 @@ export default function RegisterPage() {
               type="password"
               autoCapitalize="none"
               autoComplete="new-password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              required
+              disabled={loading}
+              minLength={8}
             />
           </div>
-          <Button type="submit" className="w-full">
-            Create Account
+          <Button type="submit" className="w-full" disabled={loading}>
+            {loading ? "Creating account..." : "Create Account"}
           </Button>
         </div>
       </form>
@@ -56,11 +122,11 @@ export default function RegisterPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" type="button">
+        <Button variant="outline" type="button" disabled>
           <Github className="mr-2 h-4 w-4" />
           GitHub
         </Button>
-        <Button variant="outline" type="button">
+        <Button variant="outline" type="button" disabled>
           <Gitlab className="mr-2 h-4 w-4" />
           GitLab
         </Button>
@@ -78,3 +144,5 @@ export default function RegisterPage() {
     </div>
   );
 }
+
+// Made with Bob

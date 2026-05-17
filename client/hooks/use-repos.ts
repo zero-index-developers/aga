@@ -1,17 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
-export interface Repository {
-  name: string;
-  url: string;
-  provider?: string;
-  analytics?: {
-    nodes: number;
-    edges: number;
-    health: number;
-    lastScanned: string | null;
-  };
-}
+import { Repository } from '@client/lib/types';
 
 export function useRepos() {
   const [repos, setRepos] = useState<Repository[]>([]);
@@ -59,7 +49,6 @@ export function useRepos() {
       const data = await res.json();
       if (data.success) {
         setConnectedRepo(repoName);
-        toast.success(`Switched to ${repoName}`);
         await fetchRepos(); // Refresh list to get updated analytics if any
         return true;
       }
