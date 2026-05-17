@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import { Search, Send, Bot, Zap, Shield, Cpu, AlignLeft, AlignJustify } from 'lucide-react';
 import { Input } from '@client/components/ui/input';
+import { Textarea } from '@client/components/ui/textarea';
 import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
 import { useSettings } from '@client/hooks/use-settings';
@@ -100,8 +101,9 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
     }, 800);
   };
 
-  const handleKeyPress = (e: React.KeyboardEvent) => {
-    if (e.key === 'Enter') {
+  const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
       handleSearch();
     }
   };
@@ -151,13 +153,13 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
       </div>
       <div className="space-y-3">
         <div className="relative">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
-          <Input
+          <Search className="absolute left-3 top-3 w-4 h-4 text-muted-foreground" />
+          <Textarea
             placeholder="Ask about the architecture..."
             value={query}
             onChange={(e) => setQuery(e.target.value)}
-            onKeyPress={handleKeyPress}
-            className="pl-10 bg-input border-border text-sm h-10"
+            onKeyDown={handleKeyDown}
+            className="pl-10 pt-2.5 bg-input border-border text-sm min-h-[80px] resize-none"
           />
         </div>
         <Button
