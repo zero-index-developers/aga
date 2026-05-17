@@ -13,6 +13,7 @@ import {
   Github,
 } from "lucide-react"
 import Link from "next/link"
+import { useAuth } from "@/contexts/auth-context"
 
 import {
   Avatar,
@@ -45,6 +46,11 @@ export function NavUser({
   }
 }) {
   const { isMobile } = useSidebar()
+  const { logout } = useAuth()
+
+  const handleLogout = async () => {
+    await logout()
+  }
 
   return (
     <SidebarMenu>
@@ -99,7 +105,10 @@ export function NavUser({
                 Settings
               </DropdownMenuItem>
             </Link>
-            <DropdownMenuItem className="gap-2 text-red-500 focus:bg-red-500/10 focus:text-red-500 cursor-pointer">
+            <DropdownMenuItem
+              onClick={handleLogout}
+              className="gap-2 text-red-500 focus:bg-red-500/10 focus:text-red-500 cursor-pointer"
+            >
               <LogOut className="size-4" />
               Log out
             </DropdownMenuItem>

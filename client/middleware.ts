@@ -9,20 +9,47 @@ export const config = {
      * - _next/static (static files)
      * - _next/image (image optimization files)
      * - favicon.ico (favicon file)
+     * - public files
      */
-    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+    '/((?!api|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)',
   ],
 };
 
 export function middleware(req: NextRequest) {
   const url = req.nextUrl;
   const hostname = req.headers.get('host') || '';
+  const token = req.cookies.get('auth_token')?.value ||
+                req.headers.get('authorization')?.replace('Bearer ', '');
 
   // Strip the port to get the pure hostname
   const currentHost = hostname.split(':')[0];
   
   // Check if we are on the app subdomain (local or production)
   const isApp = currentHost === 'app.localhost' || currentHost.startsWith('app.');
+
+  // Public routes that don't require authentication
+  const publicRoutes = ['/login', '/register', '/forgot-password', '/reset-password', '/'];
+  const isPublicRoute = publicRoutes.some(route => url.pathname === route || url.pathname.startsWith(route));
+
+  // Auth routes (login, register, etc.)
+  const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
+  const isAuthRoute = authRoutes.some(route => url.pathname === route || url.pathname.startsWith(route));
+
+  // Protected routes (everything under /app except auth pages)
+  const isProtectedRoute = url.pathname.startsWith('/app') && !isAuthRoute;
+
+  // Check authentication for protected routes
+  if (isProtectedRoute && !token) {
+    // Redirect to login if trying to access protected route without token
+    const loginUrl = new URL('/login', req.url);
+    loginUrl.searchParams.set('redirect', url.pathname);
+    return NextResponse.redirect(loginUrl);
+  }
+
+  // Redirect authenticated users away from auth pages
+  if (isAuthRoute && token) {
+    return NextResponse.redirect(new URL('/app', req.url));
+  }
 
   // Exclude rewrites for paths that already start with /app to prevent infinite loops
   if (isApp && !url.pathname.startsWith('/app')) {
