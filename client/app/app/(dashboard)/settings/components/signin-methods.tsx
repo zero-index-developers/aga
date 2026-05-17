@@ -9,6 +9,7 @@ import { Badge } from '@client/components/ui/badge';
 import { Button } from '@client/components/ui/button';
 import { Input } from '@client/components/ui/input';
 import { toast } from 'sonner';
+import { useSettings } from '@client/hooks/use-settings';
 import {
   Dialog,
   DialogContent,
@@ -31,7 +32,10 @@ const connectProviderFormSchema = z.object({
 });
 
 export function SignInMethods() {
-  const [gitLabConnected, setGitLabConnected] = useState(false);
+  const { settings, updateSettings, isLoading } = useSettings();
+  const githubConnected = settings?.providers?.github ?? true; // Default to true for demo
+  const gitLabConnected = settings?.providers?.gitlab ?? false;
+  
   const [connectProviderOpen, setConnectProviderOpen] = useState<string | null>(null);
   const [isConnectingProvider, setIsConnectingProvider] = useState(false);
 
@@ -42,15 +46,31 @@ export function SignInMethods() {
     },
   });
 
-  const onConnectSubmit = (values: z.infer<typeof connectProviderFormSchema>) => {
+  const onConnectSubmit = async (values: z.infer<typeof connectProviderFormSchema>) => {
     setIsConnectingProvider(true);
-    setTimeout(() => {
-      setGitLabConnected(true);
-      setIsConnectingProvider(false);
-      setConnectProviderOpen(null);
-      connectForm.reset();
-      toast.success(`${connectProviderOpen} account connected successfully!`);
-    }, 1200);
+    const providerKey = connectProviderOpen?.toLowerCase() as 'github' | 'gitlab';
+    
+    await updateSettings({
+      providers: {
+        ...(settings?.providers || { github: true, gitlab: false }),
+        [providerKey]: true,
+      }
+    });
+
+    setIsConnectingProvider(false);
+    setConnectProviderOpen(null);
+    connectForm.reset();
+    toast.success(`${connectProviderOpen} account connected successfully!`);
+  };
+
+  const handleDisconnect = async (provider: 'github' | 'gitlab') => {
+    await updateSettings({
+      providers: {
+        ...(settings?.providers || { github: true, gitlab: false }),
+        [provider]: false,
+      }
+    });
+    toast.success(`${provider === 'github' ? 'GitHub' : 'GitLab'} account disconnected`);
   };
 
   return (
@@ -63,7 +83,33 @@ export function SignInMethods() {
             </div>
             <span className="font-medium">GitHub</span>
           </div>
-          <Badge variant="secondary" className="bg-secondary/50 text-foreground">Connected</Badge>
+          <div className="flex items-center gap-3">
+            {githubConnected ? (
+              <>
+                <Badge variant="secondary" className="bg-secondary/50 text-foreground">Connected</Badge>
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="text-red-500 hover:text-red-600 hover:bg-red-500/10 text-xs h-8"
+                  onClick={() => handleDisconnect('github')}
+                >
+                  Disconnect
+                </Button>
+              </>
+            ) : (
+              <>
+                <Badge variant="outline" className="text-muted-foreground border-border/50">Not connected</Badge>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  className="h-8"
+                  onClick={() => setConnectProviderOpen("GitHub")}
+                >
+                  Connect
+                </Button>
+              </>
+            )}
+          </div>
         </div>
         <div className="flex items-center justify-between p-4">
           <div className="flex items-center gap-3">
@@ -80,10 +126,7 @@ export function SignInMethods() {
                   variant="ghost"
                   size="sm"
                   className="text-red-500 hover:text-red-600 hover:bg-red-500/10 text-xs h-8"
-                  onClick={() => {
-                    setGitLabConnected(false);
-                    toast.success("GitLab account disconnected");
-                  }}
+                  onClick={() => handleDisconnect('gitlab')}
                 >
                   Disconnect
                 </Button>

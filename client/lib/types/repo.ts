@@ -6,6 +6,10 @@ export interface Settings {
     insightDepth: 'concise' | 'detailed';
     focus: 'architecture' | 'security' | 'performance';
   };
+  providers?: {
+    github: boolean;
+    gitlab: boolean;
+  };
 }
 
 export interface RepoAnalytics {
