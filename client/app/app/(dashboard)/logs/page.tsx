@@ -145,12 +145,12 @@ export default function LogsPage() {
           </div>
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
-            <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8 bg-muted/30 p-1 border border-border/50 rounded-xl">
-              <TabsTrigger value="scans" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
+            <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8 bg-muted/30 p-1.5 border border-border/50 rounded-xl h-12">
+              <TabsTrigger value="scans" className="h-full gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
                 <Database className="w-4 h-4" />
                 Logs
               </TabsTrigger>
-              <TabsTrigger value="ai" className="gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
+              <TabsTrigger value="ai" className="h-full gap-2 data-[state=active]:bg-background data-[state=active]:shadow-sm transition-all rounded-lg">
                 <MessageSquare className="w-4 h-4" />
                 AI Analysis
               </TabsTrigger>
