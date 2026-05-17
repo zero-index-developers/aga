@@ -16,6 +16,8 @@ import { useFlowInteractions } from '@client/hooks/use-flow-interactions';
 import { FlowToolbar } from './flow-toolbar';
 import { useTheme } from 'next-themes';
 import { Node, Edge, OnNodesChange, OnEdgesChange } from 'reactflow';
+import { toPng } from 'html-to-image';
+import { toast } from 'sonner';
 
 
 
@@ -46,6 +48,7 @@ function ArchitectureFlow({
   setEdges,
   onEdgesChange,
   isLoading,
+  repoName,
 }: ArchitectureVisualizationProps) {
   const { resolvedTheme } = useTheme();
 
@@ -92,6 +95,29 @@ function ArchitectureFlow({
     onShowDependencies,
   });
 
+  const handleDownloadImage = () => {
+    const flowElement = document.querySelector('.react-flow') as HTMLElement;
+    if (!flowElement) return;
+
+    toast.loading('Generating high-quality image...', { id: 'image-download' });
+
+    toPng(flowElement, {
+      backgroundColor: resolvedTheme === 'dark' ? '#020817' : '#ffffff',
+      pixelRatio: 2,
+    })
+      .then((dataUrl) => {
+        const a = document.createElement('a');
+        a.setAttribute('download', `${repoName}-architecture.png`);
+        a.setAttribute('href', dataUrl);
+        a.click();
+        toast.success('Image saved successfully!', { id: 'image-download' });
+      })
+      .catch((err) => {
+        console.error('Failed to export image', err);
+        toast.error('Failed to generate image.', { id: 'image-download' });
+      });
+  };
+
   if (isLoading) {
     return (
       <div className="w-full h-full flex items-center justify-center bg-slate-950/20">
@@ -114,6 +140,7 @@ function ArchitectureFlow({
         onZoomOut={() => zoomOut({ duration: 400 })}
         canZoomIn={canZoomIn}
         canZoomOut={canZoomOut}
+        onCaptureView={handleDownloadImage}
       />
 
       <ReactFlow

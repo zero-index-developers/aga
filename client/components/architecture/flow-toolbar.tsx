@@ -1,6 +1,6 @@
 'use client';
 
-import { Folder, FolderMinus, FileText, EyeOff, Maximize2, Zap, Plus, Minus } from 'lucide-react';
+import { Folder, FolderMinus, FileText, EyeOff, Maximize2, Zap, Plus, Minus, Camera } from 'lucide-react';
 import { Button } from '@client/components/ui/button';
 import {
   Tooltip,
@@ -21,6 +21,7 @@ interface FlowToolbarProps {
   onZoomOut: () => void;
   canZoomIn?: boolean;
   canZoomOut?: boolean;
+  onCaptureView?: () => void;
 }
 
 export function FlowToolbar({
@@ -35,6 +36,7 @@ export function FlowToolbar({
   onZoomOut,
   canZoomIn = true,
   canZoomOut = true,
+  onCaptureView,
 }: FlowToolbarProps) {
   return (
     <div className="absolute bottom-8 left-1/2 -translate-x-1/2 z-50 animate-in fade-in slide-in-from-bottom-4 duration-700">
@@ -87,6 +89,26 @@ export function FlowToolbar({
               <p>{isExploded ? 'Compress View' : 'Explode View'}</p>
             </TooltipContent>
           </Tooltip>
+
+          <div className="w-px h-6 bg-border/50 mx-1" />
+
+          {onCaptureView && (
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className="w-9 h-9 rounded-lg transition-all text-foreground/60 hover:bg-accent hover:text-foreground"
+                  onClick={onCaptureView}
+                >
+                  <Camera className="w-4 h-4" />
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="top" className="bg-popover/95 backdrop-blur-sm border-border/50 text-popover-foreground font-medium">
+                <p>Save Image</p>
+              </TooltipContent>
+            </Tooltip>
+          )}
 
           <div className="w-px h-6 bg-border/50 mx-1" />
 
