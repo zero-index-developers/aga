@@ -12,9 +12,31 @@ export function useRepos() {
     try {
       const res = await fetch('/api/repo/list');
       const data = await res.json();
-      setRepos(data);
+      
+      // Handle error responses or ensure data is an array
+      if (Array.isArray(data)) {
+        setRepos(data);
+      } else if (data.error) {
+        console.error('Backend error:', data.error);
+        setRepos([]); // Set empty array on error
+        
+        // Provide helpful error message based on error type
+        if (data.error.includes('Authentication required')) {
+          // Don't show toast for auth errors on initial load - user might not be logged in yet
+          console.log('Authentication required - user needs to log in');
+        } else if (data.error.includes('Failed to connect to backend')) {
+          toast.error('Backend not running. Start Laravel: cd api && php artisan serve');
+        } else {
+          toast.error(data.error);
+        }
+      } else {
+        console.error('Unexpected response format:', data);
+        setRepos([]);
+      }
     } catch (error) {
       console.error('Failed to fetch repos:', error);
+      setRepos([]); // Set empty array on error
+      toast.error('Failed to fetch repositories');
     }
   }, []);
 
@@ -58,11 +80,38 @@ export function useRepos() {
     return false;
   };
 
+  const deleteRepo = async (repoName: string) => {
+    try {
+      const res = await fetch(`/api/repo/delete`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ repoName }),
+      });
+      const data = await res.json();
+      if (data.success) {
+        // If we deleted the currently connected repo, clear it
+        if (connectedRepo === repoName) {
+          setConnectedRepo(null);
+        }
+        await fetchRepos(); // Refresh list
+        toast.success(`Repository "${repoName}" deleted successfully`);
+        return true;
+      } else {
+        toast.error(data.error || "Failed to delete repository");
+      }
+    } catch (error) {
+      toast.error("Failed to delete repository");
+      console.error('Delete error:', error);
+    }
+    return false;
+  };
+
   return {
     repos,
     connectedRepo,
     isLoading,
     refreshRepos: fetchRepos,
-    switchRepo
+    switchRepo,
+    deleteRepo
   };
 }

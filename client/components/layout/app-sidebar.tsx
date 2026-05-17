@@ -82,9 +82,17 @@ export function AppSidebar() {
       try {
         const res = await fetch('/api/repo/list');
         const data = await res.json();
-        setRepos(data);
+        
+        // Ensure data is an array before setting state
+        if (Array.isArray(data)) {
+          setRepos(data);
+        } else {
+          console.error('Invalid repos data:', data);
+          setRepos([]);
+        }
       } catch (error) {
         console.error('Failed to fetch repos:', error);
+        setRepos([]);
       }
     }
     fetchRepos();

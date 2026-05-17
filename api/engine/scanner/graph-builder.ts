@@ -1,21 +1,30 @@
 import fs from 'fs/promises';
 import path from 'path';
-import { Node, Edge, TYPE_CONFIG, GROUPS } from './types';
-import { classifyFile } from './file-classifier';
+import { Node, Edge, TYPE_CONFIG, GROUPS, GroupConfig, generateGroups, generateTypeConfig } from './types';
+import { classifyFile, ClassificationRule } from './file-classifier';
 import { extractImports, resolveImportPath } from './import-resolver';
 
-export async function buildGraph(filePaths: string[], rootPath: string): Promise<{ nodes: Node[]; edges: Edge[] }> {
+export async function buildGraph(
+  filePaths: string[],
+  rootPath: string,
+  classificationRules?: ClassificationRule[],
+  customGroups?: GroupConfig[]
+): Promise<{ nodes: Node[]; edges: Edge[] }> {
   const nodes: Node[] = [];
   const edges: Edge[] = [];
   const fileMap = new Map<string, string>(); // relPath -> nodeId
   
+  // Use custom groups if provided, otherwise use default GROUPS
+  const groups = customGroups || GROUPS;
+  const typeConfig = customGroups ? generateTypeConfig(customGroups) : TYPE_CONFIG;
+  
   // 1. Add Group Nodes
-  GROUPS.forEach(group => {
+  groups.forEach(group => {
     nodes.push({
       id: group.id,
-      data: { 
-        label: group.label, 
-        type: 'folder', 
+      data: {
+        label: group.label,
+        type: 'folder',
         path: group.path,
         color: group.color
       },
@@ -28,10 +37,16 @@ export async function buildGraph(filePaths: string[], rootPath: string): Promise
 
   // 2. Build Custom Nodes
   for (const relPath of filePaths) {
-    const type = classifyFile(relPath);
-    const id = relPath.replace(/\//g, '-').replace(/\.tsx?$/, '');
-    const config = TYPE_CONFIG[type] || TYPE_CONFIG['unknown'];
-    const fileName = path.basename(relPath).replace(/\.tsx?$/, '');
+    const type = classificationRules
+      ? classifyFile(relPath, classificationRules)
+      : classifyFile(relPath);
+    
+    // Create node ID by removing file extension and replacing slashes
+    const id = relPath.replace(/\//g, '-').replace(/\.\w+$/, '');
+    const config = typeConfig[type] || typeConfig['unknown'] || { color: 'bg-gray-600', parent: '' };
+    
+    // Get file name without extension
+    const fileName = path.basename(relPath).replace(/\.\w+$/, '');
 
     nodes.push({
       id,
@@ -48,7 +63,7 @@ export async function buildGraph(filePaths: string[], rootPath: string): Promise
     
     fileMap.set(relPath, id);
     // Also set extension-less mapping for easier resolving later
-    fileMap.set(relPath.replace(/\.tsx?$/, ''), id);
+    fileMap.set(relPath.replace(/\.\w+$/, ''), id);
   }
 
   // 3. Build Edges
@@ -60,20 +75,34 @@ export async function buildGraph(filePaths: string[], rootPath: string): Promise
     try {
       const fullPath = path.join(rootPath, node.data.path);
       const content = await fs.readFile(fullPath, 'utf8');
+      const fileExt = path.extname(node.data.path);
       
-      const rawImports = extractImports(content);
+      const rawImports = extractImports(content, fileExt);
       
       for (const rawImport of rawImports) {
         const resolvedPath = resolveImportPath(rawImport, node.data.path);
         if (!resolvedPath) continue; // External or unresolvable import
 
-        // Check possible local file variations
+        // Check possible local file variations with multiple extensions
         const possiblePaths = [
           resolvedPath,
           `${resolvedPath}.tsx`,
           `${resolvedPath}.ts`,
+          `${resolvedPath}.jsx`,
+          `${resolvedPath}.js`,
+          `${resolvedPath}.vue`,
+          `${resolvedPath}.svelte`,
+          `${resolvedPath}.py`,
+          `${resolvedPath}.java`,
+          `${resolvedPath}.go`,
+          `${resolvedPath}.php`,
+          `${resolvedPath}.rb`,
           `${resolvedPath}/index.tsx`,
           `${resolvedPath}/index.ts`,
+          `${resolvedPath}/index.jsx`,
+          `${resolvedPath}/index.js`,
+          `${resolvedPath}/index.vue`,
+          `${resolvedPath}/__init__.py`,
         ];
 
         let targetId: string | undefined;

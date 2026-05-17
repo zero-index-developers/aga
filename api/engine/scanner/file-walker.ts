@@ -1,6 +1,26 @@
 import fs from 'fs/promises';
 import path from 'path';
 
+// Supported source code file extensions
+const SOURCE_EXTENSIONS = [
+  '.ts', '.tsx',           // TypeScript
+  '.js', '.jsx',           // JavaScript
+  '.py',                   // Python
+  '.java',                 // Java
+  '.go',                   // Go
+  '.rs',                   // Rust
+  '.vue',                  // Vue
+  '.svelte',               // Svelte
+  '.php',                  // PHP
+  '.rb',                   // Ruby
+  '.cs',                   // C#
+  '.cpp', '.cc', '.cxx',   // C++
+  '.c', '.h',              // C
+  '.swift',                // Swift
+  '.kt', '.kts',           // Kotlin
+  '.scala',                // Scala
+];
+
 export async function walkDirectory(dir: string, rootPath: string, exclusions: string[] = []): Promise<string[]> {
   const results: string[] = [];
   let files: string[];
@@ -27,8 +47,8 @@ export async function walkDirectory(dir: string, rootPath: string, exclusions: s
         const nestedFiles = await walkDirectory(fullPath, rootPath, exclusions);
         results.push(...nestedFiles);
       } else {
-        // Only include TS/TSX files for now
-        if (file.endsWith('.tsx') || file.endsWith('.ts')) {
+        // Include all supported source code files
+        if (SOURCE_EXTENSIONS.some(ext => file.endsWith(ext))) {
           results.push(relPath);
         }
       }

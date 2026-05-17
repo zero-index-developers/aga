@@ -3809,6 +3809,16 @@
           }
         ]
       }
+    },
+    {
+      "name": "pupcon",
+      "url": "https://github.com/zero-index-developers/pupcon",
+      "analytics": {
+        "nodes": 142,
+        "edges": 315,
+        "health": 92,
+        "lastScanned": "2026-05-17T12:06:36.708Z"
+      }
     }
   ]
 }
