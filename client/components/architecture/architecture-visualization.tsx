@@ -24,6 +24,7 @@ interface ArchitectureVisualizationProps {
   onNodeSelect: (nodeId: string | null) => void;
   onShowDependencies: (show: boolean) => void;
   repoName: string;
+  initialNodes: Node[];
   nodes: Node[];
   setNodes: React.Dispatch<React.SetStateAction<Node[]>>;
   onNodesChange: OnNodesChange;
@@ -37,6 +38,7 @@ function ArchitectureFlow({
   selectedNode,
   onNodeSelect,
   onShowDependencies,
+  initialNodes,
   nodes,
   setNodes,
   onNodesChange,
@@ -55,7 +57,7 @@ function ArchitectureFlow({
     showFolders, setShowFolders,
     showPaths, setShowPaths,
     isExploded, setIsExploded
-  } = useFlowView(setNodes, nodes);
+  } = useFlowView(setNodes, initialNodes);
 
   const { setCenter, fitView, zoomIn, zoomOut, getNodes, getEdges } = useReactFlow();
   
@@ -122,6 +124,26 @@ function ArchitectureFlow({
         nodeTypes={nodeTypes}
         onNodeClick={(_, node) => {
           if (node.type === 'custom') onNodeSelect(node.id);
+        }}
+        onNodeDoubleClick={(_, node) => {
+          if (node.type === 'custom') {
+            const isNested = !!node.parentNode;
+            let targetX = node.position.x;
+            let targetY = node.position.y;
+
+            if (isNested) {
+              const currentNodes = getNodes();
+              const parent = currentNodes.find((n) => n.id === node.parentNode);
+              if (parent) {
+                targetX += parent.position.x;
+                targetY += parent.position.y;
+              }
+            }
+
+            // Center on the node itself (adding half width/height for true centering)
+            // and offset slightly to the left to account for the side panel
+            setCenter(targetX + 100, targetY + 50, { zoom: 1.2, duration: 800 });
+          }
         }}
         onPaneClick={() => onNodeSelect(null)}
         fitView

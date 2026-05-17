@@ -33,6 +33,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
+    initialNodes,
     isLoading: isGraphLoading,
     refreshGraph
   } = useArchitectureData(repoName);
@@ -131,6 +132,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             selectedNode={selectedNode}
             onNodeSelect={setSelectedNode}
             onShowDependencies={setShowDependencies}
+            initialNodes={initialNodes}
             nodes={nodes}
             setNodes={setNodes}
             onNodesChange={onNodesChange}
