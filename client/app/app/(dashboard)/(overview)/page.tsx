@@ -5,11 +5,9 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import ArchitectureVisualization from '@client/components/architecture/architecture-visualization';
 import SearchPanel from '@client/components/architecture/search-panel';
 import DependencyPanel from '@client/components/architecture/dependency-panel';
-import Header from '@client/components/layout/header';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, Activity, Network as NetworkIcon, Box, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { useRepos } from '@client/hooks/use-repos';
 import { useGlobalStats } from '@client/hooks/use-global-stats';
 import { WelcomeBanner } from '@client/components/dashboard/welcome-banner';
@@ -65,10 +63,7 @@ function HomeContent() {
   const showGraph = !!activeRepoParam && connectedRepo === activeRepoParam;
 
   return (
-    <div className="h-screen flex flex-col bg-background text-foreground min-w-0">
-      <Header>
-        <DynamicBreadcrumbs />
-      </Header>
+    <div className="flex-1 flex flex-col bg-background text-foreground overflow-hidden">
 
       <div className="flex-1 overflow-y-auto p-8">
         <div className="max-w-5xl mx-auto w-full space-y-8">

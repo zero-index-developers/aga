@@ -18,6 +18,7 @@ import { useTheme } from 'next-themes';
 import { Node, Edge, OnNodesChange, OnEdgesChange } from 'reactflow';
 import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
+import { slugify } from '@client/lib/utils';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -130,7 +131,7 @@ function ArchitectureFlow({
     })
       .then((dataUrl) => {
         const a = document.createElement('a');
-        a.setAttribute('download', `${repoName}-architecture.png`);
+        a.setAttribute('download', `${slugify(repoName)}-architecture.png`);
         a.setAttribute('href', dataUrl);
         a.click();
         toast.success('Image saved successfully!', { id: 'image-download' });

@@ -34,7 +34,7 @@ export default function CustomNode({ data }: { data: CustomNodeData }) {
 
   return (
     <div
-      className={`px-3 py-2 rounded-lg font-medium text-white ${data.color} transition-all duration-300 cursor-pointer min-w-[140px] max-w-[200px] flex flex-col gap-0.5 border border-white/10 ${getColorClasses()}`}
+      className={`px-3 py-2 rounded-lg font-medium text-white ${data.color || 'bg-slate-600'} transition-all duration-300 cursor-pointer min-w-[140px] max-w-[200px] flex flex-col gap-0.5 border border-white/10 ${getColorClasses()}`}
     >
       <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-white/40 border-none" />
       <span className="text-sm tracking-tight truncate w-full">{data.label}</span>

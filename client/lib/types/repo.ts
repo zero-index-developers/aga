@@ -22,5 +22,6 @@ export interface RepoAnalytics {
 export interface Repository {
   name: string;
   url: string;
+  provider?: string;
   analytics: RepoAnalytics;
 }
