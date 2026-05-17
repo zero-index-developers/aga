@@ -14,7 +14,7 @@ export function useArchitectureData(repoName: string) {
       const res = await fetch(`/api/repo/graph?repo=${encodeURIComponent(repoName)}&_t=${Date.now()}`);
       const data = await res.json();
       
-      const fetchedNodes = (data.nodes || []).map((n: Node) => ({
+      const rawNodes = (data.nodes || []).map((n: Node) => ({
         ...n,
         data: {
           ...n.data,
@@ -24,6 +24,34 @@ export function useArchitectureData(repoName: string) {
           origHeight: n.data.origHeight ?? n.style?.height,
         }
       }));
+
+      // Disambiguate duplicate labels by prepending parent folder
+      const componentNodes = rawNodes.filter((n: Node) => !n.id.startsWith('group-'));
+      const labelCounts = new Map<string, number>();
+      for (const n of componentNodes) {
+        const lbl = n.data.label as string;
+        labelCounts.set(lbl, (labelCounts.get(lbl) || 0) + 1);
+      }
+
+      const capitalize = (s: string) =>
+        s.replace(/(?:^|[-_/])(\w)/g, (_, c) => ` ${c.toUpperCase()}`).trim();
+
+      const fetchedNodes = rawNodes.map((n: Node) => {
+        if (n.id.startsWith('group-')) return n;
+
+        let label = n.data.label as string;
+        if (labelCounts.get(label)! > 1 && n.data.path) {
+          const parts = (n.data.path as string).split('/');
+          if (parts.length >= 2) {
+            label = `${parts[parts.length - 2]}/${label}`;
+          }
+        }
+
+        return {
+          ...n,
+          data: { ...n.data, label: capitalize(label) },
+        };
+      });
 
       setNodes(fetchedNodes);
       initialNodesRef.current = fetchedNodes;
