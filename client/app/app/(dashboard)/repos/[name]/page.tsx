@@ -40,9 +40,28 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
 
   async function handleRefresh() {
     setIsRefreshing(true);
-    await Promise.all([refreshGraph()]);
-    setIsRefreshing(false);
-    toast.success('Repository successfully scanned and updated!');
+    try {
+      const res = await fetch('/api/repo/scan', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: repoName,
+          url: actualRepo?.url,
+          provider: actualRepo?.provider,
+        }),
+      });
+
+      if (!res.ok) {
+        throw new Error('Scan failed');
+      }
+
+      await refreshGraph();
+      toast.success('Repository successfully scanned and updated!');
+    } catch (error) {
+      toast.error('Repository scan failed.');
+    } finally {
+      setIsRefreshing(false);
+    }
   }
 
   if (isReposLoading) {

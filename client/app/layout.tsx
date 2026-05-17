@@ -33,6 +33,8 @@ export const metadata: Metadata = {
 }
 
 import { ThemeProvider } from '@client/components/theme-provider'
+import { AuthProvider } from '@/contexts/auth-context'
+import { Toaster } from '@client/components/ui/sonner'
 
 export default function RootLayout({
   children,
@@ -48,7 +50,10 @@ export default function RootLayout({
           enableSystem
           disableTransitionOnChange
         >
-          {children}
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
         </ThemeProvider>
         {process.env.NODE_ENV === 'production' && <Analytics />}
       </body>

@@ -7,36 +7,43 @@ import { Button } from "@client/components/ui/button";
 import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
 import { useAuth } from "@/contexts/auth-context";
+import { authService } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
 
-export default function RegisterPage() {
-  const { register } = useAuth();
-  const [name, setName] = useState("");
+export default function LoginPage() {
+  const { login } = useAuth();
+  const { toast } = useToast();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    if (password !== passwordConfirmation) {
-      alert("Passwords do not match");
-      return;
-    }
-
     setLoading(true);
 
     try {
-      await register({
-        name,
-        email,
-        password,
-        password_confirmation: passwordConfirmation,
-      });
+      await login({ email, password });
     } catch (error) {
-      console.error('Registration error:', error);
+      console.error('Login error:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGitHubLogin = async () => {
+    setGithubLoading(true);
+    try {
+      const { url } = await authService.getGitHubAuthUrl();
+      window.location.href = url;
+    } catch (error) {
+      console.error('GitHub OAuth error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to initiate GitHub login. Please try again.",
+        variant: "destructive",
+      });
+      setGithubLoading(false);
     }
   };
 
@@ -44,20 +51,6 @@ export default function RegisterPage() {
     <div className="grid gap-6">
       <form onSubmit={handleSubmit}>
         <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              placeholder="John Doe"
-              type="text"
-              autoCapitalize="words"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -74,38 +67,28 @@ export default function RegisterPage() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <div className="flex items-center justify-between">
+              <Label htmlFor="password">Password</Label>
+              <Link
+                href="/forgot-password"
+                className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4"
+              >
+                Forgot password?
+              </Link>
+            </div>
             <Input
               id="password"
               type="password"
               autoCapitalize="none"
-              autoComplete="new-password"
+              autoComplete="current-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
-              minLength={8}
-            />
-            <p className="text-xs text-muted-foreground">
-              Must be at least 8 characters
-            </p>
-          </div>
-          <div className="grid gap-2">
-            <Label htmlFor="confirm-password">Confirm Password</Label>
-            <Input
-              id="confirm-password"
-              type="password"
-              autoCapitalize="none"
-              autoComplete="new-password"
-              value={passwordConfirmation}
-              onChange={(e) => setPasswordConfirmation(e.target.value)}
-              required
-              disabled={loading}
-              minLength={8}
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Logging in..." : "Login"}
           </Button>
         </div>
       </form>
@@ -122,9 +105,14 @@ export default function RegisterPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" type="button" disabled>
+        <Button
+          variant="outline"
+          type="button"
+          onClick={handleGitHubLogin}
+          disabled={githubLoading || loading}
+        >
           <Github className="mr-2 h-4 w-4" />
-          GitHub
+          {githubLoading ? "Connecting..." : "GitHub"}
         </Button>
         <Button variant="outline" type="button" disabled>
           <Gitlab className="mr-2 h-4 w-4" />
@@ -133,12 +121,12 @@ export default function RegisterPage() {
       </div>
 
       <div className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        Don't have an account?{" "}
         <Link
-          href="/login"
+          href="/register"
           className="underline underline-offset-4 hover:text-primary"
         >
-          Sign in
+          Sign up
         </Link>
       </div>
     </div>

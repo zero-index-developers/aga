@@ -7,14 +7,18 @@ import { Button } from "@client/components/ui/button";
 import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
 import { useAuth } from "@/contexts/auth-context";
+import { authService } from "@/lib/auth";
+import { useToast } from "@/hooks/use-toast";
 
 export default function RegisterPage() {
   const { register } = useAuth();
+  const { toast } = useToast();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
+  const [githubLoading, setGithubLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -37,6 +41,22 @@ export default function RegisterPage() {
       console.error('Registration error:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const handleGitHubLogin = async () => {
+    setGithubLoading(true);
+    try {
+      const { url } = await authService.getGitHubAuthUrl();
+      window.location.href = url;
+    } catch (error) {
+      console.error('GitHub OAuth error:', error);
+      toast({
+        title: "Error",
+        description: "Failed to initiate GitHub login. Please try again.",
+        variant: "destructive",
+      });
+      setGithubLoading(false);
     }
   };
 
@@ -122,9 +142,14 @@ export default function RegisterPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button variant="outline" type="button" disabled>
+        <Button
+          variant="outline"
+          type="button"
+          onClick={handleGitHubLogin}
+          disabled={githubLoading || loading}
+        >
           <Github className="mr-2 h-4 w-4" />
-          GitHub
+          {githubLoading ? "Connecting..." : "GitHub"}
         </Button>
         <Button variant="outline" type="button" disabled>
           <Gitlab className="mr-2 h-4 w-4" />
