@@ -66,7 +66,7 @@ export function AIHistoryTab({
                     {repoName}
                   </h2>
                   <span className="text-[10px] text-muted-foreground bg-muted/50 px-2 py-0.5 rounded-full">
-                    {items.length} sessions
+                    {items.length} {items.length === 1 ? 'session' : 'sessions'}
                   </span>
                 </div>
               </AccordionTrigger>

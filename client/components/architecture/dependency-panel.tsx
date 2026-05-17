@@ -8,9 +8,11 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
-  Info
+  Info,
+  Box
 } from 'lucide-react';
 import { Card } from '@client/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@client/components/ui/accordion";
 import { useTheme } from "next-themes";
 import { getRiskColor } from "@client/lib/utils";
 import { Badge } from '@client/components/ui/badge';
@@ -145,39 +147,48 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
 function AnalysisCard({ title, description, items, icon, color, bgColor }: any) {
   return (
-    <Card className="bg-card/40 border-border/40 overflow-hidden group hover:border-primary/30 transition-colors">
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <div className={`p-1.5 rounded-lg ${bgColor} ${color}`}>
-              {icon}
-            </div>
-            <h3 className="font-bold text-sm">{title}</h3>
-          </div>
-          <Badge variant="outline" className="text-[10px] opacity-60 px-1.5 h-4">
-            {items.length} units
-          </Badge>
-        </div>
-        <p className="text-[11px] text-muted-foreground mb-4">{description}</p>
-
-        <div className="space-y-1">
-          {items.length > 0 ? (
-            items.map((item: string, i: number) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 p-2 rounded-lg bg-accent/50 text-xs font-medium hover:bg-accent hover:text-primary transition-all cursor-default"
-              >
-                <ChevronRight className="w-3 h-3 opacity-30" />
-                {item}
+    <Card className="bg-card/40 border-border/40 overflow-hidden group hover:border-primary/30 transition-colors py-0">
+      <Accordion type="single" collapsible defaultValue="item-1">
+        <AccordionItem value="item-1" className="border-none">
+          <AccordionTrigger className="hover:no-underline p-4 py-3 [&[data-state=open]>div>div>p]:hidden">
+            <div className="flex flex-col items-start text-left w-full gap-1 pr-2">
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-lg ${bgColor} ${color}`}>
+                    {icon}
+                  </div>
+                  <h3 className="font-bold text-sm">{title}</h3>
+                </div>
+                <Badge variant="outline" className="text-[10px] opacity-60 px-1.5 h-4">
+                  {items.length} {items.length === 1 ? 'unit' : 'units'}
+                </Badge>
               </div>
-            ))
-          ) : (
-            <div className="text-[10px] text-muted-foreground/50 italic py-2 text-center border border-dashed border-border/50 rounded-lg">
-              No immediate connections detected
+              <p className="text-[11px] text-muted-foreground transition-all duration-300">
+                {description}
+              </p>
             </div>
-          )}
-        </div>
-      </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-4 pb-4 pt-0">
+            <div className="space-y-1">
+              {items.length > 0 ? (
+                items.map((item: string, i: number) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 p-2 rounded-lg bg-accent/50 text-xs font-medium hover:bg-accent hover:text-primary transition-all cursor-default"
+                  >
+                    <Box className="w-3.5 h-3.5 opacity-40 text-primary" />
+                    <span className="truncate" title={item}>{item}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-[10px] text-muted-foreground/50 italic py-3 text-center border border-dashed border-border/50 rounded-lg">
+                  No immediate connections detected
+                </div>
+              )}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </Card>
   );
 }
