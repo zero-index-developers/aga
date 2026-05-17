@@ -1,16 +1,19 @@
 "use client";
 
+import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Header from '@client/components/layout/header';
 import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { RepositoryCard } from '@client/components/dashboard/repository-card';
 import { useRepos } from '@client/hooks/use-repos';
-import { Activity, Plus } from 'lucide-react';
+import { Activity, Plus, RefreshCw } from 'lucide-react';
 import { slugify } from '@client/lib/utils';
 import { ConnectRepoDialog } from '@client/components/dashboard/connect-repo-dialog';
+import { Button } from '@client/components/ui/button';
 
 export default function RepositoriesPage() {
   const router = useRouter();
+  const [isRefreshing, setIsRefreshing] = useState(false);
   const { repos, connectedRepo, isLoading, switchRepo, refreshRepos } = useRepos();
 
   const handleOpenRepo = async (name: string, url: string) => {
@@ -46,6 +49,19 @@ export default function RepositoriesPage() {
               <Activity className="w-4 h-4 text-primary" />
               <span className="text-sm font-medium text-primary">{repos.length} Total Systems</span>
             </div>
+            <Button 
+              variant="outline" 
+              size="icon" 
+              onClick={async () => {
+                setIsRefreshing(true);
+                await refreshRepos();
+                setIsRefreshing(false);
+              }} 
+              title="Refresh repositories"
+              disabled={isRefreshing}
+            >
+              <RefreshCw className={`w-4 h-4 ${isRefreshing ? 'animate-spin' : ''}`} />
+            </Button>
             <ConnectRepoDialog onSuccess={refreshRepos} />
           </div>
         </div>

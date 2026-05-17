@@ -94,7 +94,22 @@ function HomeContent() {
 
           <section className="space-y-4 pb-12">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Recent Architecture Scans</h3>
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                Recent Architecture Scans
+                <Button 
+                  variant="ghost" 
+                  size="icon" 
+                  className="h-6 w-6 ml-2" 
+                  onClick={async () => {
+                    setIsRefreshing(true);
+                    await refreshRepos();
+                    setIsRefreshing(false);
+                  }}
+                  title="Refresh repositories"
+                >
+                  <RefreshCw className={`w-3 h-3 ${isRefreshing ? 'animate-spin' : ''}`} />
+                </Button>
+              </h3>
               <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs p-0 h-auto">
                 View All Repositories
               </Button>
