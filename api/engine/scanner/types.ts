@@ -40,16 +40,17 @@ export interface GroupConfig {
   label: string;
   path: string;
   className: string;
+  color: string;
 }
 
 export const GROUPS: GroupConfig[] = [
-  { id: 'group-pages', label: '/client/app (Routes)', path: 'client/app/', className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]' },
-  { id: 'group-components', label: '/client/components', path: 'client/components/', className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]' },
-  { id: 'group-ui', label: '/client/components/ui', path: 'client/components/ui/', className: 'bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]' },
-  { id: 'group-hooks', label: '/client/hooks', path: 'client/hooks/', className: 'bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]' },
-  { id: 'group-contexts', label: '/client/contexts', path: 'client/contexts/', className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]' },
-  { id: 'group-lib', label: '/client/lib', path: 'client/lib/', className: 'bg-indigo-500/5 border-indigo-500/20 rounded-xl z-[-1]' },
-  { id: 'group-engine', label: '/api/engine', path: 'api/engine/', className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]' },
+  { id: 'group-pages', label: '/client/app (Routes)', path: 'client/app/', className: 'bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]', color: 'bg-purple-600' },
+  { id: 'group-components', label: '/client/components', path: 'client/components/', className: 'bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]', color: 'bg-blue-600' },
+  { id: 'group-ui', label: '/client/components/ui', path: 'client/components/ui/', className: 'bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]', color: 'bg-slate-600' },
+  { id: 'group-hooks', label: '/client/hooks', path: 'client/hooks/', className: 'bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]', color: 'bg-emerald-600' },
+  { id: 'group-contexts', label: '/client/contexts', path: 'client/contexts/', className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]', color: 'bg-amber-600' },
+  { id: 'group-lib', label: '/client/lib', path: 'client/lib/', className: 'bg-indigo-500/5 border-indigo-500/20 rounded-xl z-[-1]', color: 'bg-indigo-600' },
+  { id: 'group-engine', label: '/api/engine', path: 'api/engine/', className: 'bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]', color: 'bg-amber-600' },
 ];
 
 export const TYPE_CONFIG: Record<string, { color: string; parent: string }> = {

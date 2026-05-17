@@ -7,22 +7,47 @@ const _dependencies = [
   'bg-blue-600', 'bg-purple-600', 'bg-emerald-600', 'bg-amber-600', 'bg-slate-600',
   'bg-purple-500/5', 'border-purple-500/20', 'bg-blue-500/5', 'border-blue-500/20',
   'bg-slate-500/5', 'border-slate-500/20', 'bg-amber-500/5', 'border-amber-500/20',
-  'bg-emerald-500/5', 'border-emerald-500/20',
+  'bg-emerald-500/5', 'border-emerald-500/20', 'bg-indigo-600', 'bg-indigo-500/5', 'border-indigo-500/20'
 ];
 
 import { CustomNodeData } from '@client/lib/types';
 
-export default function CustomNode({ data }: { data: CustomNodeData }) {
+const FALLBACK_GROUP_COLORS: Record<string, string> = {
+  'group-pages': 'bg-purple-600',
+  'group-components': 'bg-blue-600',
+  'group-ui': 'bg-slate-600',
+  'group-hooks': 'bg-emerald-600',
+  'group-contexts': 'bg-amber-600',
+  'group-lib': 'bg-indigo-600',
+  'group-engine': 'bg-amber-600',
+};
+
+export default function CustomNode({ data, id }: { data: CustomNodeData, id: string }) {
+  const isExpandedGroup = (data as any).type === 'folder' && !(data as any).isCollapsed;
+
+  if (isExpandedGroup) {
+    const isFolderViewActive = (data as any).isFolderViewActive;
+    return (
+      <div className="w-full h-full relative">
+        <div className={`absolute top-0 left-0 bg-background/50 backdrop-blur-md px-3 py-1 rounded-br-lg rounded-tl-xl border-r border-b border-white/5 text-[10px] font-bold tracking-widest uppercase text-muted-foreground ${isFolderViewActive ? 'pointer-events-auto' : 'pointer-events-none opacity-0 hidden'}`}>
+          {data.label}
+        </div>
+        <Handle type="target" position={Position.Top} className="opacity-0" />
+        <Handle type="source" position={Position.Bottom} className="opacity-0" />
+      </div>
+    );
+  }
+
   const getColorClasses = () => {
     const isAnySelected = (data as any).isAnySelected;
-    
+
     if (data.isSelected) {
       return 'ring-2 ring-primary shadow-lg shadow-primary/50 scale-110 z-50 grayscale-0 opacity-100';
     }
     if (data.isRelated) {
       return 'ring-1 ring-accent/50 opacity-100 z-40 grayscale-0';
     }
-    
+
     // Default state when nothing is selected
     if (!isAnySelected) {
       return 'opacity-100 grayscale-0 shadow-md hover:scale-105';
@@ -32,9 +57,11 @@ export default function CustomNode({ data }: { data: CustomNodeData }) {
     return 'opacity-20 grayscale hover:grayscale-0 hover:opacity-100 transition-all';
   };
 
+  const effectiveColor = data.color || FALLBACK_GROUP_COLORS[id] || 'bg-slate-600';
+
   return (
     <div
-      className={`px-3 py-2 rounded-lg font-medium text-white ${data.color || 'bg-slate-600'} transition-all duration-300 cursor-pointer min-w-[140px] max-w-[200px] flex flex-col gap-0.5 border border-white/10 ${getColorClasses()}`}
+      className={`px-3 py-2 rounded-lg font-medium text-white ${effectiveColor} transition-all duration-300 cursor-pointer min-w-[140px] max-w-[200px] flex flex-col gap-0.5 border border-white/10 ${getColorClasses()}`}
     >
       <Handle type="target" position={Position.Top} className="w-2 h-2 !bg-white/40 border-none" />
       <span className="text-sm tracking-tight truncate w-full">{data.label}</span>

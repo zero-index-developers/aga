@@ -16,7 +16,8 @@ export async function buildGraph(filePaths: string[], rootPath: string): Promise
       data: { 
         label: group.label, 
         type: 'folder', 
-        path: group.path 
+        path: group.path,
+        color: group.color
       },
       position: { x: 0, y: 0 },
       type: 'group',
@@ -96,5 +97,31 @@ export async function buildGraph(filePaths: string[], rootPath: string): Promise
     }
   }
 
-  return { nodes, edges };
+  // 4. Clean up groups with <= 1 child
+  const groupChildrenCount = new Map<string, number>();
+  nodes.forEach(n => {
+    if (n.parentNode) {
+      groupChildrenCount.set(n.parentNode, (groupChildrenCount.get(n.parentNode) || 0) + 1);
+    }
+  });
+
+  const validGroups = new Set(
+    Array.from(groupChildrenCount.entries())
+      .filter(([, count]) => count > 1)
+      .map(([groupId]) => groupId)
+  );
+
+  const finalNodes = nodes.filter(n => {
+    if (n.type === 'group' && !validGroups.has(n.id)) {
+      return false; // Remove empty or 1-child groups
+    }
+    return true;
+  }).map(n => {
+    if (n.parentNode && !validGroups.has(n.parentNode)) {
+      return { ...n, parentNode: undefined }; // Ungroup lonely children
+    }
+    return n;
+  });
+
+  return { nodes: finalNodes, edges };
 }

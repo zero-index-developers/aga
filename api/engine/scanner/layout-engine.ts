@@ -56,4 +56,25 @@ export function applyGridLayout(nodes: Node[]) {
       currentY += height + 50;
     }
   });
+
+  // Finally, layout any ungrouped nodes below all the groups
+  let ungroupedIndex = 0;
+  nodes.forEach(node => {
+    if (node.type === 'custom' && !node.parentNode) {
+      const col = ungroupedIndex % MAX_COLS;
+      const row = Math.floor(ungroupedIndex / MAX_COLS);
+      
+      const newX = 50 + (col * COL_WIDTH);
+      const newY = currentY + (row * ROW_HEIGHT);
+      
+      node.position = { x: newX, y: newY };
+      
+      if (node.data) {
+        node.data.origX = newX;
+        node.data.origY = newY;
+      }
+      
+      ungroupedIndex++;
+    }
+  });
 }

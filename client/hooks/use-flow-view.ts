@@ -7,8 +7,6 @@ export function useFlowView(
 ) {
   const [showFolders, setShowFolders] = useState(false);
   const [showPaths, setShowPaths] = useState(true);
-  const [isExploded, setIsExploded] = useState(false);
-  const prevExplodedRef = useRef(false);
   const { fitView } = useReactFlow();
 
   // Track the last processed state to prevent infinite loops when adding initialNodes to dependencies
@@ -16,7 +14,6 @@ export function useFlowView(
     initialNodes: null as Node[] | null,
     showFolders,
     showPaths,
-    isExploded,
   });
 
   useEffect(() => {
@@ -24,15 +21,13 @@ export function useFlowView(
     if (
       initialNodes === lastStateRef.current.initialNodes &&
       showFolders === lastStateRef.current.showFolders &&
-      showPaths === lastStateRef.current.showPaths &&
-      isExploded === lastStateRef.current.isExploded
+      showPaths === lastStateRef.current.showPaths
     ) {
       return;
     }
 
-    const isExplodedChanged = isExploded !== lastStateRef.current.isExploded;
     const isInitialNodesChanged = initialNodes !== lastStateRef.current.initialNodes;
-    const shouldUpdatePosition = isExplodedChanged || isInitialNodesChanged;
+    const shouldUpdatePosition = isInitialNodesChanged;
 
     setNodes((nds) => {
       const nextNodes = nds.map((n) => {
@@ -41,21 +36,46 @@ export function useFlowView(
 
         // Handle folder nodes
         if (n.id.startsWith('group-')) {
+          const isCollapsed = n.data?.isCollapsed;
           const baseWidth = n.data.origWidth ?? (n.style?.width as number) ?? 840;
           const baseHeight = n.data.origHeight ?? (n.style?.height as number) ?? 120;
+          
+          if (isCollapsed) {
+            return {
+              ...n,
+              style: {
+                ...n.style,
+                opacity: 1,
+                width: 'auto',
+                height: 'auto',
+                backgroundColor: 'transparent',
+                border: 'none',
+              },
+              className: '',
+              selectable: true,
+              draggable: true,
+            };
+          }
+
           return {
             ...n,
+            data: {
+              ...n.data,
+              isFolderViewActive: showFolders
+            },
             style: {
               ...n.style,
               opacity: showFolders ? 1 : 0,
-              width: isExploded ? baseWidth * 1.35 : baseWidth,
-              height: isExploded ? baseHeight * 1.5 : baseHeight,
+              width: baseWidth,
+              height: baseHeight,
+              backgroundColor: undefined,
+              border: undefined,
             },
             position: shouldUpdatePosition ? {
               x: origX,
-              y: isExploded ? origY * 1.5 : origY
+              y: origY
             } : n.position,
-            className: showFolders ? n.className : 'opacity-0 pointer-events-none',
+            className: showFolders ? (n.data?.origClassName || n.className) : 'opacity-0 pointer-events-none',
             selectable: showFolders,
             draggable: showFolders,
           };
@@ -65,8 +85,8 @@ export function useFlowView(
         return {
           ...n,
           position: shouldUpdatePosition ? {
-            x: isExploded ? (origX - 20) * 1.5 + 20 : origX,
-            y: isExploded ? (origY - 40) * 1.5 + 40 : origY,
+            x: origX,
+            y: origY,
           } : n.position,
           data: {
             ...n.data,
@@ -80,24 +100,16 @@ export function useFlowView(
         initialNodes,
         showFolders,
         showPaths,
-        isExploded,
       };
 
       return nextNodes;
     });
-
-    if (prevExplodedRef.current !== isExploded) {
-      setTimeout(() => fitView({ duration: 800 }), 100);
-      prevExplodedRef.current = isExploded;
-    }
-  }, [initialNodes, showFolders, showPaths, isExploded, setNodes, fitView]);
+  }, [initialNodes, showFolders, showPaths, setNodes, fitView]);
 
   return {
     showFolders,
     setShowFolders,
     showPaths,
     setShowPaths,
-    isExploded,
-    setIsExploded
   };
 }
