@@ -32,7 +32,7 @@ export function middleware(req: NextRequest) {
   const isPublicRoute = publicRoutes.some(route => url.pathname === route || url.pathname.startsWith(route));
 
   // Auth routes (login, register, etc.)
-  const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password'];
+  const authRoutes = ['/login', '/register', '/forgot-password', '/reset-password', '/auth-callback'];
   const isAuthRoute = authRoutes.some(route => url.pathname === route || url.pathname.startsWith(route));
 
   // Protected routes (everything under /app except auth pages)
@@ -51,9 +51,8 @@ export function middleware(req: NextRequest) {
     return NextResponse.redirect(new URL('/app', req.url));
   }
 
-  // Exclude rewrites for paths that already start with /app to prevent infinite loops
-  if (isApp && !url.pathname.startsWith('/app')) {
-    // Rewrite requests to the `app.domain.com` to the `/app` folder
+  // Rewrite non-auth requests on the app subdomain to the /app folder
+  if (isApp && !url.pathname.startsWith('/app') && !isAuthRoute) {
     url.pathname = `/app${url.pathname}`;
     return NextResponse.rewrite(url);
   }

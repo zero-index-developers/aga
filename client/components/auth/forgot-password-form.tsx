@@ -9,7 +9,7 @@ import { Label } from "@client/components/ui/label";
 import { authService } from "@/lib/auth";
 import { toast } from "sonner";
 
-export default function ForgotPasswordPage() {
+export function ForgotPasswordForm() {
   const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const [sent, setSent] = useState(false);
