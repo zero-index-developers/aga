@@ -1,5 +1,6 @@
 @import 'tailwindcss';
 @import 'tw-animate-css';
+@import 'lenis/dist/lenis.css';
 
 @source "../**/*.{ts,tsx}";
 @source "../../api/**/*.{ts,tsx}";
@@ -122,8 +123,21 @@
   * {
     @apply border-border outline-ring/50 transition-colors duration-300;
   }
+  
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 2rem;
+  }
+  
   body {
     @apply bg-background text-foreground;
+  }
+  
+  /* Smooth momentum scrolling for all platforms */
+  html,
+  body {
+    -webkit-overflow-scrolling: touch;
+    overscroll-behavior-y: none;
   }
 }
 
@@ -196,4 +210,18 @@
 
 ::-webkit-scrollbar-corner {
   background: transparent;
+}
+
+/* Landing Page Animations */
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 3s linear infinite;
 }
