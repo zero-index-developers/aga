@@ -20,7 +20,7 @@ export default function RepositoriesPage() {
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
     if (success) {
-      router.push(`/repos/${slugify(name)}`);
+      router.push(`/app/repos/${slugify(name)}`);
     }
   };
 

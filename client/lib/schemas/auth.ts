@@ -20,23 +20,12 @@ export const EmailSchema = z
 /**
  * Password validation schema
  * Requirements:
- * - Minimum 12 characters
- * - At least one uppercase letter
- * - At least one lowercase letter
- * - At least one number
- * - At least one special character
+ * - Minimum 8 characters
  */
 export const PasswordSchema = z
   .string()
-  .min(12, 'Password must be at least 12 characters')
-  .max(128, 'Password must be less than 128 characters')
-  .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
-  .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
-  .regex(/[0-9]/, 'Password must contain at least one number')
-  .regex(
-    /[^A-Za-z0-9]/,
-    'Password must contain at least one special character'
-  );
+  .min(8, 'Password must be at least 8 characters')
+  .max(128, 'Password must be less than 128 characters');
 
 /**
  * Username validation schema
@@ -81,9 +70,7 @@ export const RegisterSchema = z
     email: EmailSchema,
     password: PasswordSchema,
     password_confirmation: z.string(),
-    terms: z.literal(true, {
-      errorMap: () => ({ message: 'You must accept the terms and conditions' }),
-    }),
+    terms: z.boolean().optional(),
   })
   .refine((data) => data.password === data.password_confirmation, {
     message: 'Passwords do not match',

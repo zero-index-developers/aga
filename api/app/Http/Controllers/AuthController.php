@@ -9,6 +9,12 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Authentication Controller
+ *
+ * Handles user registration, login, logout, and user retrieval.
+ * Uses Laravel Sanctum for API token authentication.
+ */
 class AuthController extends Controller
 {
     /**
@@ -28,6 +34,7 @@ class AuthController extends Controller
             'password' => Hash::make($validated['password']),
         ]);
 
+        /** @var \App\Models\User $user */
         $token = $user->createToken('auth-token')->plainTextToken;
 
         return response()->json([
@@ -53,6 +60,7 @@ class AuthController extends Controller
             ]);
         }
 
+        /** @var \App\Models\User $user */
         $user = Auth::user();
         $token = $user->createToken('auth-token')->plainTextToken;
 

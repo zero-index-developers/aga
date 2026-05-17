@@ -2,13 +2,12 @@
 
 import Link from "next/link";
 import { useState } from "react";
-import { Github, Gitlab } from "lucide-react";
 import { Button } from "@client/components/ui/button";
 import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
 import { useAuth } from "@/contexts/auth-context";
-import { authService } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { RegisterSchema } from "@/lib/schemas/auth";
 
 interface RegisterFormProps {
   enableOAuth?: boolean;
@@ -22,13 +21,35 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
-  const [githubLoading, setGithubLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
     
-    if (password !== passwordConfirmation) {
-      alert("Passwords do not match");
+    // Validate with schema
+    const validation = RegisterSchema.safeParse({
+      name,
+      email,
+      password,
+      password_confirmation: passwordConfirmation,
+    });
+
+    if (!validation.success) {
+      const fieldErrors: Record<string, string> = {};
+      validation.error.errors.forEach((err) => {
+        const path = err.path.join('.');
+        fieldErrors[path] = err.message;
+      });
+      setErrors(fieldErrors);
+      
+      // Show first error in toast
+      const firstError = Object.values(fieldErrors)[0];
+      toast({
+        title: "Validation Error",
+        description: firstError,
+        variant: "destructive",
+      });
       return;
     }
 
@@ -45,21 +66,6 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
       console.error('Registration error:', error);
     } finally {
       setLoading(false);
-    }
-  };
-
-  const handleGitHubLogin = async () => {
-    setGithubLoading(true);
-    try {
-      authService.startGitHubOAuth();
-    } catch (error) {
-      console.error('GitHub OAuth error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to initiate GitHub login. Please try again.",
-        variant: "destructive",
-      });
-      setGithubLoading(false);
     }
   };
 
@@ -80,6 +86,9 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
               required
               disabled={loading}
             />
+            {errors.name && (
+              <p className="text-xs text-destructive">{errors.name}</p>
+            )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
@@ -95,6 +104,9 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
               required
               disabled={loading}
             />
+            {errors.email && (
+              <p className="text-xs text-destructive">{errors.email}</p>
+            )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="password">Password</Label>
@@ -112,6 +124,9 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
             <p className="text-xs text-muted-foreground">
               Must be at least 8 characters
             </p>
+            {errors.password && (
+              <p className="text-xs text-destructive">{errors.password}</p>
+            )}
           </div>
           <div className="grid gap-2">
             <Label htmlFor="confirm-password">Confirm Password</Label>
@@ -126,6 +141,9 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
               disabled={loading}
               minLength={8}
             />
+            {errors.password_confirmation && (
+              <p className="text-xs text-destructive">{errors.password_confirmation}</p>
+            )}
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Creating account..." : "Create Account"}
@@ -133,39 +151,6 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
         </div>
       </form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        {enableOAuth ? (
-          <Button
-            variant="outline"
-            type="button"
-            onClick={handleGitHubLogin}
-            disabled={githubLoading || loading}
-          >
-            <Github className="mr-2 h-4 w-4" />
-            {githubLoading ? "Connecting..." : "GitHub"}
-          </Button>
-        ) : (
-          <Button variant="outline" type="button" disabled>
-            <Github className="mr-2 h-4 w-4" />
-            GitHub
-          </Button>
-        )}
-        <Button variant="outline" type="button" disabled>
-          <Gitlab className="mr-2 h-4 w-4" />
-          GitLab
-        </Button>
-      </div>
 
       <div className="text-center text-sm text-muted-foreground">
         Already have an account?{" "}

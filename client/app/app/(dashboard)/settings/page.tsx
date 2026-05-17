@@ -61,7 +61,7 @@ export default function SettingsPage() {
                   <section className="space-y-4 max-w-lg">
                     <div className="space-y-1">
                       <h3 className="text-lg font-semibold tracking-tight">Sign-in methods</h3>
-                      <p className="text-sm text-muted-foreground ">These are the accounts you use to sign in to Riftmap. To connect an org for scanning, go to Workspace &rarr; Connections.</p>
+                      <p className="text-sm text-muted-foreground ">These are the accounts you use to sign in to AGA. Connect your GitHub account to enable OAuth login.</p>
                     </div>
                     <SignInMethods />
                   </section>

@@ -28,13 +28,46 @@ export function useDependencyAnalysis(nodeId: string) {
     const node = graph.nodes.find(n => n.id === nodeId);
     if (!node) return null;
 
-    const upstreamIds = graph.edges
-      .filter(e => e.target === nodeId)
-      .map(e => e.source);
+    // Build parent lookup and identify collapsed groups
+    const parentMap = new Map<string, string>();
+    const collapsedGroups = new Set<string>();
+
+    graph.nodes.forEach(n => {
+      if (n.parentNode) parentMap.set(n.id, n.parentNode);
+      if (n.type === 'group' && n.data?.isCollapsed) collapsedGroups.add(n.id);
+    });
+
+    const isSelectedGroup = node.type === 'group';
+
+    // Map any child node to its visible parent group if that group is collapsed or if the group itself is selected
+    const getVisualNodeId = (id: string) => {
+      const parentId = parentMap.get(id);
+      if (parentId) {
+        if (parentId === nodeId && isSelectedGroup) return nodeId;
+        if (collapsedGroups.has(parentId)) return parentId;
+      }
+      return id;
+    };
+
+    // Project original edges onto visual nodes
+    const visualEdges = graph.edges.map(e => ({
+      ...e,
+      source: getVisualNodeId(e.source),
+      target: getVisualNodeId(e.target),
+    })).filter(e => e.source !== e.target);
+
+    // Compute unique upstream and downstream connections
+    const upstreamIds = Array.from(new Set(
+      visualEdges
+        .filter(e => e.target === nodeId)
+        .map(e => e.source)
+    ));
     
-    const downstreamIds = graph.edges
-      .filter(e => e.source === nodeId)
-      .map(e => e.target);
+    const downstreamIds = Array.from(new Set(
+      visualEdges
+        .filter(e => e.source === nodeId)
+        .map(e => e.target)
+    ));
 
     const upstream = upstreamIds
       .map(id => graph.nodes.find(n => n.id === id))

@@ -99,7 +99,7 @@ export function NavUser({
             </a>
             <DropdownMenuSeparator className="bg-border/50" />
 
-            <Link href="/settings">
+            <Link href="/app/settings">
               <DropdownMenuItem className="gap-2 cursor-pointer focus:bg-primary/10 focus:text-primary">
                 <Settings className="size-4" />
                 Settings

@@ -9,6 +9,7 @@ import { Label } from "@client/components/ui/label";
 import { useAuth } from "@/contexts/auth-context";
 import { authService } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
+import { LoginSchema } from "@/lib/schemas/auth";
 
 interface LoginFormProps {
   enableOAuth?: boolean;
@@ -21,9 +22,36 @@ export function LoginForm({ enableOAuth = true }: LoginFormProps) {
   const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const [githubLoading, setGithubLoading] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    setErrors({});
+    
+    // Validate with schema
+    const validation = LoginSchema.safeParse({
+      email,
+      password,
+    });
+
+    if (!validation.success) {
+      const fieldErrors: Record<string, string> = {};
+      validation.error.errors.forEach((err) => {
+        const path = err.path.join('.');
+        fieldErrors[path] = err.message;
+      });
+      setErrors(fieldErrors);
+      
+      // Show first error in toast
+      const firstError = Object.values(fieldErrors)[0];
+      toast({
+        title: "Validation Error",
+        description: firstError,
+        variant: "destructive",
+      });
+      return;
+    }
+
     setLoading(true);
 
     try {
@@ -68,6 +96,9 @@ export function LoginForm({ enableOAuth = true }: LoginFormProps) {
               required
               disabled={loading}
             />
+            {errors.email && (
+              <p className="text-xs text-destructive">{errors.email}</p>
+            )}
           </div>
           <div className="grid gap-2">
             <div className="flex items-center justify-between">
@@ -89,6 +120,9 @@ export function LoginForm({ enableOAuth = true }: LoginFormProps) {
               required
               disabled={loading}
             />
+            {errors.password && (
+              <p className="text-xs text-destructive">{errors.password}</p>
+            )}
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
             {loading ? "Logging in..." : "Login"}

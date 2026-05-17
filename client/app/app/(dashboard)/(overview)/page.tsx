@@ -30,7 +30,7 @@ function HomeContent() {
 
   useEffect(() => {
     if (activeRepoParam) {
-      router.replace(`/repos/${slugify(activeRepoParam)}`);
+      router.replace(`/app/repos/${slugify(activeRepoParam)}`);
     }
   }, [activeRepoParam, router]);
 
@@ -47,7 +47,7 @@ function HomeContent() {
   const handleOpenRepo = async (name: string, url: string) => {
     const success = await switchRepo(name, url);
     if (success) {
-      router.push(`/repos/${slugify(name)}`);
+      router.push(`/app/repos/${slugify(name)}`);
     }
   };
 
@@ -69,7 +69,7 @@ function HomeContent() {
         <div className="max-w-5xl mx-auto w-full space-y-8">
           <WelcomeBanner
             connectedRepo={connectedRepo}
-            onOpenRecent={() => router.push(`/repos/${slugify(connectedRepo!)}`)}
+            onOpenRecent={() => router.push(`/app/repos/${slugify(connectedRepo!)}`)}
             onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
             onConnectSuccess={refreshRepos}
           />
@@ -106,7 +106,7 @@ function HomeContent() {
                   <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
                 </Button>
               </h3>
-              <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs p-0 h-auto">
+              <Button variant="link" onClick={() => router.push('/app/repos')} className="text-primary text-xs p-0 h-auto">
                 View All Repositories
               </Button>
             </div>

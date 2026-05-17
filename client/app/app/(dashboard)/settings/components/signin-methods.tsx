@@ -9,7 +9,9 @@ import { Badge } from '@client/components/ui/badge';
 import { Button } from '@client/components/ui/button';
 import { Input } from '@client/components/ui/input';
 import { toast } from 'sonner';
+import { Eye, EyeOff } from 'lucide-react';
 import { useSettings } from '@client/hooks/use-settings';
+import { useAuth } from '@/contexts/auth-context';
 import {
   Dialog,
   DialogContent,
@@ -32,12 +34,14 @@ const connectProviderFormSchema = z.object({
 });
 
 export function SignInMethods() {
+  const { user } = useAuth();
   const { settings, updateSettings, isLoading } = useSettings();
-  const githubConnected = settings?.providers?.github ?? true; // Default to true for demo
+  const githubConnected = !!user?.github_id; // Check if user has github_id
   const gitLabConnected = settings?.providers?.gitlab ?? false;
   
   const [connectProviderOpen, setConnectProviderOpen] = useState<string | null>(null);
   const [isConnectingProvider, setIsConnectingProvider] = useState(false);
+  const [showToken, setShowToken] = useState(false);
 
   const connectForm = useForm<z.infer<typeof connectProviderFormSchema>>({
     resolver: zodResolver(connectProviderFormSchema),
@@ -148,7 +152,12 @@ export function SignInMethods() {
         </div>
       </Card>
 
-      <Dialog open={connectProviderOpen !== null} onOpenChange={(open) => !open && setConnectProviderOpen(null)}>
+      <Dialog open={connectProviderOpen !== null} onOpenChange={(open) => {
+        if (!open) {
+          setConnectProviderOpen(null);
+          setShowToken(false);
+        }
+      }}>
         <DialogContent className="sm:max-w-[425px]">
           <DialogHeader>
             <DialogTitle>Connect {connectProviderOpen}</DialogTitle>
@@ -165,15 +174,26 @@ export function SignInMethods() {
                   <FormItem className="space-y-2">
                     <FormLabel>Personal Access Token</FormLabel>
                     <FormControl>
-                      <Input
-                        {...field}
-                        type="password"
-                        placeholder="glpat-..."
-                        className="bg-background/50 border-border/50"
-                      />
+                      <div className="relative">
+                        <Input
+                          {...field}
+                          type={showToken ? "text" : "password"}
+                          placeholder={connectProviderOpen === 'GitHub' ? 'ghp_...' : 'glpat-...'}
+                          className="bg-background/50 border-border/50 pr-10"
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowToken(!showToken)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                        >
+                          {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
                     </FormControl>
                     <p className="text-xs text-muted-foreground">
-                      Required to access your private organizations and projects.
+                      {connectProviderOpen === 'GitHub'
+                        ? 'Generate at github.com/settings/tokens with "repo" scope'
+                        : 'Required to access your private organizations and projects'}
                     </p>
                     <FormMessage />
                   </FormItem>

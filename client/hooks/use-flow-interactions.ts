@@ -31,11 +31,41 @@ export function useFlowInteractions({
 
     setNodes((nds) => {
       const currentEdges = getEdges();
+      
+      // Build parent lookup and identify collapsed groups from current nodes list
+      const parentMap = new Map<string, string>();
+      const collapsedGroups = new Set<string>();
+      
+      nds.forEach(n => {
+        if (n.parentNode) parentMap.set(n.id, n.parentNode);
+        if (n.type === 'group' && n.data?.isCollapsed) collapsedGroups.add(n.id);
+      });
+
+      const selectedNodeObj = nds.find(n => n.id === selectedNode);
+      const isSelectedGroup = selectedNodeObj?.type === 'group';
+
+      // Map any child node to its visible parent group if that group is collapsed or if the group itself is selected
+      const getVisualNodeId = (id: string) => {
+        const parentId = parentMap.get(id);
+        if (parentId) {
+          if (parentId === selectedNode && isSelectedGroup) return selectedNode;
+          if (collapsedGroups.has(parentId)) return parentId;
+        }
+        return id;
+      };
+
+      // Project original edges onto visual nodes
+      const visualEdges = currentEdges.map(e => ({
+        ...e,
+        source: getVisualNodeId(e.source),
+        target: getVisualNodeId(e.target),
+      })).filter(e => e.source !== e.target);
+
       const relatedNodeIds = new Set<string>([selectedNode]);
 
-      // Calculate related nodes using current edges
+      // Calculate related nodes using visual edges
       const findUpstream = (nodeId: string) => {
-        currentEdges.forEach((edge) => {
+        visualEdges.forEach((edge) => {
           if (edge.target === nodeId && !relatedNodeIds.has(edge.source)) {
             relatedNodeIds.add(edge.source);
             findUpstream(edge.source);
@@ -44,7 +74,7 @@ export function useFlowInteractions({
       };
 
       const findDownstream = (nodeId: string) => {
-        currentEdges.forEach((edge) => {
+        visualEdges.forEach((edge) => {
           if (edge.source === nodeId && !relatedNodeIds.has(edge.target)) {
             relatedNodeIds.add(edge.target);
             findDownstream(edge.target);
@@ -67,10 +97,38 @@ export function useFlowInteractions({
     });
 
     setEdges((eds) => {
-      return eds.map((e) => ({
-        ...e,
-        animated: e.source === selectedNode || e.target === selectedNode,
-      }));
+      // Find parent lookup and collapsed groups again to animate visual edges correctly
+      const currentNodes = getNodes();
+      const parentMap = new Map<string, string>();
+      const collapsedGroups = new Set<string>();
+
+      currentNodes.forEach(n => {
+        if (n.parentNode) parentMap.set(n.id, n.parentNode);
+        if (n.type === 'group' && n.data?.isCollapsed) collapsedGroups.add(n.id);
+      });
+
+      const selectedNodeObj = currentNodes.find(n => n.id === selectedNode);
+      const isSelectedGroup = selectedNodeObj?.type === 'group';
+
+      const getVisualNodeId = (id: string) => {
+        const parentId = parentMap.get(id);
+        if (parentId) {
+          if (parentId === selectedNode && isSelectedGroup) return selectedNode;
+          if (collapsedGroups.has(parentId)) return parentId;
+        }
+        return id;
+      };
+
+      return eds.map((e) => {
+        const visualSource = getVisualNodeId(e.source);
+        const visualTarget = getVisualNodeId(e.target);
+        const isAnimated = visualSource === selectedNode || visualTarget === selectedNode;
+
+        return {
+          ...e,
+          animated: isAnimated,
+        };
+      });
     });
   }, [selectedNode, setNodes, setEdges, getEdges]);
 

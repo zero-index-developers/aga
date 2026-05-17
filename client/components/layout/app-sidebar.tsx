@@ -45,33 +45,33 @@ export function AppSidebar() {
   const applicationNavItems = [
     {
       title: "Overview",
-      url: "/",
+      url: "/app",
       icon: Home,
-      isActive: pathname === "/" && !activeRepoParam,
+      isActive: pathname === "/app" && !activeRepoParam,
     },
     {
       title: "Logs",
-      url: "/logs",
+      url: "/app/logs",
       icon: History,
-      isActive: pathname === "/logs",
+      isActive: pathname === "/app/logs",
     },
     {
       title: "Configs",
-      url: "/configs",
+      url: "/app/configs",
       icon: Sliders,
-      isActive: pathname === "/configs",
+      isActive: pathname === "/app/configs",
     },
   ];
 
   const repositoryNavItems = [
     {
       title: "Library",
-      url: "/repos",
+      url: "/app/repos",
       icon: FolderGit2,
-      isActive: pathname === "/repos",
+      isActive: pathname === "/app/repos",
       subItems: repos.map((repo) => ({
         title: repo.name,
-        url: `/?repo=${encodeURIComponent(repo.name)}`,
+        url: `/app?repo=${encodeURIComponent(repo.name)}`,
         isActive: activeRepoParam === repo.name,
       })),
     }

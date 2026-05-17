@@ -4,7 +4,7 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { Github } from "lucide-react";
+import { Github, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
 import { useSettings } from "@client/hooks/use-settings";
 
@@ -45,6 +45,7 @@ const formSchema = z.object({
 export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) => void }) {
   const [open, setOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const [showToken, setShowToken] = useState(false);
   const { settings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -67,7 +68,11 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
       const res = await fetch('/api/repo/connect', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ url: values.url }),
+        body: JSON.stringify({ 
+          url: values.url,
+          provider: values.provider,
+          token: values.token || undefined
+        }),
       });
       const data = await res.json();
       
@@ -157,11 +162,21 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
                   <FormItem>
                     <FormLabel>Personal Access Token</FormLabel>
                     <FormControl>
-                      <Input
-                        type="password"
-                        placeholder="Optional for public repositories"
-                        {...field}
-                      />
+                      <div className="relative">
+                        <Input
+                          type={showToken ? "text" : "password"}
+                          placeholder="Optional for public repositories"
+                          className="pr-10"
+                          {...field}
+                        />
+                        <button
+                          type="button"
+                          onClick={() => setShowToken(!showToken)}
+                          className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none"
+                        >
+                          {showToken ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                        </button>
+                      </div>
                     </FormControl>
                     <FormDescription>
                       Required for private repositories. Stored locally.
