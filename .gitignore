@@ -35,4 +35,8 @@ BACKEND_SETUP.md
 # Personal dev context
 context.md
 CONTEXT.md
+
+# Documents
+*.pdf
+
 .gitignore
