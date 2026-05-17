@@ -5,6 +5,8 @@ export interface User {
   name: string;
   email: string;
   email_verified_at: string | null;
+  avatar?: string | null;
+  github_id?: string | null;
   created_at: string;
   updated_at: string;
 }
@@ -130,6 +132,22 @@ class AuthService {
 
   isAuthenticated(): boolean {
     return !!this.getToken();
+  }
+
+  async getGitHubAuthUrl(): Promise<{ url: string }> {
+    return this.request<{ url: string }>('/auth/github');
+  }
+
+  async handleGitHubCallback(code: string): Promise<AuthResponse> {
+    const data = await this.request<AuthResponse>(`/auth/github/callback?code=${code}`);
+    this.setToken(data.token);
+    return data;
+  }
+
+  async disconnectGitHub(): Promise<{ message: string }> {
+    return this.request<{ message: string }>('/auth/github/disconnect', {
+      method: 'POST',
+    });
   }
 }
 

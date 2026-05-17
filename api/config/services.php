@@ -49,6 +49,12 @@ return [
         'token' => env('GITHUB_TOKEN'),
         'api_url' => env('GITHUB_API_URL', 'https://api.github.com'),
         'storage_path' => env('REPO_STORAGE_PATH', 'app/repositories'),
+        
+        // OAuth Configuration
+        'client_id' => env('GITHUB_CLIENT_ID'),
+        'client_secret' => env('GITHUB_CLIENT_SECRET'),
+        'redirect' => env('GITHUB_REDIRECT_URI'),
+        'scopes' => ['user:email', 'read:user', 'repo'],
     ],
 
     /*

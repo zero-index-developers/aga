@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\GitHubOAuthController;
 use App\Http\Controllers\RepositoryController;
 use App\Http\Controllers\AIController;
 use Illuminate\Support\Facades\Route;
@@ -31,6 +32,10 @@ Route::prefix('auth')->group(function () {
     Route::post('/login', [AuthController::class, 'login']);
     Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
     Route::post('/reset-password', [PasswordResetController::class, 'resetPassword']);
+    
+    // GitHub OAuth Routes
+    Route::get('/github', [GitHubOAuthController::class, 'redirectToGitHub']);
+    Route::get('/github/callback', [GitHubOAuthController::class, 'handleGitHubCallback']);
 });
 
 // Protected Routes (Require Authentication)
@@ -39,6 +44,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/logout', [AuthController::class, 'logout']);
         Route::get('/user', [AuthController::class, 'user']);
+        Route::post('/github/disconnect', [GitHubOAuthController::class, 'disconnectGitHub']);
     });
 
     // Repository Management Routes
