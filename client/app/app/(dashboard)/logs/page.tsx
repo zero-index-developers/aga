@@ -1,7 +1,6 @@
 "use client";
 
-import Header from '@client/components/layout/header';
-import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
+
 import {
   History as HistoryIcon,
   Database,
@@ -44,10 +43,7 @@ export default function LogsPage() {
   const [activeTab, setActiveTab] = useState("scans");
 
   return (
-    <div className="h-screen flex flex-col bg-background text-foreground">
-      <Header>
-        <DynamicBreadcrumbs />
-      </Header>
+    <div className="flex-1 flex flex-col bg-background text-foreground overflow-hidden">
 
       <div className="flex-1 overflow-y-auto p-8 relative">
         {/* Bulk Action Bar */}

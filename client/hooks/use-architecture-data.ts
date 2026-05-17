@@ -33,14 +33,16 @@ export function useArchitectureData(repoName: string) {
         labelCounts.set(lbl, (labelCounts.get(lbl) || 0) + 1);
       }
 
-      const capitalize = (s: string) =>
-        s.replace(/(?:^|[-_/])(\w)/g, (_, c) => ` ${c.toUpperCase()}`).trim();
+      const capitalize = (s?: string) => {
+        if (!s) return '';
+        return s.replace(/(?:^|[-_/])(\w)/g, (_, c) => ` ${c.toUpperCase()}`).trim();
+      };
 
       const fetchedNodes = rawNodes.map((n: Node) => {
         if (n.id.startsWith('group-')) return n;
 
-        let label = n.data.label as string;
-        if (labelCounts.get(label)! > 1 && n.data.path) {
+        let label = (n.data.label as string) || n.id || 'Unknown';
+        if (labelCounts.get(label) && labelCounts.get(label)! > 1 && n.data.path) {
           const parts = (n.data.path as string).split('/');
           if (parts.length >= 2) {
             label = `${parts[parts.length - 2]}/${label}`;
