@@ -5,7 +5,7 @@ export function useFlowView(
   setNodes: (updater: (nds: Node[]) => Node[]) => void,
   initialNodes: Node[]
 ) {
-  const [showFolders, setShowFolders] = useState(true);
+  const [showFolders, setShowFolders] = useState(false);
   const [showPaths, setShowPaths] = useState(true);
   const [isExploded, setIsExploded] = useState(false);
   const prevExplodedRef = useRef(false);
