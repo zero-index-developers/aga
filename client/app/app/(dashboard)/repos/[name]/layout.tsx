@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 export async function generateMetadata({ params }: { params: Promise<{ name: string }> }): Promise<Metadata> {
   const resolvedParams = await params;
   return {
-    title: decodeURIComponent(resolvedParams.name),
+    title: `${decodeURIComponent(resolvedParams.name)} | AGA`,
   };
 }
 
