@@ -150,10 +150,21 @@ export default function LogsPage() {
     }
   };
 
-  const clearAllLogs = () => {
-    // Mock clear for now
-    setLogs([]);
-    toast.success("All logs cleared");
+  const clearAllLogs = async () => {
+    try {
+      const res = await fetch('/api/repo/logs', {
+        method: 'DELETE',
+      });
+
+      if (!res.ok) {
+        throw new Error('Failed to clear logs');
+      }
+
+      setLogs([]);
+      toast.success("All logs cleared");
+    } catch (error) {
+      toast.error("Failed to clear logs");
+    }
   };
 
   return (

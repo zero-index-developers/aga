@@ -4,6 +4,7 @@ import { toast } from 'sonner';
 export interface Repository {
   name: string;
   url: string;
+  provider?: string;
   analytics?: {
     nodes: number;
     edges: number;

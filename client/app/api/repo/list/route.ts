@@ -1,15 +1,7 @@
-import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
+import { backendFetch, jsonResponse } from "@client/lib/backend";
 
 export async function GET() {
-  try {
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    const db = JSON.parse(data);
-    return NextResponse.json(db.repositories);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to read database' }, { status: 500 });
-  }
+  const response = await backendFetch("/api/repositories");
+
+  return jsonResponse(response);
 }
