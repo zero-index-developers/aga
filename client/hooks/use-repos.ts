@@ -49,7 +49,6 @@ export function useRepos() {
       const data = await res.json();
       if (data.success) {
         setConnectedRepo(repoName);
-        toast.success(`Switched to ${repoName}`);
         await fetchRepos(); // Refresh list to get updated analytics if any
         return true;
       }
