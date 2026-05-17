@@ -8,9 +8,13 @@ import {
   ArrowUpRight,
   ArrowDownRight,
   ChevronRight,
-  Info
+  Info,
+  Box
 } from 'lucide-react';
 import { Card } from '@client/components/ui/card';
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@client/components/ui/accordion";
+import { useTheme } from "next-themes";
+import { getRiskColor } from "@client/lib/utils";
 import { Badge } from '@client/components/ui/badge';
 import { Progress } from '@client/components/ui/progress';
 import { Skeleton } from '@client/components/ui/skeleton';
@@ -54,6 +58,7 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
   if (!analysis) return null;
 
   const { node, upstream, downstream, risk, radius } = analysis;
+  const riskColor = getRiskColor(risk);
 
   const handleTriggerReview = () => {
     const prompt = `Conduct a refactor review for ${node.data.label}. It has a ${risk} risk level and a propagation radius of ${radius}%. Based on its ${upstream.length} consumers and ${downstream.length} dependencies, what are the primary architectural concerns?`;
@@ -73,16 +78,13 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
             <Zap className="w-3.5 h-3.5 fill-current" />
             Live Blast Radius
           </Badge>
-          <Badge variant="secondary" className={`${risk === 'High' ? 'bg-red-500/10 text-red-500' :
-            risk === 'Medium' ? 'bg-amber-500/10 text-amber-500' :
-              'bg-emerald-500/10 text-emerald-500'
-            } border-none font-bold`}>
+          <Badge variant="secondary" className={`${riskColor} border-none font-bold`}>
             {risk} RISK
           </Badge>
         </div>
         <h2 className="text-2xl font-bold tracking-tight text-foreground truncate">{node.data.label}</h2>
         <div className="flex flex-col gap-1.5 mt-1.5">
-          <p className="text-xs text-muted-foreground font-mono uppercase tracking-widest flex items-center gap-1">
+          <p className={`px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border ${riskColor} flex items-center gap-1 w-fit`}>
             <Info className="w-3 h-3" />
             Impact Analysis
           </p>
@@ -145,39 +147,48 @@ export default function DependencyPanel({ nodeId }: DependencyPanelProps) {
 
 function AnalysisCard({ title, description, items, icon, color, bgColor }: any) {
   return (
-    <Card className="bg-card/40 border-border/40 overflow-hidden group hover:border-primary/30 transition-colors">
-      <div className="p-4">
-        <div className="flex items-center justify-between mb-1">
-          <div className="flex items-center gap-2">
-            <div className={`p-1.5 rounded-lg ${bgColor} ${color}`}>
-              {icon}
-            </div>
-            <h3 className="font-bold text-sm">{title}</h3>
-          </div>
-          <Badge variant="outline" className="text-[10px] opacity-60 px-1.5 h-4">
-            {items.length} units
-          </Badge>
-        </div>
-        <p className="text-[11px] text-muted-foreground mb-4">{description}</p>
-
-        <div className="space-y-1">
-          {items.length > 0 ? (
-            items.map((item: string, i: number) => (
-              <div
-                key={i}
-                className="flex items-center gap-2 p-2 rounded-lg bg-accent/50 text-xs font-medium hover:bg-accent hover:text-primary transition-all cursor-default"
-              >
-                <ChevronRight className="w-3 h-3 opacity-30" />
-                {item}
+    <Card className="bg-card/40 border-border/40 overflow-hidden group hover:border-primary/30 transition-colors py-0">
+      <Accordion type="single" collapsible defaultValue="item-1">
+        <AccordionItem value="item-1" className="border-none">
+          <AccordionTrigger className="hover:no-underline p-4 py-3 [&[data-state=open]>div>div>p]:hidden">
+            <div className="flex flex-col items-start text-left w-full gap-1 pr-2">
+              <div className="flex items-center justify-between w-full">
+                <div className="flex items-center gap-2">
+                  <div className={`p-1.5 rounded-lg ${bgColor} ${color}`}>
+                    {icon}
+                  </div>
+                  <h3 className="font-bold text-sm">{title}</h3>
+                </div>
+                <Badge variant="outline" className="text-[10px] opacity-60 px-1.5 h-4">
+                  {items.length} {items.length === 1 ? 'unit' : 'units'}
+                </Badge>
               </div>
-            ))
-          ) : (
-            <div className="text-[10px] text-muted-foreground/50 italic py-2 text-center border border-dashed border-border/50 rounded-lg">
-              No immediate connections detected
+              <p className="text-[11px] text-muted-foreground transition-all duration-300">
+                {description}
+              </p>
             </div>
-          )}
-        </div>
-      </div>
+          </AccordionTrigger>
+          <AccordionContent className="px-4 pb-4 pt-0">
+            <div className="space-y-1">
+              {items.length > 0 ? (
+                items.map((item: string, i: number) => (
+                  <div
+                    key={i}
+                    className="flex items-center gap-2 p-2 rounded-lg bg-accent/50 text-xs font-medium hover:bg-accent hover:text-primary transition-all cursor-default"
+                  >
+                    <Box className="w-3.5 h-3.5 opacity-40 text-primary" />
+                    <span className="truncate" title={item}>{item}</span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-[10px] text-muted-foreground/50 italic py-3 text-center border border-dashed border-border/50 rounded-lg">
+                  No immediate connections detected
+                </div>
+              )}
+            </div>
+          </AccordionContent>
+        </AccordionItem>
+      </Accordion>
     </Card>
   );
 }

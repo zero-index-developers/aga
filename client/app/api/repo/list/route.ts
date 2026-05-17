@@ -1,7 +1,11 @@
-import { backendFetch, jsonResponse } from "@client/lib/backend";
+import { NextResponse } from 'next/server';
+import { readDB } from '@client/lib/db';
 
 export async function GET() {
-  const response = await backendFetch("/api/repositories");
-
-  return jsonResponse(response);
+  try {
+    const db = readDB();
+    return NextResponse.json(db.repositories);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to read database' }, { status: 500 });
+  }
 }

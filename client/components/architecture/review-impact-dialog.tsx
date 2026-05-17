@@ -17,6 +17,7 @@ import {
   DialogTitle,
 } from "@client/components/ui/dialog";
 import { Button } from "@client/components/ui/button";
+import { getRiskColor } from "@client/lib/utils";
 
 interface ReviewImpactDialogProps {
   open: boolean;
@@ -80,18 +81,14 @@ export function ReviewImpactDialog({
 }: ReviewImpactDialogProps) {
   const details = IMPACT_DETAILS[nodeId] || IMPACT_DETAILS.default;
 
-  const getRiskColor = () => {
-    if (risk === 'High') return 'text-red-500 bg-red-500/10 border-red-500/20';
-    if (risk === 'Medium') return 'text-amber-500 bg-amber-500/10 border-amber-500/20';
-    return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
-  };
+  const riskColor = getRiskColor(risk);
 
   return (
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="sm:max-w-[600px] bg-background border-border shadow-2xl">
         <DialogHeader>
           <div className="flex items-center gap-3 mb-2">
-            <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${getRiskColor()}`}>
+            <div className={`px-2 py-1 rounded text-[10px] font-bold uppercase tracking-wider border ${riskColor}`}>
               {risk} Risk Level
             </div>
             <div className="text-xs text-muted-foreground flex items-center gap-1">

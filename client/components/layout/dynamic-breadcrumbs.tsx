@@ -11,6 +11,7 @@ import {
   BreadcrumbPage,
   BreadcrumbSeparator,
 } from "@client/components/ui/breadcrumb";
+import { cn } from "@client/lib/utils";
 
 export function DynamicBreadcrumbs() {
   const pathname = usePathname();
@@ -30,7 +31,8 @@ export function DynamicBreadcrumbs() {
     const actualIndex = actualSegments.indexOf(segment);
     const href = `/${actualSegments.slice(0, actualIndex + 1).join('/')}`;
     const title = labelMap[segment] || decodeURIComponent(segment);
-    return { title, href };
+    const isRepo = actualSegments[actualIndex - 1] === 'repos';
+    return { title, href, isRepo };
   });
 
   if (breadcrumbs.length === 0) return null;
@@ -45,12 +47,21 @@ export function DynamicBreadcrumbs() {
             <Fragment key={item.href}>
               <BreadcrumbItem>
                 {isLast ? (
-                  <BreadcrumbPage className="capitalize font-semibold text-primary">
+                  <BreadcrumbPage className={cn(
+                    "font-semibold text-primary",
+                    item.isRepo ? "lowercase" : "capitalize"
+                  )}>
                     {item.title}
                   </BreadcrumbPage>
                 ) : (
                   <BreadcrumbLink asChild>
-                    <Link href={item.href} className="capitalize hover:text-foreground transition-colors">
+                    <Link 
+                      href={item.href} 
+                      className={cn(
+                        "hover:text-foreground transition-colors",
+                        item.isRepo ? "lowercase" : "capitalize"
+                      )}
+                    >
                       {item.title}
                     </Link>
                   </BreadcrumbLink>

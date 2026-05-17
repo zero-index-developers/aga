@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Github } from "lucide-react";
 import { toast } from "sonner";
+import { useSettings } from "@client/hooks/use-settings";
 
 import {
   Dialog,
@@ -44,6 +45,7 @@ const formSchema = z.object({
 export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) => void }) {
   const [open, setOpen] = useState(false);
   const [isConnecting, setIsConnecting] = useState(false);
+  const { settings } = useSettings();
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -53,6 +55,11 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
       token: "",
     },
   });
+
+  const selectedProvider = form.watch("provider");
+  const isProviderConnected = selectedProvider === "github" 
+    ? (settings?.providers?.github ?? true) 
+    : (settings?.providers?.gitlab ?? false);
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setIsConnecting(true);
@@ -135,26 +142,35 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
               )}
             />
 
-            <FormField
-              control={form.control}
-              name="token"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Personal Access Token</FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      placeholder="Optional for public repositories"
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormDescription>
-                    Required for private repositories. Stored locally.
-                  </FormDescription>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
+            {isProviderConnected ? (
+              <div className="bg-secondary/50 p-3 rounded-lg border border-border/50">
+                <div className="text-sm text-muted-foreground flex items-center gap-2">
+                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  Using your connected {selectedProvider === 'github' ? 'GitHub' : 'GitLab'} account.
+                </div>
+              </div>
+            ) : (
+              <FormField
+                control={form.control}
+                name="token"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Personal Access Token</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        placeholder="Optional for public repositories"
+                        {...field}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      Required for private repositories. Stored locally.
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
             <DialogFooter className="pt-4">
               <Button type="submit" disabled={isConnecting}>

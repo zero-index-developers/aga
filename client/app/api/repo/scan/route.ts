@@ -1,40 +1,42 @@
-import path from "path";
-
-import { backendFetch, jsonResponse } from "@client/lib/backend";
-import { scanProject } from "@api/engine/scanner";
+import { NextResponse } from 'next/server';
+import { readDB, writeDB } from '@client/lib/db';
+import path from 'path';
+import { scanProject } from '@api/engine/scanner';
 
 export async function POST(request: Request) {
   try {
-    const { name, url, provider } = await request.json();
-    const startedAt = Date.now();
-    const rootPath = path.join(process.cwd(), "..");
+    const { name } = await request.json();
+    const rootPath = path.join(process.cwd(), '..'); // For now, we scan our own project
+
     const graph = await scanProject(rootPath);
-    const durationMs = Date.now() - startedAt;
-    const analytics = {
-      nodes: graph.nodes.filter((node) => node.type === "custom").length,
-      edges: graph.edges.length,
-      health: 98,
-      lastScanned: new Date().toISOString(),
+
+    const db = readDB();
+    const repoIndex = db.repositories.findIndex((r: any) => r.name === name);
+
+    const newRepo = {
+      name,
+      url: 'local://aga',
+      analytics: {
+        nodes: graph.nodes.filter(n => n.type === 'custom').length,
+        edges: graph.edges.length,
+        health: 98,
+        lastScanned: new Date().toISOString(),
+      },
+      graph,
     };
 
-    const response = await backendFetch("/api/repositories/scan", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        name,
-        url: url || "local://aga",
-        provider: provider || "local",
-        graph,
-        analytics,
-        duration: `${(durationMs / 1000).toFixed(1)}s`,
-        status: "Success",
-      }),
-    });
+    if (repoIndex >= 0) {
+      db.repositories[repoIndex] = newRepo;
+    } else {
+      db.repositories.push(newRepo);
+    }
 
-    return jsonResponse(response);
+    db.activeRepo = name;
+    writeDB(db);
+
+    return NextResponse.json({ success: true, graph });
   } catch (error) {
-    return Response.json({ error: "Scan failed" }, { status: 500 });
+    console.error('Scan failed:', error);
+    return NextResponse.json({ error: 'Scan failed' }, { status: 500 });
   }
 }

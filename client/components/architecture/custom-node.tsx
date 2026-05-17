@@ -10,15 +10,7 @@ const _dependencies = [
   'bg-emerald-500/5', 'border-emerald-500/20',
 ];
 
-interface CustomNodeData {
-  label: string;
-  type: string;
-  path?: string;
-  showPath?: boolean;
-  color: string;
-  isSelected?: boolean;
-  isRelated?: boolean;
-}
+import { CustomNodeData } from '@client/lib/types';
 
 export default function CustomNode({ data }: { data: CustomNodeData }) {
   const getColorClasses = () => {

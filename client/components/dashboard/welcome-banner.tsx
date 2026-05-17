@@ -1,7 +1,7 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@client/components/ui/card";
 import { Button } from "@client/components/ui/button";
 import { FolderGit2, Clock, Github } from "lucide-react";
-import { ConnectRepoDialog } from "@client/components/connect-repo-dialog";
+import { ConnectRepoDialog } from "@client/components/dashboard/connect-repo-dialog";
 
 interface WelcomeBannerProps {
   connectedRepo: string | null;

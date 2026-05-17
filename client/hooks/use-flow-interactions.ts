@@ -74,29 +74,10 @@ export function useFlowInteractions({
     });
   }, [selectedNode, setNodes, setEdges, getEdges]);
 
-  // Auto-focus logic
+  // Show dependencies panel when a node is selected
   useEffect(() => {
     if (selectedNode) {
-      const currentNodes = getNodes();
-      const node = currentNodes.find((n) => n.id === selectedNode);
-      if (node) {
-        const isNested = !!node.parentNode;
-        let targetX = node.position.x;
-        let targetY = node.position.y;
-
-        if (isNested) {
-          const parent = currentNodes.find((n) => n.id === node.parentNode);
-          if (parent) {
-            targetX += parent.position.x;
-            targetY += parent.position.y;
-          }
-        }
-
-        // Center on the node itself (adding half width/height for true centering)
-        // and offset slightly to the left to account for the side panel
-        setCenter(targetX + 100, targetY + 50, { zoom: 1.2, duration: 800 });
-        onShowDependencies(true);
-      }
+      onShowDependencies(true);
     }
-  }, [selectedNode, setCenter, onShowDependencies, getNodes]);
+  }, [selectedNode, onShowDependencies]);
 }

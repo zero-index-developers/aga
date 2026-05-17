@@ -25,8 +25,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@client/com
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
-import { NavUser } from "@client/components/nav-user"
-import { LogoIcon, LogoFull } from "@client/components/logo"
+import { NavUser } from "@client/components/layout/nav-user"
+import { LogoIcon, LogoFull } from "@client/components/layout/logo"
 
 export function AppSidebar() {
   const { state } = useSidebar();
@@ -42,23 +42,12 @@ export function AppSidebar() {
     avatar: "https://github.com/shadcn.png",
   };
 
-  const navItems = [
+  const applicationNavItems = [
     {
       title: "Overview",
       url: "/",
       icon: Home,
       isActive: pathname === "/" && !activeRepoParam,
-    },
-    {
-      title: "Repositories",
-      url: "/repos",
-      icon: FolderGit2,
-      isActive: pathname === "/repos",
-      subItems: repos.map((repo) => ({
-        title: repo.name,
-        url: `/?repo=${encodeURIComponent(repo.name)}`,
-        isActive: activeRepoParam === repo.name,
-      })),
     },
     {
       title: "Logs",
@@ -72,6 +61,20 @@ export function AppSidebar() {
       icon: Sliders,
       isActive: pathname === "/configs",
     },
+  ];
+
+  const repositoryNavItems = [
+    {
+      title: "Library",
+      url: "/repos",
+      icon: FolderGit2,
+      isActive: pathname === "/repos",
+      subItems: repos.map((repo) => ({
+        title: repo.name,
+        url: `/?repo=${encodeURIComponent(repo.name)}`,
+        isActive: activeRepoParam === repo.name,
+      })),
+    }
   ];
 
   useEffect(() => {
@@ -98,49 +101,56 @@ export function AppSidebar() {
           <SidebarGroupLabel>Application</SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
-              {navItems.map((item) => (
-                item.subItems ? (
-                  <Collapsible key={item.title} defaultOpen className="group/collapsible">
-                    <SidebarMenuItem className="relative">
-                      <SidebarMenuButton asChild isActive={item.isActive} className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
-                        <Link href={item.url}>
-                          <item.icon />
-                          <span>{item.title}</span>
-                        </Link>
-                      </SidebarMenuButton>
-                      <CollapsibleTrigger asChild>
-                        <SidebarMenuAction
-                          className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2 group-data-[collapsible=icon]:hidden"
-                          showOnHover={false}
-                        >
-                          <ChevronRight className="w-4 h-4" />
-                        </SidebarMenuAction>
-                      </CollapsibleTrigger>
-                      <CollapsibleContent>
-                        <SidebarMenuSub>
-                          {item.subItems.map((subItem) => (
-                            <SidebarMenuSubItem key={subItem.title}>
-                              <SidebarMenuSubButton asChild isActive={subItem.isActive}>
-                                <Link href={subItem.url}>
-                                  <span className="truncate">{subItem.title}</span>
-                                </Link>
-                              </SidebarMenuSubButton>
-                            </SidebarMenuSubItem>
-                          ))}
-                        </SidebarMenuSub>
-                      </CollapsibleContent>
-                    </SidebarMenuItem>
-                  </Collapsible>
-                ) : (
-                  <SidebarMenuItem key={item.title}>
-                    <SidebarMenuButton asChild isActive={item.isActive}>
+              {applicationNavItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild isActive={item.isActive}>
+                    <Link href={item.url}>
+                      <item.icon />
+                      <span>{item.title}</span>
+                    </Link>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        <SidebarGroup>
+          <SidebarGroupLabel>Repositories</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {repositoryNavItems.map((item) => (
+                <Collapsible key={item.title} defaultOpen className="group/collapsible">
+                  <SidebarMenuItem className="relative">
+                    <SidebarMenuButton asChild isActive={item.isActive} className="peer pr-8 hover:bg-sidebar-accent/50 transition-colors">
                       <Link href={item.url}>
                         <item.icon />
                         <span>{item.title}</span>
                       </Link>
                     </SidebarMenuButton>
+                    <CollapsibleTrigger asChild>
+                      <SidebarMenuAction
+                        className="transition-all duration-200 hover:bg-primary/10 hover:text-primary data-[state=open]:rotate-90 right-2 group-data-[collapsible=icon]:hidden"
+                        showOnHover={false}
+                      >
+                        <ChevronRight className="w-4 h-4" />
+                      </SidebarMenuAction>
+                    </CollapsibleTrigger>
+                    <CollapsibleContent>
+                      <SidebarMenuSub>
+                        {item.subItems.map((subItem) => (
+                          <SidebarMenuSubItem key={subItem.title}>
+                            <SidebarMenuSubButton asChild isActive={subItem.isActive}>
+                              <Link href={subItem.url}>
+                                <span className="truncate">{subItem.title}</span>
+                              </Link>
+                            </SidebarMenuSubButton>
+                          </SidebarMenuSubItem>
+                        ))}
+                      </SidebarMenuSub>
+                    </CollapsibleContent>
                   </SidebarMenuItem>
-                )
+                </Collapsible>
               ))}
             </SidebarMenu>
           </SidebarGroupContent>

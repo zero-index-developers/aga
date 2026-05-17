@@ -7,7 +7,10 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: 'AGA - Architecture Governance Agent',
+  title: {
+    template: '%s | AGA',
+    default: 'AGA - Architecture Governance Agent',
+  },
   description: 'Google Maps for Software Architecture. Visualize, analyze, and understand your codebase dependencies with AI-powered insights.',
   generator: 'v0.app',
   icons: {

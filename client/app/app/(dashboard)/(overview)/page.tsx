@@ -2,19 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ArchitectureVisualization from '@client/components/architecture-visualization';
-import SearchPanel from '@client/components/search-panel';
-import DependencyPanel from '@client/components/dependency-panel';
-import Header from '@client/components/header';
+import ArchitectureVisualization from '@client/components/architecture/architecture-visualization';
+import SearchPanel from '@client/components/architecture/search-panel';
+import DependencyPanel from '@client/components/architecture/dependency-panel';
+import Header from '@client/components/layout/header';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, Activity, Network as NetworkIcon, Box, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { useRepos } from '@client/hooks/use-repos';
 import { useGlobalStats } from '@client/hooks/use-global-stats';
-import { WelcomeBanner } from '@client/components/welcome-banner';
-import { StatsCard } from '@client/components/stats-card';
-import { RepositoryCard } from '@client/components/repository-card';
+import { WelcomeBanner } from '@client/components/dashboard/welcome-banner';
+import { StatsCard } from '@client/components/dashboard/stats-card';
+import { RepositoryCard } from '@client/components/dashboard/repository-card';
 import { useSidebar } from '@client/components/ui/sidebar';
 import { slugify } from '@client/lib/utils';
 
@@ -74,7 +74,7 @@ function HomeContent() {
         <div className="max-w-5xl mx-auto w-full space-y-8">
           <WelcomeBanner
             connectedRepo={connectedRepo}
-            onOpenRecent={() => router.push(`/repos/${encodeURIComponent(connectedRepo!)}`)}
+            onOpenRecent={() => router.push(`/repos/${slugify(connectedRepo!)}`)}
             onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
             onConnectSuccess={refreshRepos}
           />
@@ -94,7 +94,23 @@ function HomeContent() {
 
           <section className="space-y-4 pb-12">
             <div className="flex items-center justify-between">
-              <h3 className="text-lg font-semibold">Recent Architecture Scans</h3>
+              <h3 className="text-lg font-semibold flex items-center gap-2">
+                Recent Architecture Scans
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  className="h-8 gap-2 ml-2 text-muted-foreground hover:text-foreground"
+                  onClick={async () => {
+                    setIsRefreshing(true);
+                    await refreshRepos();
+                    setIsRefreshing(false);
+                    toast.success('Recent scans updated!');
+                  }}
+                  disabled={isRefreshing}
+                >
+                  <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
+                </Button>
+              </h3>
               <Button variant="link" onClick={() => router.push('/repos')} className="text-primary text-xs p-0 h-auto">
                 View All Repositories
               </Button>

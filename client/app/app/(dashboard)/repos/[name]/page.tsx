@@ -2,11 +2,11 @@
 
 import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
-import ArchitectureVisualization from '@client/components/architecture-visualization';
-import SearchPanel from '@client/components/search-panel';
-import DependencyPanel from '@client/components/dependency-panel';
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import ArchitectureVisualization from '@client/components/architecture/architecture-visualization';
+import SearchPanel from '@client/components/architecture/search-panel';
+import DependencyPanel from '@client/components/architecture/dependency-panel';
+import Header from '@client/components/layout/header';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, X, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
@@ -18,7 +18,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const router = useRouter();
   const resolvedParams = use(params);
   const repoSlug = decodeURIComponent(resolvedParams.name);
-  
+
   const { repos, isLoading: isReposLoading } = useRepos();
   const [selectedNode, setSelectedNode] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -33,6 +33,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
   const {
     nodes, setNodes, onNodesChange,
     edges, setEdges, onEdgesChange,
+    initialNodes,
     isLoading: isGraphLoading,
     refreshGraph
   } = useArchitectureData(repoName);
@@ -85,7 +86,6 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             disabled={isRefreshing}
           >
             <RefreshCw className={`w-3.5 h-3.5 ${isRefreshing ? 'animate-spin' : ''}`} />
-            <span className="hidden sm:inline">Refresh Scan</span>
           </Button>
           <Button
             variant="ghost"
@@ -122,7 +122,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
                     Oracle Analysis
                   </span>
                 </div>
-                <button 
+                <button
                   onClick={() => setOracleResponse(null)}
                   className="p-1 hover:bg-muted rounded-full transition-colors"
                 >
@@ -144,12 +144,13 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
               </div>
             </div>
           )}
-          
+
           <ArchitectureVisualization
             repoName={repoName}
             selectedNode={selectedNode}
             onNodeSelect={setSelectedNode}
             onShowDependencies={setShowDependencies}
+            initialNodes={initialNodes}
             nodes={nodes}
             setNodes={setNodes}
             onNodesChange={onNodesChange}
@@ -157,6 +158,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             setEdges={setEdges}
             onEdgesChange={onEdgesChange}
             isLoading={isGraphLoading}
+
           />
         </main>
         {showDependencies && selectedNode && (

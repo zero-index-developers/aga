@@ -1,15 +1,11 @@
-import { backendFetch, jsonResponse } from "@client/lib/backend";
+import { NextResponse } from 'next/server';
+import { readDB } from '@client/lib/db';
 
 export async function GET() {
-  const response = await backendFetch("/api/scan-logs");
-
-  return jsonResponse(response);
-}
-
-export async function DELETE() {
-  const response = await backendFetch("/api/scan-logs", {
-    method: "DELETE",
-  });
-
-  return jsonResponse(response);
+  try {
+    const db = readDB();
+    return NextResponse.json(db.scanLogs || []);
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to fetch logs' }, { status: 500 });
+  }
 }
