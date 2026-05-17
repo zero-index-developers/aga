@@ -1,7 +1,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Search, Send, Bot, Zap, Shield, Cpu } from 'lucide-react';
+import { Search, Send, Bot, Zap, Shield, Cpu, AlignLeft, AlignJustify } from 'lucide-react';
 import { Input } from '@client/components/ui/input';
 import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
@@ -137,7 +137,7 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
               >
                 <SelectTrigger className="h-6 w-6 p-0 border-border/50 bg-secondary/50 text-muted-foreground rounded-md focus:ring-0 focus:ring-offset-0 [&>svg]:hidden flex items-center justify-center transition-colors hover:bg-secondary/80 rounded-none">
                   <span className="flex items-center justify-center">
-                    <Bot className="w-3 h-3" />
+                    {settings.ai.insightDepth === 'concise' ? <AlignLeft className="w-3 h-3" /> : <AlignJustify className="w-3 h-3" />}
                   </span>
                 </SelectTrigger>
                 <SelectContent>
