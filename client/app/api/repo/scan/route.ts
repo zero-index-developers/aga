@@ -1,9 +1,7 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
+import { readDB, writeDB } from '@client/lib/db';
 import path from 'path';
 import { scanProject } from '@api/engine/scanner';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
 
 export async function POST(request: Request) {
   try {
@@ -12,11 +10,7 @@ export async function POST(request: Request) {
 
     const graph = await scanProject(rootPath);
 
-    if (!fs.existsSync(DB_PATH)) {
-      fs.writeFileSync(DB_PATH, JSON.stringify({ activeRepo: name, repositories: [] }, null, 2));
-    }
-
-    const db = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+    const db = readDB();
     const repoIndex = db.repositories.findIndex((r: any) => r.name === name);
 
     const newRepo = {
@@ -38,7 +32,7 @@ export async function POST(request: Request) {
     }
 
     db.activeRepo = name;
-    fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+    writeDB(db);
 
     return NextResponse.json({ success: true, graph });
   } catch (error) {

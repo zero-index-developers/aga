@@ -2,11 +2,11 @@
 
 import { useState, use } from 'react';
 import { useRouter } from 'next/navigation';
-import ArchitectureVisualization from '@client/components/architecture-visualization';
-import SearchPanel from '@client/components/search-panel';
-import DependencyPanel from '@client/components/dependency-panel';
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import ArchitectureVisualization from '@client/components/architecture/architecture-visualization';
+import SearchPanel from '@client/components/architecture/search-panel';
+import DependencyPanel from '@client/components/architecture/dependency-panel';
+import Header from '@client/components/layout/header';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, X, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';

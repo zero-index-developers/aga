@@ -34,7 +34,7 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
       setIsShuffling(true);
       const timer = setTimeout(() => {
         const shuffled = [...components].sort(() => 0.5 - Math.random());
-        const selected = shuffled.slice(0, 4);
+        const selected = shuffled.slice(0, 3);
         const prompts = selected.map((n, i) => {
           if (i === 0) return `What is the purpose of ${n.data.label}?`;
           if (i === 1) return `Tell me about ${n.data.path}`;
@@ -175,7 +175,6 @@ export function AIOraclePanel({ nodes, isLoading, onSearch, onResponse }: AIOrac
             <>
               <Skeleton className="h-5 w-20 rounded-full" />
               <Skeleton className="h-5 w-24 rounded-full" />
-              <Skeleton className="h-5 w-16 rounded-full" />
               <Skeleton className="h-5 w-28 rounded-full" />
             </>
           ) : (

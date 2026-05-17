@@ -2,19 +2,19 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
-import ArchitectureVisualization from '@client/components/architecture-visualization';
-import SearchPanel from '@client/components/search-panel';
-import DependencyPanel from '@client/components/dependency-panel';
-import Header from '@client/components/header';
+import ArchitectureVisualization from '@client/components/architecture/architecture-visualization';
+import SearchPanel from '@client/components/architecture/search-panel';
+import DependencyPanel from '@client/components/architecture/dependency-panel';
+import Header from '@client/components/layout/header';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, Activity, Network as NetworkIcon, Box, X } from 'lucide-react';
 import { toast } from 'sonner';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { useRepos } from '@client/hooks/use-repos';
 import { useGlobalStats } from '@client/hooks/use-global-stats';
-import { WelcomeBanner } from '@client/components/welcome-banner';
-import { StatsCard } from '@client/components/stats-card';
-import { RepositoryCard } from '@client/components/repository-card';
+import { WelcomeBanner } from '@client/components/dashboard/welcome-banner';
+import { StatsCard } from '@client/components/dashboard/stats-card';
+import { RepositoryCard } from '@client/components/dashboard/repository-card';
 import { useSidebar } from '@client/components/ui/sidebar';
 import { slugify } from '@client/lib/utils';
 

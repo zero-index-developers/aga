@@ -1,13 +1,13 @@
 "use client";
 
 import { useRouter } from 'next/navigation';
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
-import { RepositoryCard } from '@client/components/repository-card';
+import Header from '@client/components/layout/header';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
+import { RepositoryCard } from '@client/components/dashboard/repository-card';
 import { useRepos } from '@client/hooks/use-repos';
 import { Activity, Plus } from 'lucide-react';
 import { slugify } from '@client/lib/utils';
-import { ConnectRepoDialog } from '@client/components/connect-repo-dialog';
+import { ConnectRepoDialog } from '@client/components/dashboard/connect-repo-dialog';
 
 export default function RepositoriesPage() {
   const router = useRouter();

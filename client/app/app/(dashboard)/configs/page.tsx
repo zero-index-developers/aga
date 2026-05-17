@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from 'react';
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import Header from '@client/components/layout/header';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { useSettings } from '@client/hooks/use-settings';
 import {
   Sliders,

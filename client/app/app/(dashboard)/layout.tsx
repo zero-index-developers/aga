@@ -1,5 +1,5 @@
 import { SidebarProvider } from "@client/components/ui/sidebar"
-import { AppSidebar } from "@client/components/app-sidebar"
+import { AppSidebar } from "@client/components/layout/app-sidebar"
 import { Suspense } from "react"
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {

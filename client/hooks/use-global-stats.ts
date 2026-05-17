@@ -2,17 +2,9 @@
 
 import { useMemo } from 'react';
 
-interface Repo {
-  name: string;
-  url: string;
-  analytics?: {
-    nodes?: number;
-    edges?: number;
-    health?: number;
-  };
-}
+import { Repository } from '@client/lib/types';
 
-export function useGlobalStats(repos: Repo[]) {
+export function useGlobalStats(repos: Repository[]) {
   const stats = useMemo(() => {
     return {
       totalRepos: repos.length,

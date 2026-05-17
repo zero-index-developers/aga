@@ -1,13 +1,9 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
+import { readDB } from '@client/lib/db';
 
 export async function GET() {
   try {
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    const db = JSON.parse(data);
+    const db = readDB();
     return NextResponse.json(db.repositories);
   } catch (error) {
     return NextResponse.json({ error: 'Failed to read database' }, { status: 500 });

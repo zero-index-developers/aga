@@ -1,19 +1,12 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
+import { readDB } from '@client/lib/db';
 
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);
     const repoName = searchParams.get('name');
 
-    if (!fs.existsSync(DB_PATH)) {
-      return NextResponse.json({ error: 'Database not found' }, { status: 404 });
-    }
-
-    const db = JSON.parse(fs.readFileSync(DB_PATH, 'utf8'));
+    const db = readDB();
     
     // If specific repo requested, find it
     if (repoName) {

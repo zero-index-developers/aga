@@ -1,7 +1,7 @@
 "use client";
 
-import Header from '@client/components/header';
-import { DynamicBreadcrumbs } from '@client/components/dynamic-breadcrumbs';
+import Header from '@client/components/layout/header';
+import { DynamicBreadcrumbs } from '@client/components/layout/dynamic-breadcrumbs';
 import { 
   User, 
   Mail, 

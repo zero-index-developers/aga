@@ -1,12 +1,8 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
+import { readDB } from '@client/lib/db';
 
 function getDb() {
-  const data = fs.readFileSync(DB_PATH, 'utf-8');
-  return JSON.parse(data);
+  return readDB();
 }
 
 export async function GET() {

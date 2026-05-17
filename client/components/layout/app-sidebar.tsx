@@ -25,8 +25,8 @@ import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@client/com
 import { ChevronRight } from "lucide-react"
 import { useState, useEffect } from "react"
 import { usePathname, useSearchParams } from "next/navigation"
-import { NavUser } from "@client/components/nav-user"
-import { LogoIcon, LogoFull } from "@client/components/logo"
+import { NavUser } from "@client/components/layout/nav-user"
+import { LogoIcon, LogoFull } from "@client/components/layout/logo"
 
 export function AppSidebar() {
   const { state } = useSidebar();

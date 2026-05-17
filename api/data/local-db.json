@@ -12,7 +12,7 @@
     },
     "ai": {
       "insightDepth": "concise",
-      "focus": "architecture"
+      "focus": "security"
     }
   },
   "scanLogs": [

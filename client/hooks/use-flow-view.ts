@@ -11,9 +11,27 @@ export function useFlowView(
   const prevExplodedRef = useRef(false);
   const { fitView } = useReactFlow();
 
+  // Track the last processed state to prevent infinite loops when adding initialNodes to dependencies
+  const lastStateRef = useRef({
+    nodes: null as Node[] | null,
+    showFolders,
+    showPaths,
+    isExploded,
+  });
+
   useEffect(() => {
-    setNodes((nds) =>
-      nds.map((n) => {
+    // If the nodes and all toggles are exactly the same as what we last processed, do nothing.
+    if (
+      initialNodes === lastStateRef.current.nodes &&
+      showFolders === lastStateRef.current.showFolders &&
+      showPaths === lastStateRef.current.showPaths &&
+      isExploded === lastStateRef.current.isExploded
+    ) {
+      return;
+    }
+
+    setNodes((nds) => {
+      const nextNodes = nds.map((n) => {
         const origX = n.data.origX ?? n.position.x;
         const origY = n.data.origY ?? n.position.y;
 
@@ -51,14 +69,24 @@ export function useFlowView(
             showPath: showPaths,
           }
         };
-      })
-    );
+      });
+
+      // Update the reference of last processed state
+      lastStateRef.current = {
+        nodes: nextNodes,
+        showFolders,
+        showPaths,
+        isExploded,
+      };
+
+      return nextNodes;
+    });
 
     if (prevExplodedRef.current !== isExploded) {
       setTimeout(() => fitView({ duration: 800 }), 100);
       prevExplodedRef.current = isExploded;
     }
-  }, [showFolders, showPaths, isExploded, setNodes, fitView]);
+  }, [initialNodes, showFolders, showPaths, isExploded, setNodes, fitView]);
 
   return {
     showFolders,

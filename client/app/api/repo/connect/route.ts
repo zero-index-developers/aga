@@ -1,15 +1,11 @@
 import { NextResponse } from 'next/server';
-import fs from 'fs';
-import path from 'path';
-
-const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
+import { readDB, writeDB } from '@client/lib/db';
 
 export async function POST(req: Request) {
   try {
     const { url, repoName } = await req.json();
     
-    const data = fs.readFileSync(DB_PATH, 'utf-8');
-    const db = JSON.parse(data);
+    const db = readDB();
 
     const name = repoName || url.split('/').pop() || 'unknown-repo';
     
@@ -32,7 +28,7 @@ export async function POST(req: Request) {
     
     db.activeRepo = name;
 
-    fs.writeFileSync(DB_PATH, JSON.stringify(db, null, 2));
+    writeDB(db);
     
     return NextResponse.json({ 
       success: true, 

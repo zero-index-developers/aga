@@ -1,15 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
-export interface Settings {
-  scanner: {
-    exclusions: string[];
-  };
-  ai: {
-    insightDepth: 'concise' | 'detailed';
-    focus: 'architecture' | 'security' | 'performance';
-  };
-}
+import { Settings } from '@client/lib/types';
 
 export function useSettings() {
   const [settings, setSettings] = useState<Settings | null>(null);

@@ -1,7 +1,7 @@
 'use client';
 
-import { AIOraclePanel } from './architecture/ai-oracle-panel';
-import { ExplorerPanel } from './architecture/explorer-panel';
+import { AIOraclePanel } from './ai-oracle-panel';
+import { ExplorerPanel } from './explorer-panel';
 
 interface SearchPanelProps {
   onSearch: (query: string) => void;

@@ -1,16 +1,7 @@
 import { useState, useEffect, useCallback } from 'react';
 import { toast } from 'sonner';
 
-export interface Repository {
-  name: string;
-  url: string;
-  analytics?: {
-    nodes: number;
-    edges: number;
-    health: number;
-    lastScanned: string | null;
-  };
-}
+import { Repository } from '@client/lib/types';
 
 export function useRepos() {
   const [repos, setRepos] = useState<Repository[]>([]);
