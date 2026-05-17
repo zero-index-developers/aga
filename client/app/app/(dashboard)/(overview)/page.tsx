@@ -74,7 +74,7 @@ function HomeContent() {
         <div className="max-w-5xl mx-auto w-full space-y-8">
           <WelcomeBanner
             connectedRepo={connectedRepo}
-            onOpenRecent={() => router.push(`/repos/${encodeURIComponent(connectedRepo!)}`)}
+            onOpenRecent={() => router.push(`/repos/${slugify(connectedRepo!)}`)}
             onOpenSample={() => handleOpenRepo('aga (Self-Scan)', 'local://aga')}
             onConnectSuccess={refreshRepos}
           />
