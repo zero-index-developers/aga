@@ -9,6 +9,9 @@ const nextConfig = {
   transpilePackages: ["../api"],
   output: 'standalone',
   
+  // Allow cross-origin access from localhost/127.0.0.1 in development
+  allowedDevOrigins: ['localhost', '127.0.0.1'],
+  
   // Security Headers
   async headers() {
     return [
