@@ -6,12 +6,18 @@
         "node_modules",
         ".git",
         "dist",
-        "public"
+        "public",
+        ".vscode",
+        ".idea",
+        "build",
+        "out",
+        "coverage",
+        ".next"
       ]
     },
     "ai": {
       "insightDepth": "concise",
-      "focus": "architecture"
+      "focus": "security"
     },
     "providers": {
       "github": false,
@@ -50,10 +56,10 @@
       "name": "aga (Self-Scan)",
       "url": "local://aga",
       "analytics": {
-        "nodes": 53,
-        "edges": 30,
-        "health": 98,
-        "lastScanned": "2026-05-16T16:10:39.829Z"
+        "nodes": 146,
+        "edges": 281,
+        "health": 38,
+        "lastScanned": "2026-05-17T09:25:18.707Z"
       },
       "graph": {
         "nodes": [
@@ -64,19 +70,19 @@
               "type": "folder",
               "path": "client/app/",
               "origWidth": 920,
-              "origHeight": 560,
+              "origHeight": 1060,
               "origY": 50
             },
             "position": {
               "x": 50,
               "y": 50
             },
+            "type": "group",
+            "className": "bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]",
             "style": {
               "width": 920,
-              "height": 560
-            },
-            "className": "bg-purple-500/5 border-purple-500/20 rounded-xl z-[-1]",
-            "type": "group"
+              "height": 1060
+            }
           },
           {
             "id": "group-components",
@@ -85,19 +91,19 @@
               "type": "folder",
               "path": "client/components/",
               "origWidth": 920,
-              "origHeight": 560,
-              "origY": 660
+              "origHeight": 660,
+              "origY": 1160
             },
             "position": {
               "x": 50,
-              "y": 660
+              "y": 1160
             },
+            "type": "group",
+            "className": "bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]",
             "style": {
               "width": 920,
-              "height": 560
-            },
-            "className": "bg-blue-500/5 border-blue-500/20 rounded-xl z-[-1]",
-            "type": "group"
+              "height": 660
+            }
           },
           {
             "id": "group-ui",
@@ -105,41 +111,20 @@
               "label": "/client/components/ui",
               "type": "folder",
               "path": "client/components/ui/",
-              "origWidth": 260,
-              "origHeight": 160,
-              "origY": 1270
-            },
-            "position": {
-              "x": 50,
-              "y": 1270
-            },
-            "style": {
-              "width": 260,
-              "height": 160
-            },
-            "className": "bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]",
-            "type": "group"
-          },
-          {
-            "id": "group-engine",
-            "data": {
-              "label": "/api/engine",
-              "type": "folder",
-              "path": "api/engine/",
               "origWidth": 920,
-              "origHeight": 260,
-              "origY": 1480
+              "origHeight": 1460,
+              "origY": 1870
             },
             "position": {
               "x": 50,
-              "y": 1480
+              "y": 1870
             },
+            "type": "group",
+            "className": "bg-slate-500/5 border-slate-500/20 rounded-xl z-[-1]",
             "style": {
               "width": 920,
-              "height": 260
-            },
-            "className": "bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]",
-            "type": "group"
+              "height": 1460
+            }
           },
           {
             "id": "group-hooks",
@@ -149,18 +134,156 @@
               "path": "client/hooks/",
               "origWidth": 920,
               "origHeight": 360,
-              "origY": 1790
+              "origY": 3380
             },
             "position": {
               "x": 50,
-              "y": 1790
+              "y": 3380
             },
+            "type": "group",
+            "className": "bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]",
             "style": {
               "width": 920,
               "height": 360
+            }
+          },
+          {
+            "id": "group-contexts",
+            "data": {
+              "label": "/client/contexts",
+              "type": "folder",
+              "path": "client/contexts/",
+              "origWidth": 260,
+              "origHeight": 160,
+              "origY": 3790
             },
-            "className": "bg-emerald-500/5 border-emerald-500/20 rounded-xl z-[-1]",
-            "type": "group"
+            "position": {
+              "x": 50,
+              "y": 3790
+            },
+            "type": "group",
+            "className": "bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]",
+            "style": {
+              "width": 260,
+              "height": 160
+            }
+          },
+          {
+            "id": "group-lib",
+            "data": {
+              "label": "/client/lib",
+              "type": "folder",
+              "path": "client/lib/",
+              "origWidth": 920,
+              "origHeight": 260,
+              "origY": 4000
+            },
+            "position": {
+              "x": 50,
+              "y": 4000
+            },
+            "type": "group",
+            "className": "bg-indigo-500/5 border-indigo-500/20 rounded-xl z-[-1]",
+            "style": {
+              "width": 920,
+              "height": 260
+            }
+          },
+          {
+            "id": "group-engine",
+            "data": {
+              "label": "/api/engine",
+              "type": "folder",
+              "path": "api/engine/",
+              "origWidth": 920,
+              "origHeight": 360,
+              "origY": 4310
+            },
+            "position": {
+              "x": 50,
+              "y": 4310
+            },
+            "type": "group",
+            "className": "bg-amber-500/5 border-amber-500/20 rounded-xl z-[-1]",
+            "style": {
+              "width": 920,
+              "height": 360
+            }
+          },
+          {
+            "id": "api-engine-scanner-file-classifier",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "file-classifier",
+              "type": "engine",
+              "path": "api/engine/scanner/file-classifier.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner-file-walker",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "file-walker",
+              "type": "engine",
+              "path": "api/engine/scanner/file-walker.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner-graph-builder",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "graph-builder",
+              "type": "engine",
+              "path": "api/engine/scanner/graph-builder.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner-health-analyzer",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "health-analyzer",
+              "type": "engine",
+              "path": "api/engine/scanner/health-analyzer.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "api-engine-scanner-import-resolver",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "import-resolver",
+              "type": "engine",
+              "path": "api/engine/scanner/import-resolver.ts",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 140
+            },
+            "type": "custom"
           },
           {
             "id": "api-engine-scanner-layout-engine",
@@ -172,8 +295,8 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 20,
-              "y": 40
+              "x": 240,
+              "y": 140
             },
             "type": "custom"
           },
@@ -187,8 +310,8 @@
               "color": "bg-amber-600"
             },
             "position": {
-              "x": 240,
-              "y": 40
+              "x": 460,
+              "y": 140
             },
             "type": "custom"
           },
@@ -202,8 +325,113 @@
               "color": "bg-amber-600"
             },
             "position": {
+              "x": 680,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-auth-callback-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/(auth)/auth-callback/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-forgot-password-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/(auth)/forgot-password/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/(auth)/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
               "x": 460,
               "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-login-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/(auth)/login/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-register-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/(auth)/register/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-(auth)-reset-password-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/(auth)/reset-password/page.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-api-repo-ai-history-route",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "route",
+              "type": "api",
+              "path": "client/app/api/repo/ai-history/route.ts",
+              "color": "bg-emerald-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 140
             },
             "type": "custom"
           },
@@ -217,8 +445,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 20,
-              "y": 40
+              "x": 680,
+              "y": 140
             },
             "type": "custom"
           },
@@ -232,8 +460,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 240,
-              "y": 40
+              "x": 20,
+              "y": 240
             },
             "type": "custom"
           },
@@ -247,8 +475,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 460,
-              "y": 40
+              "x": 240,
+              "y": 240
             },
             "type": "custom"
           },
@@ -262,8 +490,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 680,
-              "y": 40
+              "x": 460,
+              "y": 240
             },
             "type": "custom"
           },
@@ -277,8 +505,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 20,
-              "y": 140
+              "x": 680,
+              "y": 240
             },
             "type": "custom"
           },
@@ -292,8 +520,8 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 240,
-              "y": 140
+              "x": 20,
+              "y": 340
             },
             "type": "custom"
           },
@@ -307,53 +535,68 @@
               "color": "bg-emerald-600"
             },
             "position": {
-              "x": 460,
-              "y": 140
+              "x": 240,
+              "y": 340
             },
             "type": "custom"
           },
           {
-            "id": "client-app-app-(auth)-layout",
+            "id": "client-app-app-(dashboard)-(overview)-layout",
             "parentNode": "group-pages",
             "data": {
               "label": "layout",
               "type": "page",
-              "path": "client/app/app/(auth)/layout.tsx",
+              "path": "client/app/app/(dashboard)/(overview)/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "page",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/(overview)/page.tsx",
               "color": "bg-purple-600"
             },
             "position": {
               "x": 680,
-              "y": 140
+              "y": 340
             },
             "type": "custom"
           },
           {
-            "id": "client-app-app-(auth)-login-page",
+            "id": "client-app-app-(dashboard)-configs-layout",
             "parentNode": "group-pages",
             "data": {
-              "label": "page",
+              "label": "layout",
               "type": "page",
-              "path": "client/app/app/(auth)/login/page.tsx",
+              "path": "client/app/app/(dashboard)/configs/layout.tsx",
               "color": "bg-purple-600"
             },
             "position": {
               "x": 20,
-              "y": 240
+              "y": 440
             },
             "type": "custom"
           },
           {
-            "id": "client-app-app-(auth)-register-page",
+            "id": "client-app-app-(dashboard)-configs-page",
             "parentNode": "group-pages",
             "data": {
               "label": "page",
               "type": "page",
-              "path": "client/app/app/(auth)/register/page.tsx",
+              "path": "client/app/app/(dashboard)/configs/page.tsx",
               "color": "bg-purple-600"
             },
             "position": {
               "x": 240,
-              "y": 240
+              "y": 440
             },
             "type": "custom"
           },
@@ -368,7 +611,82 @@
             },
             "position": {
               "x": 460,
-              "y": 240
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "ai-history-tab",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/components/ai-history-tab.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "scan-logs-tab",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/components/scan-logs-tab.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-status-badge",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "status-badge",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/components/status-badge.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-hooks-use-logs-data",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "use-logs-data",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/hooks/use-logs-data.ts",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/logs/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 540
             },
             "type": "custom"
           },
@@ -382,23 +700,23 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 680,
-              "y": 240
+              "x": 20,
+              "y": 640
             },
             "type": "custom"
           },
           {
-            "id": "client-app-app-(dashboard)-page",
+            "id": "client-app-app-(dashboard)-profile-layout",
             "parentNode": "group-pages",
             "data": {
-              "label": "page",
+              "label": "layout",
               "type": "page",
-              "path": "client/app/app/(dashboard)/page.tsx",
+              "path": "client/app/app/(dashboard)/profile/layout.tsx",
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 20,
-              "y": 340
+              "x": 240,
+              "y": 640
             },
             "type": "custom"
           },
@@ -412,8 +730,23 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 240,
-              "y": 340
+              "x": 460,
+              "y": 640
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/repos/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 640
             },
             "type": "custom"
           },
@@ -427,8 +760,23 @@
               "color": "bg-purple-600"
             },
             "position": {
-              "x": 460,
-              "y": 340
+              "x": 20,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/repos/[name]/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 740
             },
             "type": "custom"
           },
@@ -442,8 +790,83 @@
               "color": "bg-purple-600"
             },
             "position": {
+              "x": 460,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-danger-zone",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "danger-zone",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/components/danger-zone.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
               "x": 680,
-              "y": 340
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "profile-form",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/components/profile-form.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-security-form",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "security-form",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/components/security-form.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "signin-methods",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/components/signin-methods.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-layout",
+            "parentNode": "group-pages",
+            "data": {
+              "label": "layout",
+              "type": "page",
+              "path": "client/app/app/(dashboard)/settings/layout.tsx",
+              "color": "bg-purple-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 840
             },
             "type": "custom"
           },
@@ -458,7 +881,7 @@
             },
             "position": {
               "x": 20,
-              "y": 440
+              "y": 940
             },
             "type": "custom"
           },
@@ -473,7 +896,7 @@
             },
             "position": {
               "x": 240,
-              "y": 440
+              "y": 940
             },
             "type": "custom"
           },
@@ -488,22 +911,7 @@
             },
             "position": {
               "x": 460,
-              "y": 440
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-app-sidebar",
-            "parentNode": "group-components",
-            "data": {
-              "label": "app-sidebar",
-              "type": "component",
-              "path": "client/components/app-sidebar.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 20,
-              "y": 40
+              "y": 940
             },
             "type": "custom"
           },
@@ -517,7 +925,52 @@
               "color": "bg-blue-600"
             },
             "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-architecture-visualization",
+            "parentNode": "group-components",
+            "data": {
+              "label": "architecture-visualization",
+              "type": "component",
+              "path": "client/components/architecture/architecture-visualization.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
               "x": 240,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-custom-node",
+            "parentNode": "group-components",
+            "data": {
+              "label": "custom-node",
+              "type": "component",
+              "path": "client/components/architecture/custom-node.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-dependency-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "dependency-panel",
+              "type": "component",
+              "path": "client/components/architecture/dependency-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 680,
               "y": 40
             },
             "type": "custom"
@@ -532,8 +985,8 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 460,
-              "y": 40
+              "x": 20,
+              "y": 140
             },
             "type": "custom"
           },
@@ -547,153 +1000,123 @@
               "color": "bg-blue-600"
             },
             "position": {
-              "x": 680,
-              "y": 40
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-architecture-visualization",
-            "parentNode": "group-components",
-            "data": {
-              "label": "architecture-visualization",
-              "type": "component",
-              "path": "client/components/architecture-visualization.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 20,
-              "y": 140
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-connect-repo-dialog",
-            "parentNode": "group-components",
-            "data": {
-              "label": "connect-repo-dialog",
-              "type": "component",
-              "path": "client/components/connect-repo-dialog.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
               "x": 240,
               "y": 140
             },
             "type": "custom"
           },
           {
-            "id": "client-components-custom-node",
-            "parentNode": "group-components",
-            "data": {
-              "label": "custom-node",
-              "type": "component",
-              "path": "client/components/custom-node.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 460,
-              "y": 140
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-dependency-panel",
-            "parentNode": "group-components",
-            "data": {
-              "label": "dependency-panel",
-              "type": "component",
-              "path": "client/components/dependency-panel.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 680,
-              "y": 140
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-dynamic-breadcrumbs",
-            "parentNode": "group-components",
-            "data": {
-              "label": "dynamic-breadcrumbs",
-              "type": "component",
-              "path": "client/components/dynamic-breadcrumbs.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 20,
-              "y": 240
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-header",
-            "parentNode": "group-components",
-            "data": {
-              "label": "header",
-              "type": "component",
-              "path": "client/components/header.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 240,
-              "y": 240
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-logo",
-            "parentNode": "group-components",
-            "data": {
-              "label": "logo",
-              "type": "component",
-              "path": "client/components/logo.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 460,
-              "y": 240
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-nav-user",
-            "parentNode": "group-components",
-            "data": {
-              "label": "nav-user",
-              "type": "component",
-              "path": "client/components/nav-user.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 680,
-              "y": 240
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-repository-card",
-            "parentNode": "group-components",
-            "data": {
-              "label": "repository-card",
-              "type": "component",
-              "path": "client/components/repository-card.tsx",
-              "color": "bg-blue-600"
-            },
-            "position": {
-              "x": 20,
-              "y": 340
-            },
-            "type": "custom"
-          },
-          {
-            "id": "client-components-review-impact-dialog",
+            "id": "client-components-architecture-review-impact-dialog",
             "parentNode": "group-components",
             "data": {
               "label": "review-impact-dialog",
               "type": "component",
-              "path": "client/components/review-impact-dialog.tsx",
+              "path": "client/components/architecture/review-impact-dialog.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-architecture-search-panel",
+            "parentNode": "group-components",
+            "data": {
+              "label": "search-panel",
+              "type": "component",
+              "path": "client/components/architecture/search-panel.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-auth-forgot-password-form",
+            "parentNode": "group-components",
+            "data": {
+              "label": "forgot-password-form",
+              "type": "component",
+              "path": "client/components/auth/forgot-password-form.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-auth-login-form",
+            "parentNode": "group-components",
+            "data": {
+              "label": "login-form",
+              "type": "component",
+              "path": "client/components/auth/login-form.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-auth-register-form",
+            "parentNode": "group-components",
+            "data": {
+              "label": "register-form",
+              "type": "component",
+              "path": "client/components/auth/register-form.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-auth-reset-password-form",
+            "parentNode": "group-components",
+            "data": {
+              "label": "reset-password-form",
+              "type": "component",
+              "path": "client/components/auth/reset-password-form.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog",
+            "parentNode": "group-components",
+            "data": {
+              "label": "connect-repo-dialog",
+              "type": "component",
+              "path": "client/components/dashboard/connect-repo-dialog.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-dashboard-repository-card",
+            "parentNode": "group-components",
+            "data": {
+              "label": "repository-card",
+              "type": "component",
+              "path": "client/components/dashboard/repository-card.tsx",
               "color": "bg-blue-600"
             },
             "position": {
@@ -703,12 +1126,12 @@
             "type": "custom"
           },
           {
-            "id": "client-components-search-panel",
+            "id": "client-components-dashboard-stats-card",
             "parentNode": "group-components",
             "data": {
-              "label": "search-panel",
+              "label": "stats-card",
               "type": "component",
-              "path": "client/components/search-panel.tsx",
+              "path": "client/components/dashboard/stats-card.tsx",
               "color": "bg-blue-600"
             },
             "position": {
@@ -718,17 +1141,122 @@
             "type": "custom"
           },
           {
-            "id": "client-components-stats-card",
+            "id": "client-components-dashboard-welcome-banner",
             "parentNode": "group-components",
             "data": {
-              "label": "stats-card",
+              "label": "welcome-banner",
               "type": "component",
-              "path": "client/components/stats-card.tsx",
+              "path": "client/components/dashboard/welcome-banner.tsx",
               "color": "bg-blue-600"
             },
             "position": {
               "x": 680,
               "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-app-sidebar",
+            "parentNode": "group-components",
+            "data": {
+              "label": "app-sidebar",
+              "type": "component",
+              "path": "client/components/layout/app-sidebar.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-dynamic-breadcrumbs",
+            "parentNode": "group-components",
+            "data": {
+              "label": "dynamic-breadcrumbs",
+              "type": "component",
+              "path": "client/components/layout/dynamic-breadcrumbs.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-header-actions",
+            "parentNode": "group-components",
+            "data": {
+              "label": "header-actions",
+              "type": "component",
+              "path": "client/components/layout/header-actions.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-header",
+            "parentNode": "group-components",
+            "data": {
+              "label": "header",
+              "type": "component",
+              "path": "client/components/layout/header.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-logo",
+            "parentNode": "group-components",
+            "data": {
+              "label": "logo",
+              "type": "component",
+              "path": "client/components/layout/logo.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-nav-user",
+            "parentNode": "group-components",
+            "data": {
+              "label": "nav-user",
+              "type": "component",
+              "path": "client/components/layout/nav-user.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-layout-page-header",
+            "parentNode": "group-components",
+            "data": {
+              "label": "page-header",
+              "type": "component",
+              "path": "client/components/layout/page-header.tsx",
+              "color": "bg-blue-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 540
             },
             "type": "custom"
           },
@@ -742,23 +1270,848 @@
               "color": "bg-blue-600"
             },
             "position": {
+              "x": 680,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-accordion",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "accordion",
+              "type": "ui",
+              "path": "client/components/ui/accordion.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-alert-dialog",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "alert-dialog",
+              "type": "ui",
+              "path": "client/components/ui/alert-dialog.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-alert",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "alert",
+              "type": "ui",
+              "path": "client/components/ui/alert.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-aspect-ratio",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "aspect-ratio",
+              "type": "ui",
+              "path": "client/components/ui/aspect-ratio.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-avatar",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "avatar",
+              "type": "ui",
+              "path": "client/components/ui/avatar.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-badge",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "badge",
+              "type": "ui",
+              "path": "client/components/ui/badge.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-breadcrumb",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "breadcrumb",
+              "type": "ui",
+              "path": "client/components/ui/breadcrumb.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-button-group",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "button-group",
+              "type": "ui",
+              "path": "client/components/ui/button-group.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-button",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "button",
+              "type": "ui",
+              "path": "client/components/ui/button.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-calendar",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "calendar",
+              "type": "ui",
+              "path": "client/components/ui/calendar.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-card",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "card",
+              "type": "ui",
+              "path": "client/components/ui/card.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-carousel",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "carousel",
+              "type": "ui",
+              "path": "client/components/ui/carousel.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-chart",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "chart",
+              "type": "ui",
+              "path": "client/components/ui/chart.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-checkbox",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "checkbox",
+              "type": "ui",
+              "path": "client/components/ui/checkbox.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-collapsible",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "collapsible",
+              "type": "ui",
+              "path": "client/components/ui/collapsible.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-command",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "command",
+              "type": "ui",
+              "path": "client/components/ui/command.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-context-menu",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "context-menu",
+              "type": "ui",
+              "path": "client/components/ui/context-menu.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
               "x": 20,
               "y": 440
             },
             "type": "custom"
           },
           {
-            "id": "client-components-welcome-banner",
-            "parentNode": "group-components",
+            "id": "client-components-ui-dialog",
+            "parentNode": "group-ui",
             "data": {
-              "label": "welcome-banner",
-              "type": "component",
-              "path": "client/components/welcome-banner.tsx",
-              "color": "bg-blue-600"
+              "label": "dialog",
+              "type": "ui",
+              "path": "client/components/ui/dialog.tsx",
+              "color": "bg-slate-600"
             },
             "position": {
               "x": 240,
               "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-drawer",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "drawer",
+              "type": "ui",
+              "path": "client/components/ui/drawer.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-dropdown-menu",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "dropdown-menu",
+              "type": "ui",
+              "path": "client/components/ui/dropdown-menu.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 440
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-empty",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "empty",
+              "type": "ui",
+              "path": "client/components/ui/empty.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-field",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "field",
+              "type": "ui",
+              "path": "client/components/ui/field.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-form",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "form",
+              "type": "ui",
+              "path": "client/components/ui/form.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-hover-card",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "hover-card",
+              "type": "ui",
+              "path": "client/components/ui/hover-card.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 540
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-input-group",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "input-group",
+              "type": "ui",
+              "path": "client/components/ui/input-group.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 640
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-input-otp",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "input-otp",
+              "type": "ui",
+              "path": "client/components/ui/input-otp.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 640
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-input",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "input",
+              "type": "ui",
+              "path": "client/components/ui/input.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 640
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-item",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "item",
+              "type": "ui",
+              "path": "client/components/ui/item.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 640
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-kbd",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "kbd",
+              "type": "ui",
+              "path": "client/components/ui/kbd.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-label",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "label",
+              "type": "ui",
+              "path": "client/components/ui/label.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-menubar",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "menubar",
+              "type": "ui",
+              "path": "client/components/ui/menubar.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-navigation-menu",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "navigation-menu",
+              "type": "ui",
+              "path": "client/components/ui/navigation-menu.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 740
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-pagination",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "pagination",
+              "type": "ui",
+              "path": "client/components/ui/pagination.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-popover",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "popover",
+              "type": "ui",
+              "path": "client/components/ui/popover.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-progress",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "progress",
+              "type": "ui",
+              "path": "client/components/ui/progress.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-radio-group",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "radio-group",
+              "type": "ui",
+              "path": "client/components/ui/radio-group.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 840
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-resizable",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "resizable",
+              "type": "ui",
+              "path": "client/components/ui/resizable.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 940
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-scroll-area",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "scroll-area",
+              "type": "ui",
+              "path": "client/components/ui/scroll-area.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 940
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-select",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "select",
+              "type": "ui",
+              "path": "client/components/ui/select.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 940
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-separator",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "separator",
+              "type": "ui",
+              "path": "client/components/ui/separator.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 940
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-sheet",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "sheet",
+              "type": "ui",
+              "path": "client/components/ui/sheet.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 1040
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-sidebar",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "sidebar",
+              "type": "ui",
+              "path": "client/components/ui/sidebar.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 1040
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-skeleton",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "skeleton",
+              "type": "ui",
+              "path": "client/components/ui/skeleton.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 1040
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-slider",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "slider",
+              "type": "ui",
+              "path": "client/components/ui/slider.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 1040
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-sonner",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "sonner",
+              "type": "ui",
+              "path": "client/components/ui/sonner.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 1140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-spinner",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "spinner",
+              "type": "ui",
+              "path": "client/components/ui/spinner.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 1140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-switch",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "switch",
+              "type": "ui",
+              "path": "client/components/ui/switch.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 1140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-table",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "table",
+              "type": "ui",
+              "path": "client/components/ui/table.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 1140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-tabs",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "tabs",
+              "type": "ui",
+              "path": "client/components/ui/tabs.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 1240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-textarea",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "textarea",
+              "type": "ui",
+              "path": "client/components/ui/textarea.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 1240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-toast",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "toast",
+              "type": "ui",
+              "path": "client/components/ui/toast.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 1240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-toaster",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "toaster",
+              "type": "ui",
+              "path": "client/components/ui/toaster.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 1240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-toggle-group",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "toggle-group",
+              "type": "ui",
+              "path": "client/components/ui/toggle-group.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 1340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-toggle",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "toggle",
+              "type": "ui",
+              "path": "client/components/ui/toggle.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 1340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-components-ui-tooltip",
+            "parentNode": "group-ui",
+            "data": {
+              "label": "tooltip",
+              "type": "ui",
+              "path": "client/components/ui/tooltip.tsx",
+              "color": "bg-slate-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 1340
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-contexts-auth-context",
+            "parentNode": "group-contexts",
+            "data": {
+              "label": "auth-context",
+              "type": "context",
+              "path": "client/contexts/auth-context.tsx",
+              "color": "bg-amber-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
             },
             "type": "custom"
           },
@@ -898,13 +2251,58 @@
             "type": "custom"
           },
           {
-            "id": "client-lib-utils",
-            "parentNode": "group-engine",
+            "id": "client-lib-auth",
+            "parentNode": "group-lib",
             "data": {
-              "label": "utils",
-              "type": "engine",
-              "path": "client/lib/utils.ts",
-              "color": "bg-amber-600"
+              "label": "auth",
+              "type": "lib",
+              "path": "client/lib/auth.ts",
+              "color": "bg-indigo-600"
+            },
+            "position": {
+              "x": 20,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-lib-backend",
+            "parentNode": "group-lib",
+            "data": {
+              "label": "backend",
+              "type": "lib",
+              "path": "client/lib/backend.ts",
+              "color": "bg-indigo-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-lib-db",
+            "parentNode": "group-lib",
+            "data": {
+              "label": "db",
+              "type": "lib",
+              "path": "client/lib/db.ts",
+              "color": "bg-indigo-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 40
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-lib-types-graph",
+            "parentNode": "group-lib",
+            "data": {
+              "label": "graph",
+              "type": "lib",
+              "path": "client/lib/types/graph.ts",
+              "color": "bg-indigo-600"
             },
             "position": {
               "x": 680,
@@ -913,13 +2311,13 @@
             "type": "custom"
           },
           {
-            "id": "client-middleware",
-            "parentNode": "group-engine",
+            "id": "client-lib-types-index",
+            "parentNode": "group-lib",
             "data": {
-              "label": "middleware",
-              "type": "engine",
-              "path": "client/middleware.ts",
-              "color": "bg-amber-600"
+              "label": "index",
+              "type": "lib",
+              "path": "client/lib/types/index.ts",
+              "color": "bg-indigo-600"
             },
             "position": {
               "x": 20,
@@ -928,13 +2326,13 @@
             "type": "custom"
           },
           {
-            "id": "client-next-env.d",
-            "parentNode": "group-engine",
+            "id": "client-lib-types-logs",
+            "parentNode": "group-lib",
             "data": {
-              "label": "next-env.d",
-              "type": "engine",
-              "path": "client/next-env.d.ts",
-              "color": "bg-amber-600"
+              "label": "logs",
+              "type": "lib",
+              "path": "client/lib/types/logs.ts",
+              "color": "bg-indigo-600"
             },
             "position": {
               "x": 240,
@@ -943,30 +2341,106 @@
             "type": "custom"
           },
           {
-            "id": "ui-shared",
-            "parentNode": "group-ui",
+            "id": "client-lib-types-repo",
+            "parentNode": "group-lib",
             "data": {
-              "label": "Shared UI Library",
-              "type": "ui",
-              "path": "client/components/ui/"
+              "label": "repo",
+              "type": "lib",
+              "path": "client/lib/types/repo.ts",
+              "color": "bg-indigo-600"
+            },
+            "position": {
+              "x": 460,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-lib-utils",
+            "parentNode": "group-lib",
+            "data": {
+              "label": "utils",
+              "type": "lib",
+              "path": "client/lib/utils.ts",
+              "color": "bg-indigo-600"
+            },
+            "position": {
+              "x": 680,
+              "y": 140
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-middleware",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "middleware",
+              "type": "unknown",
+              "path": "client/middleware.ts",
+              "color": "bg-gray-600"
             },
             "position": {
               "x": 20,
-              "y": 40
+              "y": 240
+            },
+            "type": "custom"
+          },
+          {
+            "id": "client-next-env.d",
+            "parentNode": "group-engine",
+            "data": {
+              "label": "next-env.d",
+              "type": "unknown",
+              "path": "client/next-env.d.ts",
+              "color": "bg-gray-600"
+            },
+            "position": {
+              "x": 240,
+              "y": 240
             },
             "type": "custom"
           }
         ],
         "edges": [
           {
+            "id": "api-engine-scanner-file-classifier-to-api-engine-scanner-types",
+            "source": "api-engine-scanner-file-classifier",
+            "target": "api-engine-scanner-types"
+          },
+          {
+            "id": "api-engine-scanner-graph-builder-to-api-engine-scanner-types",
+            "source": "api-engine-scanner-graph-builder",
+            "target": "api-engine-scanner-types"
+          },
+          {
+            "id": "api-engine-scanner-graph-builder-to-api-engine-scanner-file-classifier",
+            "source": "api-engine-scanner-graph-builder",
+            "target": "api-engine-scanner-file-classifier"
+          },
+          {
+            "id": "api-engine-scanner-graph-builder-to-api-engine-scanner-import-resolver",
+            "source": "api-engine-scanner-graph-builder",
+            "target": "api-engine-scanner-import-resolver"
+          },
+          {
+            "id": "api-engine-scanner-health-analyzer-to-api-engine-scanner-types",
+            "source": "api-engine-scanner-health-analyzer",
+            "target": "api-engine-scanner-types"
+          },
+          {
             "id": "api-engine-scanner-layout-engine-to-api-engine-scanner-types",
             "source": "api-engine-scanner-layout-engine",
             "target": "api-engine-scanner-types"
           },
           {
-            "id": "api-engine-scanner-to-api-engine-scanner-types",
+            "id": "api-engine-scanner-to-api-engine-scanner-file-walker",
             "source": "api-engine-scanner",
-            "target": "api-engine-scanner-types"
+            "target": "api-engine-scanner-file-walker"
+          },
+          {
+            "id": "api-engine-scanner-to-api-engine-scanner-graph-builder",
+            "source": "api-engine-scanner",
+            "target": "api-engine-scanner-graph-builder"
           },
           {
             "id": "api-engine-scanner-to-api-engine-scanner-layout-engine",
@@ -974,139 +2448,1364 @@
             "target": "api-engine-scanner-layout-engine"
           },
           {
-            "id": "client-app-app-(auth)-login-page-to-ui-shared",
-            "source": "client-app-app-(auth)-login-page",
-            "target": "ui-shared"
+            "id": "api-engine-scanner-to-api-engine-scanner-health-analyzer",
+            "source": "api-engine-scanner",
+            "target": "api-engine-scanner-health-analyzer"
           },
           {
-            "id": "client-app-app-(auth)-register-page-to-ui-shared",
-            "source": "client-app-app-(auth)-register-page",
-            "target": "ui-shared"
+            "id": "api-engine-scanner-to-api-engine-scanner-types",
+            "source": "api-engine-scanner",
+            "target": "api-engine-scanner-types"
           },
           {
-            "id": "client-app-app-(dashboard)-layout-to-ui-shared",
+            "id": "client-app-(auth)-auth-callback-page-to-client-lib-auth",
+            "source": "client-app-(auth)-auth-callback-page",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-app-(auth)-auth-callback-page-to-client-components-ui-spinner",
+            "source": "client-app-(auth)-auth-callback-page",
+            "target": "client-components-ui-spinner"
+          },
+          {
+            "id": "client-app-(auth)-forgot-password-page-to-client-components-auth-forgot-password-form",
+            "source": "client-app-(auth)-forgot-password-page",
+            "target": "client-components-auth-forgot-password-form"
+          },
+          {
+            "id": "client-app-(auth)-login-page-to-client-components-auth-login-form",
+            "source": "client-app-(auth)-login-page",
+            "target": "client-components-auth-login-form"
+          },
+          {
+            "id": "client-app-(auth)-register-page-to-client-components-auth-register-form",
+            "source": "client-app-(auth)-register-page",
+            "target": "client-components-auth-register-form"
+          },
+          {
+            "id": "client-app-(auth)-reset-password-page-to-client-components-auth-reset-password-form",
+            "source": "client-app-(auth)-reset-password-page",
+            "target": "client-components-auth-reset-password-form"
+          },
+          {
+            "id": "client-app-api-repo-ai-history-route-to-client-lib-db",
+            "source": "client-app-api-repo-ai-history-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-connect-route-to-client-lib-db",
+            "source": "client-app-api-repo-connect-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-graph-route-to-client-lib-db",
+            "source": "client-app-api-repo-graph-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-list-route-to-client-lib-db",
+            "source": "client-app-api-repo-list-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-logs-route-to-client-lib-db",
+            "source": "client-app-api-repo-logs-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-scan-route-to-client-lib-db",
+            "source": "client-app-api-repo-scan-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-repo-scan-route-to-api-engine-scanner",
+            "source": "client-app-api-repo-scan-route",
+            "target": "api-engine-scanner"
+          },
+          {
+            "id": "client-app-api-repo-status-route-to-client-lib-db",
+            "source": "client-app-api-repo-status-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-api-settings-route-to-client-lib-db",
+            "source": "client-app-api-settings-route",
+            "target": "client-lib-db"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-architecture-architecture-visualization",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-architecture-architecture-visualization"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-architecture-search-panel",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-architecture-search-panel"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-architecture-dependency-panel",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-architecture-dependency-panel"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-hooks-use-repos",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-hooks-use-repos"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-hooks-use-global-stats",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-hooks-use-global-stats"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-dashboard-welcome-banner",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-dashboard-welcome-banner"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-dashboard-stats-card",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-dashboard-stats-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-dashboard-repository-card",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-dashboard-repository-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-components-ui-sidebar",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-components-ui-sidebar"
+          },
+          {
+            "id": "client-app-app-(dashboard)-(overview)-page-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-(overview)-page",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-hooks-use-settings",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-hooks-use-settings"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-ui-input",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-ui-badge",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-ui-select",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-ui-select"
+          },
+          {
+            "id": "client-app-app-(dashboard)-configs-page-to-client-components-layout-page-header",
+            "source": "client-app-app-(dashboard)-configs-page",
+            "target": "client-components-layout-page-header"
+          },
+          {
+            "id": "client-app-app-(dashboard)-layout-to-client-components-ui-sidebar",
             "source": "client-app-app-(dashboard)-layout",
-            "target": "ui-shared"
+            "target": "client-components-ui-sidebar"
           },
           {
-            "id": "client-app-app-(dashboard)-logs-page-to-ui-shared",
+            "id": "client-app-app-(dashboard)-layout-to-client-components-layout-app-sidebar",
+            "source": "client-app-app-(dashboard)-layout",
+            "target": "client-components-layout-app-sidebar"
+          },
+          {
+            "id": "client-app-app-(dashboard)-layout-to-client-components-layout-header",
+            "source": "client-app-app-(dashboard)-layout",
+            "target": "client-components-layout-header"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-accordion",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-accordion"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-checkbox",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-checkbox"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-skeleton",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-skeleton"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-components-ui-alert-dialog",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-components-ui-alert-dialog"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-lib-types-index",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-ai-history-tab-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-components-ui-table",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-components-ui-table"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-components-ui-select",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-components-ui-select"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-components-ui-skeleton",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-components-ui-skeleton"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-lib-types-index",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-scan-logs-tab-to-client-app-app-(dashboard)-logs-components-status-badge",
+            "source": "client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "target": "client-app-app-(dashboard)-logs-components-status-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-status-badge-to-client-components-ui-badge",
+            "source": "client-app-app-(dashboard)-logs-components-status-badge",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-status-badge-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-logs-components-status-badge",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-components-status-badge-to-client-lib-types-index",
+            "source": "client-app-app-(dashboard)-logs-components-status-badge",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-hooks-use-logs-data-to-client-lib-types-index",
+            "source": "client-app-app-(dashboard)-logs-hooks-use-logs-data",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-client-components-ui-button",
             "source": "client-app-app-(dashboard)-logs-page",
-            "target": "ui-shared"
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-app-app-(dashboard)-page-to-ui-shared",
-            "source": "client-app-app-(dashboard)-page",
-            "target": "ui-shared"
+            "id": "client-app-app-(dashboard)-logs-page-to-client-components-ui-tabs",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-components-ui-tabs"
           },
           {
-            "id": "client-app-app-(dashboard)-profile-page-to-ui-shared",
+            "id": "client-app-app-(dashboard)-logs-page-to-client-components-layout-page-header",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-components-layout-page-header"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-client-components-ui-alert-dialog",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-components-ui-alert-dialog"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-client-app-app-(dashboard)-logs-hooks-use-logs-data",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-app-app-(dashboard)-logs-hooks-use-logs-data"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-client-app-app-(dashboard)-logs-components-scan-logs-tab",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-app-app-(dashboard)-logs-components-scan-logs-tab"
+          },
+          {
+            "id": "client-app-app-(dashboard)-logs-page-to-client-app-app-(dashboard)-logs-components-ai-history-tab",
+            "source": "client-app-app-(dashboard)-logs-page",
+            "target": "client-app-app-(dashboard)-logs-components-ai-history-tab"
+          },
+          {
+            "id": "client-app-app-(dashboard)-profile-page-to-client-components-ui-button",
             "source": "client-app-app-(dashboard)-profile-page",
-            "target": "ui-shared"
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-app-app-(dashboard)-repos-[name]-page-to-ui-shared",
+            "id": "client-app-app-(dashboard)-profile-page-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-profile-page",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-profile-page-to-client-components-ui-badge",
+            "source": "client-app-app-(dashboard)-profile-page",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-profile-page-to-client-components-ui-avatar",
+            "source": "client-app-app-(dashboard)-profile-page",
+            "target": "client-components-ui-avatar"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-components-dashboard-repository-card",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-components-dashboard-repository-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-hooks-use-repos",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-hooks-use-repos"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-components-dashboard-connect-repo-dialog",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-components-dashboard-connect-repo-dialog"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-components-layout-page-header",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-components-layout-page-header"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-page-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-repos-page",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-components-architecture-architecture-visualization",
             "source": "client-app-app-(dashboard)-repos-[name]-page",
-            "target": "ui-shared"
+            "target": "client-components-architecture-architecture-visualization"
           },
           {
-            "id": "client-app-app-(dashboard)-settings-page-to-ui-shared",
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-components-architecture-search-panel",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-components-architecture-search-panel"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-components-architecture-dependency-panel",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-components-architecture-dependency-panel"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-components-layout-header-actions",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-components-layout-header-actions"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-hooks-use-repos",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-hooks-use-repos"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-hooks-use-architecture-data",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-hooks-use-architecture-data"
+          },
+          {
+            "id": "client-app-app-(dashboard)-repos-[name]-page-to-client-lib-utils",
+            "source": "client-app-app-(dashboard)-repos-[name]-page",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-danger-zone-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-settings-components-danger-zone",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-danger-zone-to-client-components-ui-input",
+            "source": "client-app-app-(dashboard)-settings-components-danger-zone",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-danger-zone-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-settings-components-danger-zone",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-danger-zone-to-client-components-ui-form",
+            "source": "client-app-app-(dashboard)-settings-components-danger-zone",
+            "target": "client-components-ui-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-settings-components-profile-form",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form-to-client-components-ui-input",
+            "source": "client-app-app-(dashboard)-settings-components-profile-form",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-settings-components-profile-form",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form-to-client-components-ui-badge",
+            "source": "client-app-app-(dashboard)-settings-components-profile-form",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-profile-form-to-client-components-ui-form",
+            "source": "client-app-app-(dashboard)-settings-components-profile-form",
+            "target": "client-components-ui-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-security-form-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-settings-components-security-form",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-security-form-to-client-components-ui-input",
+            "source": "client-app-app-(dashboard)-settings-components-security-form",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-security-form-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-settings-components-security-form",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-security-form-to-client-components-ui-form",
+            "source": "client-app-app-(dashboard)-settings-components-security-form",
+            "target": "client-components-ui-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-badge",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-button",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-input",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-hooks-use-settings",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-hooks-use-settings"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-dialog",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-dialog"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-components-signin-methods-to-client-components-ui-form",
+            "source": "client-app-app-(dashboard)-settings-components-signin-methods",
+            "target": "client-components-ui-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-client-components-ui-button",
             "source": "client-app-app-(dashboard)-settings-page",
-            "target": "ui-shared"
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-app-page-to-ui-shared",
+            "id": "client-app-app-(dashboard)-settings-page-to-client-components-ui-card",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-client-app-app-(dashboard)-settings-components-profile-form",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "client-app-app-(dashboard)-settings-components-profile-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-client-app-app-(dashboard)-settings-components-signin-methods",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "client-app-app-(dashboard)-settings-components-signin-methods"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-client-app-app-(dashboard)-settings-components-security-form",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "client-app-app-(dashboard)-settings-components-security-form"
+          },
+          {
+            "id": "client-app-app-(dashboard)-settings-page-to-client-app-app-(dashboard)-settings-components-danger-zone",
+            "source": "client-app-app-(dashboard)-settings-page",
+            "target": "client-app-app-(dashboard)-settings-components-danger-zone"
+          },
+          {
+            "id": "client-app-layout-to-client-components-theme-provider",
+            "source": "client-app-layout",
+            "target": "client-components-theme-provider"
+          },
+          {
+            "id": "client-app-layout-to-client-contexts-auth-context",
+            "source": "client-app-layout",
+            "target": "client-contexts-auth-context"
+          },
+          {
+            "id": "client-app-layout-to-client-components-ui-sonner",
+            "source": "client-app-layout",
+            "target": "client-components-ui-sonner"
+          },
+          {
+            "id": "client-app-page-to-client-components-ui-button",
             "source": "client-app-page",
-            "target": "ui-shared"
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-components-app-sidebar-to-ui-shared",
-            "source": "client-components-app-sidebar",
-            "target": "ui-shared"
-          },
-          {
-            "id": "client-components-architecture-ai-oracle-panel-to-ui-shared",
+            "id": "client-components-architecture-ai-oracle-panel-to-client-components-ui-input",
             "source": "client-components-architecture-ai-oracle-panel",
-            "target": "ui-shared"
+            "target": "client-components-ui-input"
           },
           {
-            "id": "client-components-architecture-explorer-panel-to-ui-shared",
-            "source": "client-components-architecture-explorer-panel",
-            "target": "ui-shared"
+            "id": "client-components-architecture-ai-oracle-panel-to-client-components-ui-textarea",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "client-components-ui-textarea"
           },
           {
-            "id": "client-components-architecture-flow-toolbar-to-ui-shared",
-            "source": "client-components-architecture-flow-toolbar",
-            "target": "ui-shared"
+            "id": "client-components-architecture-ai-oracle-panel-to-client-components-ui-button",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-components-architecture-visualization-to-client-components-custom-node",
-            "source": "client-components-architecture-visualization",
-            "target": "client-components-custom-node"
+            "id": "client-components-architecture-ai-oracle-panel-to-client-components-ui-skeleton",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "client-components-ui-skeleton"
           },
           {
-            "id": "client-components-architecture-visualization-to-client-components-architecture-flow-toolbar",
-            "source": "client-components-architecture-visualization",
+            "id": "client-components-architecture-ai-oracle-panel-to-client-hooks-use-settings",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "client-hooks-use-settings"
+          },
+          {
+            "id": "client-components-architecture-ai-oracle-panel-to-client-components-ui-select",
+            "source": "client-components-architecture-ai-oracle-panel",
+            "target": "client-components-ui-select"
+          },
+          {
+            "id": "client-components-architecture-architecture-visualization-to-client-components-architecture-custom-node",
+            "source": "client-components-architecture-architecture-visualization",
+            "target": "client-components-architecture-custom-node"
+          },
+          {
+            "id": "client-components-architecture-architecture-visualization-to-client-hooks-use-flow-view",
+            "source": "client-components-architecture-architecture-visualization",
+            "target": "client-hooks-use-flow-view"
+          },
+          {
+            "id": "client-components-architecture-architecture-visualization-to-client-hooks-use-flow-interactions",
+            "source": "client-components-architecture-architecture-visualization",
+            "target": "client-hooks-use-flow-interactions"
+          },
+          {
+            "id": "client-components-architecture-architecture-visualization-to-client-components-architecture-flow-toolbar",
+            "source": "client-components-architecture-architecture-visualization",
             "target": "client-components-architecture-flow-toolbar"
           },
           {
-            "id": "client-components-connect-repo-dialog-to-ui-shared",
-            "source": "client-components-connect-repo-dialog",
-            "target": "ui-shared"
+            "id": "client-components-architecture-architecture-visualization-to-client-lib-utils",
+            "source": "client-components-architecture-architecture-visualization",
+            "target": "client-lib-utils"
           },
           {
-            "id": "client-components-dependency-panel-to-ui-shared",
-            "source": "client-components-dependency-panel",
-            "target": "ui-shared"
+            "id": "client-components-architecture-architecture-visualization-to-client-components-ui-alert-dialog",
+            "source": "client-components-architecture-architecture-visualization",
+            "target": "client-components-ui-alert-dialog"
           },
           {
-            "id": "client-components-dynamic-breadcrumbs-to-ui-shared",
-            "source": "client-components-dynamic-breadcrumbs",
-            "target": "ui-shared"
+            "id": "client-components-architecture-custom-node-to-client-lib-types-index",
+            "source": "client-components-architecture-custom-node",
+            "target": "client-lib-types-index"
           },
           {
-            "id": "client-components-header-to-ui-shared",
-            "source": "client-components-header",
-            "target": "ui-shared"
+            "id": "client-components-architecture-dependency-panel-to-client-components-ui-card",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-components-ui-card"
           },
           {
-            "id": "client-components-nav-user-to-ui-shared",
-            "source": "client-components-nav-user",
-            "target": "ui-shared"
+            "id": "client-components-architecture-dependency-panel-to-client-components-ui-accordion",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-components-ui-accordion"
           },
           {
-            "id": "client-components-repository-card-to-ui-shared",
-            "source": "client-components-repository-card",
-            "target": "ui-shared"
+            "id": "client-components-architecture-dependency-panel-to-client-lib-utils",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-lib-utils"
           },
           {
-            "id": "client-components-review-impact-dialog-to-ui-shared",
-            "source": "client-components-review-impact-dialog",
-            "target": "ui-shared"
+            "id": "client-components-architecture-dependency-panel-to-client-components-ui-badge",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-components-ui-badge"
           },
           {
-            "id": "client-components-search-panel-to-client-components-architecture-ai-oracle-panel",
-            "source": "client-components-search-panel",
+            "id": "client-components-architecture-dependency-panel-to-client-components-ui-progress",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-components-ui-progress"
+          },
+          {
+            "id": "client-components-architecture-dependency-panel-to-client-components-ui-skeleton",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-components-ui-skeleton"
+          },
+          {
+            "id": "client-components-architecture-dependency-panel-to-client-hooks-use-dependency-analysis",
+            "source": "client-components-architecture-dependency-panel",
+            "target": "client-hooks-use-dependency-analysis"
+          },
+          {
+            "id": "client-components-architecture-explorer-panel-to-client-components-ui-skeleton",
+            "source": "client-components-architecture-explorer-panel",
+            "target": "client-components-ui-skeleton"
+          },
+          {
+            "id": "client-components-architecture-explorer-panel-to-client-components-ui-collapsible",
+            "source": "client-components-architecture-explorer-panel",
+            "target": "client-components-ui-collapsible"
+          },
+          {
+            "id": "client-components-architecture-explorer-panel-to-client-components-ui-badge",
+            "source": "client-components-architecture-explorer-panel",
+            "target": "client-components-ui-badge"
+          },
+          {
+            "id": "client-components-architecture-flow-toolbar-to-client-components-ui-button",
+            "source": "client-components-architecture-flow-toolbar",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-architecture-flow-toolbar-to-client-components-ui-tooltip",
+            "source": "client-components-architecture-flow-toolbar",
+            "target": "client-components-ui-tooltip"
+          },
+          {
+            "id": "client-components-architecture-review-impact-dialog-to-client-components-ui-dialog",
+            "source": "client-components-architecture-review-impact-dialog",
+            "target": "client-components-ui-dialog"
+          },
+          {
+            "id": "client-components-architecture-review-impact-dialog-to-client-components-ui-button",
+            "source": "client-components-architecture-review-impact-dialog",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-architecture-review-impact-dialog-to-client-lib-utils",
+            "source": "client-components-architecture-review-impact-dialog",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-architecture-search-panel-to-client-components-architecture-ai-oracle-panel",
+            "source": "client-components-architecture-search-panel",
             "target": "client-components-architecture-ai-oracle-panel"
           },
           {
-            "id": "client-components-search-panel-to-client-components-architecture-explorer-panel",
-            "source": "client-components-search-panel",
+            "id": "client-components-architecture-search-panel-to-client-components-architecture-explorer-panel",
+            "source": "client-components-architecture-search-panel",
             "target": "client-components-architecture-explorer-panel"
           },
           {
-            "id": "client-components-stats-card-to-ui-shared",
-            "source": "client-components-stats-card",
-            "target": "ui-shared"
+            "id": "client-components-auth-forgot-password-form-to-client-components-ui-button",
+            "source": "client-components-auth-forgot-password-form",
+            "target": "client-components-ui-button"
           },
           {
-            "id": "client-components-welcome-banner-to-ui-shared",
-            "source": "client-components-welcome-banner",
-            "target": "ui-shared"
+            "id": "client-components-auth-forgot-password-form-to-client-components-ui-input",
+            "source": "client-components-auth-forgot-password-form",
+            "target": "client-components-ui-input"
           },
           {
-            "id": "client-hooks-use-toast-to-ui-shared",
+            "id": "client-components-auth-forgot-password-form-to-client-components-ui-label",
+            "source": "client-components-auth-forgot-password-form",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-auth-forgot-password-form-to-client-lib-auth",
+            "source": "client-components-auth-forgot-password-form",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-components-ui-button",
+            "source": "client-components-auth-login-form",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-components-ui-input",
+            "source": "client-components-auth-login-form",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-components-ui-label",
+            "source": "client-components-auth-login-form",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-contexts-auth-context",
+            "source": "client-components-auth-login-form",
+            "target": "client-contexts-auth-context"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-lib-auth",
+            "source": "client-components-auth-login-form",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-components-auth-login-form-to-client-hooks-use-toast",
+            "source": "client-components-auth-login-form",
+            "target": "client-hooks-use-toast"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-components-ui-button",
+            "source": "client-components-auth-register-form",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-components-ui-input",
+            "source": "client-components-auth-register-form",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-components-ui-label",
+            "source": "client-components-auth-register-form",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-contexts-auth-context",
+            "source": "client-components-auth-register-form",
+            "target": "client-contexts-auth-context"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-lib-auth",
+            "source": "client-components-auth-register-form",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-components-auth-register-form-to-client-hooks-use-toast",
+            "source": "client-components-auth-register-form",
+            "target": "client-hooks-use-toast"
+          },
+          {
+            "id": "client-components-auth-reset-password-form-to-client-components-ui-button",
+            "source": "client-components-auth-reset-password-form",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-auth-reset-password-form-to-client-components-ui-input",
+            "source": "client-components-auth-reset-password-form",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-auth-reset-password-form-to-client-components-ui-label",
+            "source": "client-components-auth-reset-password-form",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-auth-reset-password-form-to-client-lib-auth",
+            "source": "client-components-auth-reset-password-form",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-hooks-use-settings",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-hooks-use-settings"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-components-ui-dialog",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-components-ui-dialog"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-components-ui-form",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-components-ui-form"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-components-ui-select",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-components-ui-select"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-components-ui-input",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-dashboard-connect-repo-dialog-to-client-components-ui-button",
+            "source": "client-components-dashboard-connect-repo-dialog",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-dashboard-repository-card-to-client-components-ui-card",
+            "source": "client-components-dashboard-repository-card",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-components-dashboard-repository-card-to-client-hooks-use-repos",
+            "source": "client-components-dashboard-repository-card",
+            "target": "client-hooks-use-repos"
+          },
+          {
+            "id": "client-components-dashboard-stats-card-to-client-components-ui-card",
+            "source": "client-components-dashboard-stats-card",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-components-dashboard-welcome-banner-to-client-components-ui-card",
+            "source": "client-components-dashboard-welcome-banner",
+            "target": "client-components-ui-card"
+          },
+          {
+            "id": "client-components-dashboard-welcome-banner-to-client-components-ui-button",
+            "source": "client-components-dashboard-welcome-banner",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-dashboard-welcome-banner-to-client-components-dashboard-connect-repo-dialog",
+            "source": "client-components-dashboard-welcome-banner",
+            "target": "client-components-dashboard-connect-repo-dialog"
+          },
+          {
+            "id": "client-components-layout-app-sidebar-to-client-components-ui-sidebar",
+            "source": "client-components-layout-app-sidebar",
+            "target": "client-components-ui-sidebar"
+          },
+          {
+            "id": "client-components-layout-app-sidebar-to-client-components-ui-collapsible",
+            "source": "client-components-layout-app-sidebar",
+            "target": "client-components-ui-collapsible"
+          },
+          {
+            "id": "client-components-layout-app-sidebar-to-client-components-layout-nav-user",
+            "source": "client-components-layout-app-sidebar",
+            "target": "client-components-layout-nav-user"
+          },
+          {
+            "id": "client-components-layout-app-sidebar-to-client-components-layout-logo",
+            "source": "client-components-layout-app-sidebar",
+            "target": "client-components-layout-logo"
+          },
+          {
+            "id": "client-components-layout-dynamic-breadcrumbs-to-client-components-ui-breadcrumb",
+            "source": "client-components-layout-dynamic-breadcrumbs",
+            "target": "client-components-ui-breadcrumb"
+          },
+          {
+            "id": "client-components-layout-dynamic-breadcrumbs-to-client-lib-utils",
+            "source": "client-components-layout-dynamic-breadcrumbs",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-layout-header-to-client-components-ui-dropdown-menu",
+            "source": "client-components-layout-header",
+            "target": "client-components-ui-dropdown-menu"
+          },
+          {
+            "id": "client-components-layout-header-to-client-components-ui-button",
+            "source": "client-components-layout-header",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-layout-header-to-client-components-layout-dynamic-breadcrumbs",
+            "source": "client-components-layout-header",
+            "target": "client-components-layout-dynamic-breadcrumbs"
+          },
+          {
+            "id": "client-components-layout-logo-to-client-lib-utils",
+            "source": "client-components-layout-logo",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-layout-nav-user-to-client-contexts-auth-context",
+            "source": "client-components-layout-nav-user",
+            "target": "client-contexts-auth-context"
+          },
+          {
+            "id": "client-components-layout-nav-user-to-client-components-ui-avatar",
+            "source": "client-components-layout-nav-user",
+            "target": "client-components-ui-avatar"
+          },
+          {
+            "id": "client-components-layout-nav-user-to-client-components-ui-dropdown-menu",
+            "source": "client-components-layout-nav-user",
+            "target": "client-components-ui-dropdown-menu"
+          },
+          {
+            "id": "client-components-layout-nav-user-to-client-components-ui-sidebar",
+            "source": "client-components-layout-nav-user",
+            "target": "client-components-ui-sidebar"
+          },
+          {
+            "id": "client-components-ui-accordion-to-client-lib-utils",
+            "source": "client-components-ui-accordion",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-alert-dialog-to-client-lib-utils",
+            "source": "client-components-ui-alert-dialog",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-alert-dialog-to-client-components-ui-button",
+            "source": "client-components-ui-alert-dialog",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-alert-to-client-lib-utils",
+            "source": "client-components-ui-alert",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-avatar-to-client-lib-utils",
+            "source": "client-components-ui-avatar",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-badge-to-client-lib-utils",
+            "source": "client-components-ui-badge",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-breadcrumb-to-client-lib-utils",
+            "source": "client-components-ui-breadcrumb",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-button-group-to-client-lib-utils",
+            "source": "client-components-ui-button-group",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-button-group-to-client-components-ui-separator",
+            "source": "client-components-ui-button-group",
+            "target": "client-components-ui-separator"
+          },
+          {
+            "id": "client-components-ui-button-to-client-lib-utils",
+            "source": "client-components-ui-button",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-calendar-to-client-lib-utils",
+            "source": "client-components-ui-calendar",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-calendar-to-client-components-ui-button",
+            "source": "client-components-ui-calendar",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-card-to-client-lib-utils",
+            "source": "client-components-ui-card",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-carousel-to-client-lib-utils",
+            "source": "client-components-ui-carousel",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-carousel-to-client-components-ui-button",
+            "source": "client-components-ui-carousel",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-chart-to-client-lib-utils",
+            "source": "client-components-ui-chart",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-checkbox-to-client-lib-utils",
+            "source": "client-components-ui-checkbox",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-collapsible-to-client-lib-utils",
+            "source": "client-components-ui-collapsible",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-command-to-client-lib-utils",
+            "source": "client-components-ui-command",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-command-to-client-components-ui-dialog",
+            "source": "client-components-ui-command",
+            "target": "client-components-ui-dialog"
+          },
+          {
+            "id": "client-components-ui-context-menu-to-client-lib-utils",
+            "source": "client-components-ui-context-menu",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-dialog-to-client-lib-utils",
+            "source": "client-components-ui-dialog",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-drawer-to-client-lib-utils",
+            "source": "client-components-ui-drawer",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-dropdown-menu-to-client-lib-utils",
+            "source": "client-components-ui-dropdown-menu",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-empty-to-client-lib-utils",
+            "source": "client-components-ui-empty",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-field-to-client-lib-utils",
+            "source": "client-components-ui-field",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-field-to-client-components-ui-label",
+            "source": "client-components-ui-field",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-ui-field-to-client-components-ui-separator",
+            "source": "client-components-ui-field",
+            "target": "client-components-ui-separator"
+          },
+          {
+            "id": "client-components-ui-form-to-client-lib-utils",
+            "source": "client-components-ui-form",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-form-to-client-components-ui-label",
+            "source": "client-components-ui-form",
+            "target": "client-components-ui-label"
+          },
+          {
+            "id": "client-components-ui-hover-card-to-client-lib-utils",
+            "source": "client-components-ui-hover-card",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-input-group-to-client-lib-utils",
+            "source": "client-components-ui-input-group",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-input-group-to-client-components-ui-button",
+            "source": "client-components-ui-input-group",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-input-group-to-client-components-ui-input",
+            "source": "client-components-ui-input-group",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-ui-input-group-to-client-components-ui-textarea",
+            "source": "client-components-ui-input-group",
+            "target": "client-components-ui-textarea"
+          },
+          {
+            "id": "client-components-ui-input-otp-to-client-lib-utils",
+            "source": "client-components-ui-input-otp",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-input-to-client-lib-utils",
+            "source": "client-components-ui-input",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-item-to-client-lib-utils",
+            "source": "client-components-ui-item",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-item-to-client-components-ui-separator",
+            "source": "client-components-ui-item",
+            "target": "client-components-ui-separator"
+          },
+          {
+            "id": "client-components-ui-kbd-to-client-lib-utils",
+            "source": "client-components-ui-kbd",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-label-to-client-lib-utils",
+            "source": "client-components-ui-label",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-menubar-to-client-lib-utils",
+            "source": "client-components-ui-menubar",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-navigation-menu-to-client-lib-utils",
+            "source": "client-components-ui-navigation-menu",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-pagination-to-client-lib-utils",
+            "source": "client-components-ui-pagination",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-pagination-to-client-components-ui-button",
+            "source": "client-components-ui-pagination",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-popover-to-client-lib-utils",
+            "source": "client-components-ui-popover",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-progress-to-client-lib-utils",
+            "source": "client-components-ui-progress",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-radio-group-to-client-lib-utils",
+            "source": "client-components-ui-radio-group",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-resizable-to-client-lib-utils",
+            "source": "client-components-ui-resizable",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-scroll-area-to-client-lib-utils",
+            "source": "client-components-ui-scroll-area",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-select-to-client-lib-utils",
+            "source": "client-components-ui-select",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-separator-to-client-lib-utils",
+            "source": "client-components-ui-separator",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-sheet-to-client-lib-utils",
+            "source": "client-components-ui-sheet",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-hooks-use-mobile",
+            "source": "client-components-ui-sidebar",
+            "target": "client-hooks-use-mobile"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-lib-utils",
+            "source": "client-components-ui-sidebar",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-button",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-button"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-input",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-input"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-separator",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-separator"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-sheet",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-sheet"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-skeleton",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-skeleton"
+          },
+          {
+            "id": "client-components-ui-sidebar-to-client-components-ui-tooltip",
+            "source": "client-components-ui-sidebar",
+            "target": "client-components-ui-tooltip"
+          },
+          {
+            "id": "client-components-ui-skeleton-to-client-lib-utils",
+            "source": "client-components-ui-skeleton",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-slider-to-client-lib-utils",
+            "source": "client-components-ui-slider",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-spinner-to-client-lib-utils",
+            "source": "client-components-ui-spinner",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-switch-to-client-lib-utils",
+            "source": "client-components-ui-switch",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-table-to-client-lib-utils",
+            "source": "client-components-ui-table",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-tabs-to-client-lib-utils",
+            "source": "client-components-ui-tabs",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-textarea-to-client-lib-utils",
+            "source": "client-components-ui-textarea",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-toast-to-client-lib-utils",
+            "source": "client-components-ui-toast",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-toaster-to-client-hooks-use-toast",
+            "source": "client-components-ui-toaster",
+            "target": "client-hooks-use-toast"
+          },
+          {
+            "id": "client-components-ui-toaster-to-client-components-ui-toast",
+            "source": "client-components-ui-toaster",
+            "target": "client-components-ui-toast"
+          },
+          {
+            "id": "client-components-ui-toggle-group-to-client-lib-utils",
+            "source": "client-components-ui-toggle-group",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-toggle-group-to-client-components-ui-toggle",
+            "source": "client-components-ui-toggle-group",
+            "target": "client-components-ui-toggle"
+          },
+          {
+            "id": "client-components-ui-toggle-to-client-lib-utils",
+            "source": "client-components-ui-toggle",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-components-ui-tooltip-to-client-lib-utils",
+            "source": "client-components-ui-tooltip",
+            "target": "client-lib-utils"
+          },
+          {
+            "id": "client-contexts-auth-context-to-client-lib-auth",
+            "source": "client-contexts-auth-context",
+            "target": "client-lib-auth"
+          },
+          {
+            "id": "client-hooks-use-global-stats-to-client-lib-types-index",
+            "source": "client-hooks-use-global-stats",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-hooks-use-repos-to-client-lib-types-index",
+            "source": "client-hooks-use-repos",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-hooks-use-settings-to-client-lib-types-index",
+            "source": "client-hooks-use-settings",
+            "target": "client-lib-types-index"
+          },
+          {
+            "id": "client-hooks-use-toast-to-client-components-ui-toast",
             "source": "client-hooks-use-toast",
-            "target": "ui-shared"
+            "target": "client-components-ui-toast"
+          },
+          {
+            "id": "client-lib-types-index-to-client-lib-types-repo",
+            "source": "client-lib-types-index",
+            "target": "client-lib-types-repo"
+          },
+          {
+            "id": "client-lib-types-index-to-client-lib-types-graph",
+            "source": "client-lib-types-index",
+            "target": "client-lib-types-graph"
+          },
+          {
+            "id": "client-lib-types-index-to-client-lib-types-logs",
+            "source": "client-lib-types-index",
+            "target": "client-lib-types-logs"
           }
         ]
       }
