@@ -12,6 +12,7 @@ import {
 } from 'lucide-react';
 import { Button } from '@client/components/ui/button';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@client/components/ui/tabs";
+import { PageHeader } from '@client/components/layout/page-header';
 import {
   AlertDialog,
   AlertDialogAction,
@@ -98,51 +99,49 @@ export default function LogsPage() {
         )}
 
         <div className="max-w-5xl mx-auto w-full space-y-8 pb-24">
-          <div className="flex items-center justify-between border-b border-border/50 pb-6">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3 text-transparent bg-clip-text bg-gradient-to-r from-foreground to-foreground/50">
-                <HistoryIcon className="w-8 h-8 text-primary" />
-                Audit Logs
-              </h1>
-              <p className="text-muted-foreground mt-1">Audit history of architectural operations and AI analysis.</p>
-            </div>
-            <div className="flex gap-2">
-              <Button variant="outline" size="sm" className="gap-2 border-border/50 bg-background/50 backdrop-blur-sm">
-                <Download className="w-4 h-4" />
-                Export
-              </Button>
+          <PageHeader
+            title="Audit Logs"
+            description="Audit history of architectural operations and AI analysis."
+            icon={HistoryIcon}
+            actions={
+              <>
+                <Button variant="outline" size="sm" className="gap-2 border-border/50 bg-background/50 backdrop-blur-sm">
+                  <Download className="w-4 h-4" />
+                  Export
+                </Button>
 
-              <AlertDialog>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    className="gap-2 text-red-500 hover:text-red-600 border-red-500/20 hover:bg-red-500/5 bg-background/50 backdrop-blur-sm"
-                  >
-                    <Trash2 className="w-4 h-4" />
-                    Clear All
-                  </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>Clear all logs?</AlertDialogTitle>
-                    <AlertDialogDescription>
-                      This will remove all scan history records. This action is destructive and cannot be reversed.
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction
-                      className="bg-red-600 hover:bg-red-700 text-white"
-                      onClick={clearAllLogs}
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="sm"
+                      className="gap-2 text-red-500 hover:text-red-600 border-red-500/20 hover:bg-red-500/5 bg-background/50 backdrop-blur-sm"
                     >
-                      Clear Logs
-                    </AlertDialogAction>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            </div>
-          </div>
+                      <Trash2 className="w-4 h-4" />
+                      Clear All
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent>
+                    <AlertDialogHeader>
+                      <AlertDialogTitle>Clear all logs?</AlertDialogTitle>
+                      <AlertDialogDescription>
+                        This will remove all scan history records. This action is destructive and cannot be reversed.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancel</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-red-600 hover:bg-red-700 text-white"
+                        onClick={clearAllLogs}
+                      >
+                        Clear Logs
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
+              </>
+            }
+          />
 
           <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
             <TabsList className="grid w-full grid-cols-2 max-w-[400px] mb-8 bg-muted/30 p-1.5 border border-border/50 rounded-xl h-12">

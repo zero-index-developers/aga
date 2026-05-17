@@ -24,6 +24,7 @@ import {
   SelectValue
 } from '@client/components/ui/select';
 import { toast } from 'sonner';
+import { PageHeader } from '@client/components/layout/page-header';
 
 export default function ConfigsPage() {
   const { settings, isLoading, isSaving, updateSettings } = useSettings();
@@ -75,20 +76,18 @@ export default function ConfigsPage() {
 
       <div className="flex-1 overflow-y-auto p-8">
         <div className="max-w-5xl mx-auto w-full space-y-8 pb-12">
-          <div className="flex items-center justify-between border-b border-border/50 pb-6">
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight flex items-center gap-3">
-                <Sliders className="w-8 h-8 text-primary" />
-                Configurations
-              </h1>
-              <p className="text-muted-foreground mt-1">Configure your architectural discovery engine.</p>
-            </div>
-            {isSaving && (
-              <Badge variant="secondary" className="animate-pulse bg-primary/10 text-primary border-primary/20">
-                Saving changes...
-              </Badge>
-            )}
-          </div>
+          <PageHeader
+            title="Configurations"
+            description="Configure your architectural discovery engine."
+            icon={Sliders}
+            actions={
+              isSaving && (
+                <Badge variant="secondary" className="animate-pulse bg-primary/10 text-primary border-primary/20">
+                  Saving changes...
+                </Badge>
+              )
+            }
+          />
 
           {/* Content Area */}
           <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
