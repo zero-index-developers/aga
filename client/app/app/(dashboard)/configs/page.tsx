@@ -178,8 +178,8 @@ export default function ConfigsPage() {
               </div>
               <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Insight Depth</label>
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium block text-muted-foreground">Insight Depth</label>
                     <Select
                       value={settings?.ai.insightDepth}
                       onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, insightDepth: val } })}
@@ -193,8 +193,8 @@ export default function ConfigsPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Analysis Focus</label>
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium block text-muted-foreground">Analysis Focus</label>
                     <Select
                       value={settings?.ai.focus}
                       onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, focus: val } })}
