@@ -14,7 +14,7 @@ services:
     volumes:
       - postgres_data_dev:/var/lib/postgresql/data
     ports:
-      - "${DB_PORT:-5432}:5432"
+      - "${DB_PORT:-5433}:5432"
     networks:
       - aga-network-dev
     healthcheck:
@@ -28,6 +28,7 @@ services:
     build:
       context: ./api
       dockerfile: Dockerfile
+      target: development
     container_name: aga-api-dev
     restart: unless-stopped
     working_dir: /var/www
@@ -47,26 +48,27 @@ services:
       QUEUE_CONNECTION: ${QUEUE_CONNECTION:-database}
     volumes:
       - ./api:/var/www
-      - /var/www/vendor
-      - /var/www/node_modules
+      - vendor-data:/var/www/vendor
     ports:
-      - "${API_PORT:-8000}:8000"
+      - "8000:8000"
+    networks:
+      - aga-network-dev
     depends_on:
       database:
         condition: service_healthy
-    networks:
-      - aga-network-dev
-    command: >
-      sh -c "composer install --no-interaction &&
-             php artisan key:generate --force &&
-             php artisan migrate --force &&
-             php artisan serve --host=0.0.0.0 --port=8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/up"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 20s
 
   # Next.js Frontend Client (Development)
   client:
     build:
       context: ./client
       dockerfile: Dockerfile
+      target: development
     container_name: aga-client-dev
     restart: unless-stopped
     working_dir: /app
@@ -85,7 +87,6 @@ services:
       - api
     networks:
       - aga-network-dev
-    command: npm run dev
 
 networks:
   aga-network-dev:
@@ -93,6 +94,8 @@ networks:
 
 volumes:
   postgres_data_dev:
+    driver: local
+  vendor-data:
     driver: local
 
 # Made with Bob
