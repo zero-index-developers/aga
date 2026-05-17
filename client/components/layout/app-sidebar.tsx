@@ -65,7 +65,7 @@ export function AppSidebar() {
 
   const repositoryNavItems = [
     {
-      title: "Repositories",
+      title: "Library",
       url: "/repos",
       icon: FolderGit2,
       isActive: pathname === "/repos",

@@ -91,14 +91,14 @@ export default function ConfigsPage() {
           </div>
 
           {/* Content Area */}
-          <div className="space-y-8">
+          <div className="space-y-8 grid grid-cols-1 lg:grid-cols-2 gap-4">
             {/* Scanner Section */}
             <section className="space-y-4">
               <div className="flex items-center gap-2 text-lg font-semibold">
                 <Search className="w-5 h-5 text-primary" />
                 Scanner Exclusions
               </div>
-              <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50">
+              <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 gap-0">
                 <p className="text-sm text-muted-foreground mb-4">
                   Directories and file patterns to ignore during architectural discovery.
                 </p>
