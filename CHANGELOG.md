@@ -1,3 +1,18 @@
+# [1.1.0](https://github.com/zero-index-developers/aga/compare/v1.0.0...v1.1.0) (2026-05-16)
+
+
+### Features
+
+* add ExplorerPanel component and populate local database schema with project architecture nodes ([f1058b3](https://github.com/zero-index-developers/aga/commit/f1058b381512b8cc094087a7c6bc4e039c2c6763))
+* add logs and AI history management page with bulk deletion support ([2cd1af6](https://github.com/zero-index-developers/aga/commit/2cd1af6c4712a80940876c3db42f84b86b73d274))
+* add NavUser component and update local database configuration ([e27a523](https://github.com/zero-index-developers/aga/commit/e27a523eb37306dd28fbc9101236ed327162685e))
+* implement AppSidebar component with dynamic repository listing and navigation links ([7b3180d](https://github.com/zero-index-developers/aga/commit/7b3180d5b1d1d729937de657745d77046dcbf7d0))
+* implement AppSidebar component with repository navigation and configure TypeScript path aliases ([164efde](https://github.com/zero-index-developers/aga/commit/164efdecfc40130807b1d2b8d9c0b2c50cf358d4))
+* implement architecture visualization component with interactive flow toolbar ([cfb30db](https://github.com/zero-index-developers/aga/commit/cfb30dbbb2dc44f5ae1e32919889583162a6de14))
+* implement audit logs dashboard with scan history and AI analysis management ([a482799](https://github.com/zero-index-developers/aga/commit/a4827990dec985752da94d95d235ef484f9f202a))
+* implement repository architecture visualization with AI oracle integration, enhanced sidebar navigation, and logging pages ([5385106](https://github.com/zero-index-developers/aga/commit/5385106ca574123c5f4b38a75d0d1bfb0de6892c))
+* implement repository visualization page with interactive architecture graph, toolbar, and header components ([875862d](https://github.com/zero-index-developers/aga/commit/875862d98d2a1c641566f91a130a036eb996571f))
+
 # 1.0.0 (2026-05-16)
 
 
