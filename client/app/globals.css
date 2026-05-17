@@ -169,3 +169,31 @@
 .react-flow__attribution a:hover {
   opacity: 1;
 }
+
+/* Global Custom Scrollbars - Minimalist */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: hsl(var(--primary) / 0.3) transparent;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: hsl(var(--primary) / 0.3);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: hsl(var(--primary) / 0.6);
+}
+
+::-webkit-scrollbar-corner {
+  background: transparent;
+}
