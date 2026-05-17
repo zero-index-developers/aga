@@ -13,7 +13,7 @@ export function useFlowView(
 
   // Track the last processed state to prevent infinite loops when adding initialNodes to dependencies
   const lastStateRef = useRef({
-    nodes: null as Node[] | null,
+    initialNodes: null as Node[] | null,
     showFolders,
     showPaths,
     isExploded,
@@ -22,13 +22,17 @@ export function useFlowView(
   useEffect(() => {
     // If the nodes and all toggles are exactly the same as what we last processed, do nothing.
     if (
-      initialNodes === lastStateRef.current.nodes &&
+      initialNodes === lastStateRef.current.initialNodes &&
       showFolders === lastStateRef.current.showFolders &&
       showPaths === lastStateRef.current.showPaths &&
       isExploded === lastStateRef.current.isExploded
     ) {
       return;
     }
+
+    const isExplodedChanged = isExploded !== lastStateRef.current.isExploded;
+    const isInitialNodesChanged = initialNodes !== lastStateRef.current.initialNodes;
+    const shouldUpdatePosition = isExplodedChanged || isInitialNodesChanged;
 
     setNodes((nds) => {
       const nextNodes = nds.map((n) => {
@@ -47,10 +51,10 @@ export function useFlowView(
               width: isExploded ? baseWidth * 1.35 : baseWidth,
               height: isExploded ? baseHeight * 1.5 : baseHeight,
             },
-            position: {
+            position: shouldUpdatePosition ? {
               x: origX,
               y: isExploded ? origY * 1.5 : origY
-            },
+            } : n.position,
             className: showFolders ? n.className : 'opacity-0 pointer-events-none',
             selectable: showFolders,
             draggable: showFolders,
@@ -60,10 +64,10 @@ export function useFlowView(
         // Handle component nodes
         return {
           ...n,
-          position: {
+          position: shouldUpdatePosition ? {
             x: isExploded ? (origX - 20) * 1.5 + 20 : origX,
             y: isExploded ? (origY - 40) * 1.5 + 40 : origY,
-          },
+          } : n.position,
           data: {
             ...n.data,
             showPath: showPaths,
@@ -73,7 +77,7 @@ export function useFlowView(
 
       // Update the reference of last processed state
       lastStateRef.current = {
-        nodes: nextNodes,
+        initialNodes,
         showFolders,
         showPaths,
         isExploded,
