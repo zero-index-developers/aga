@@ -139,6 +139,7 @@ export default function RepositoryGraphPage({ params }: { params: Promise<{ name
             setEdges={setEdges}
             onEdgesChange={onEdgesChange}
             isLoading={isGraphLoading}
+
           />
         </main>
         {showDependencies && selectedNode && (

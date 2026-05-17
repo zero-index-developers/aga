@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useMemo } from 'react';
+import React, { useMemo } from 'react';
 import ReactFlow, {
   Background,
   BackgroundVariant,
@@ -18,6 +18,16 @@ import { useTheme } from 'next-themes';
 import { Node, Edge, OnNodesChange, OnEdgesChange } from 'reactflow';
 import { toPng } from 'html-to-image';
 import { toast } from 'sonner';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@client/components/ui/alert-dialog';
 
 
 
@@ -61,6 +71,19 @@ function ArchitectureFlow({
     showPaths, setShowPaths,
     isExploded, setIsExploded
   } = useFlowView(setNodes, initialNodes);
+
+  const [showExplodeConfirm, setShowExplodeConfirm] = React.useState(false);
+  const [pendingExplodeValue, setPendingExplodeValue] = React.useState(false);
+
+  const handleToggleExplode = (exploded: boolean) => {
+    setPendingExplodeValue(exploded);
+    setShowExplodeConfirm(true);
+  };
+
+  const confirmExplodeToggle = () => {
+    setIsExploded(pendingExplodeValue);
+    setShowExplodeConfirm(false);
+  };
 
   const { setCenter, fitView, zoomIn, zoomOut, getNodes, getEdges } = useReactFlow();
   
@@ -133,14 +156,14 @@ function ArchitectureFlow({
         setShowFolders={setShowFolders}
         showPaths={showPaths}
         setShowPaths={setShowPaths}
-        isExploded={isExploded}
-        setIsExploded={setIsExploded}
         onFitView={() => fitView({ duration: 800 })}
         onZoomIn={() => zoomIn({ duration: 400 })}
         onZoomOut={() => zoomOut({ duration: 400 })}
         canZoomIn={canZoomIn}
         canZoomOut={canZoomOut}
         onCaptureView={handleDownloadImage}
+        isExploded={isExploded}
+        setIsExploded={handleToggleExplode}
       />
 
       <ReactFlow
@@ -182,6 +205,32 @@ function ArchitectureFlow({
           variant={BackgroundVariant.Dots}
         />
       </ReactFlow>
+
+      <AlertDialog open={showExplodeConfirm} onOpenChange={setShowExplodeConfirm}>
+        <AlertDialogContent className="bg-background/80 backdrop-blur-xl border border-border/50 max-w-sm rounded-2xl shadow-2xl">
+          <AlertDialogHeader>
+            <AlertDialogTitle className="text-md font-bold tracking-tight">
+              {pendingExplodeValue ? 'Explode View Layout' : 'Reset View Layout'}
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-xs text-muted-foreground leading-relaxed mt-1">
+              {pendingExplodeValue 
+                ? 'Exploding the view will expand the system layout and reset any manual node positions you have adjusted. Do you want to proceed?' 
+                : 'Returning to standard view will collapse the layout and reset all node positions. Do you want to proceed?'}
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="mt-4 gap-2">
+            <AlertDialogCancel className="h-9 text-xs rounded-xl hover:bg-accent border-border/50">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction 
+              onClick={confirmExplodeToggle}
+              className="h-9 text-xs rounded-xl bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+            >
+              Proceed
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
     </div>
   );
 }
