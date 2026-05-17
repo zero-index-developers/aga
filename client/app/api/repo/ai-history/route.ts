@@ -1,27 +1,18 @@
-import { NextResponse } from 'next/server';
-import { readDB, writeDB } from '@client/lib/db';
+import { backendFetch, jsonResponse } from '@client/lib/backend';
 
-export async function GET() {
-  try {
-    const db = readDB();
-    return NextResponse.json(db.aiHistory || []);
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch AI history' }, { status: 500 });
-  }
+export async function GET(request: Request) {
+  const response = await backendFetch('/api/repo/ai-history', {}, request);
+  return jsonResponse(response);
 }
 
 export async function DELETE(request: Request) {
-  try {
-    const { ids } = await request.json();
-    const db = readDB();
-    
-    if (db.aiHistory) {
-      db.aiHistory = db.aiHistory.filter((item: any) => !ids.includes(item.id));
-      writeDB(db);
-    }
-    
-    return NextResponse.json({ success: true });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to delete AI history' }, { status: 500 });
-  }
+  const response = await backendFetch('/api/repo/ai-history', {
+    method: 'DELETE',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: await request.text(),
+  }, request);
+
+  return jsonResponse(response);
 }

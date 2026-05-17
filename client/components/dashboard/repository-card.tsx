@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@client/components/ui/card";
 import { FolderGit2 } from "lucide-react";
-import { Repository } from "@client/hooks/use-repos";
+import { Repository } from "@client/lib/types";
 
 interface RepositoryCardProps {
   repo: Repository;

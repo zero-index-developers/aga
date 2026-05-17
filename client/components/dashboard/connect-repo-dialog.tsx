@@ -79,7 +79,7 @@ export function ConnectRepoDialog({ onSuccess }: { onSuccess?: (repo: string) =>
           onSuccess(data.db.connectedRepo);
         }
       } else {
-        toast.error(data.error || "Failed to connect repository.");
+        toast.error(data.message || data.error || "Failed to connect repository.");
       }
     } catch (error) {
       toast.error("An error occurred. Please try again.");

@@ -65,20 +65,20 @@ Copy `.env.example` to `.env` and configure:
 DB_CONNECTION=pgsql
 DB_HOST=database
 DB_PORT=5432
-DB_DATABASE=aga_db
-DB_USERNAME=aga_user
-DB_PASSWORD=aga_password
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
 
 # GitHub API
-GITHUB_TOKEN=your_github_personal_access_token
+GITHUB_TOKEN=your_github_token
 GITHUB_API_URL=https://api.github.com
 REPO_STORAGE_PATH=storage/repositories
 
 # IBM Bob AI
 IBM_BOB_ENABLED=true
 IBM_BOB_API_KEY=your_ibm_bob_api_key
-IBM_BOB_API_URL=https://api.ibm.com/watsonx/v1/chat
-IBM_BOB_MODEL=ibm/granite-13b-chat-v2
+IBM_BOB_API_URL=https://your-ibm-endpoint
+IBM_BOB_MODEL=your_model_name
 ```
 
 **Getting a GitHub Token:**
@@ -426,24 +426,24 @@ The parser builds edges between nodes based on:
 
 1. **Connect a Repository:**
 ```bash
-curl -X POST http://localhost:8000/api/repositories/connect \
+curl -X POST "${APP_URL}/api/repositories/connect" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://github.com/laravel/laravel"}'
 ```
 
 2. **Check Status:**
 ```bash
-curl http://localhost:8000/api/repositories/1/status
+curl "${APP_URL}/api/repositories/1/status"
 ```
 
 3. **Get Graph Data:**
 ```bash
-curl http://localhost:8000/api/repositories/1/graph
+curl "${APP_URL}/api/repositories/1/graph"
 ```
 
 4. **Query AI:**
 ```bash
-curl -X POST http://localhost:8000/api/ai/query \
+curl -X POST "${APP_URL}/api/ai/query" \
   -H "Content-Type: application/json" \
   -d '{
     "repository_id": 1,

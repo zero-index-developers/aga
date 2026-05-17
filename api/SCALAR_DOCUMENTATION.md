@@ -24,7 +24,7 @@ php artisan config:clear
 php artisan route:clear
 
 # Then visit your Scalar documentation
-# http://localhost:8000/scalar
+# ${APP_URL}/scalar
 ```
 
 ### Method 3: Manual OpenAPI Specification
@@ -35,7 +35,7 @@ Create or update `public/docs.openapi.json` with your API specification.
 
 Once your API is running, visit:
 ```
-http://localhost:8000/scalar
+${APP_URL}/scalar
 ```
 
 ## Adding API Documentation to Controllers
@@ -157,7 +157,7 @@ php artisan config:show scalar
 
 3. Check the path:
 ```
-http://localhost:8000/scalar  (default path)
+${APP_URL}/scalar  (default path)
 ```
 
 ## Best Practices
@@ -216,6 +216,6 @@ class AIController extends Controller
 ## Next Steps
 
 1. Run `php artisan scribe:generate` to create initial documentation
-2. Visit `http://localhost:8000/scalar` to view the docs
+2. Visit `${APP_URL}/scalar` to view the docs
 3. Add more detailed annotations to your controllers
 4. Regenerate documentation after changes

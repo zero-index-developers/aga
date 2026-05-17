@@ -23,10 +23,13 @@ composer require laravel/socialite
 
 ### 2. Configuration
 
-#### Environment Variables (`.env`)
+#### Environment Variables (`api/.env`)
 
-````env
-
+```env
+GITHUB_CLIENT_ID=your_github_client_id
+GITHUB_CLIENT_SECRET=your_github_client_secret
+GITHUB_REDIRECT_URI=http://your-app-host/auth-callback
+```
 
 #### Services Configuration (`config/services.php`)
 ```php
@@ -36,7 +39,7 @@ composer require laravel/socialite
     'redirect' => env('GITHUB_REDIRECT_URI'),
     'scopes' => ['user:email', 'read:user', 'repo'],
 ],
-````
+```
 
 ### 3. Database Schema
 
@@ -214,7 +217,7 @@ npm run dev
 
 ### 2. Test OAuth Flow
 
-1. Navigate to `http://localhost:3000/login`
+1. Navigate to `${NEXT_PUBLIC_APP_URL}/login`
 2. Click "GitHub" button
 3. Authorize on GitHub
 4. Verify redirect to dashboard
@@ -230,13 +233,13 @@ SELECT id, name, email, github_id, avatar FROM users WHERE github_id IS NOT NULL
 
 ```bash
 # Get OAuth URL
-curl http://127.0.0.1:8000/api/auth/github
+curl "${APP_URL}/api/auth/github"
 
 # Test callback (with valid code)
-curl "http://127.0.0.1:8000/api/auth/github/callback?code=GITHUB_CODE"
+curl "${APP_URL}/api/auth/github/callback?code=GITHUB_CODE"
 
 # Disconnect GitHub (requires auth token)
-curl -X POST http://127.0.0.1:8000/api/auth/github/disconnect \
+curl -X POST "${APP_URL}/api/auth/github/disconnect" \
   -H "Authorization: Bearer YOUR_TOKEN"
 ```
 

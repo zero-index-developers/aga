@@ -54,7 +54,12 @@ return [
         'client_id' => env('GITHUB_CLIENT_ID'),
         'client_secret' => env('GITHUB_CLIENT_SECRET'),
         'redirect' => env('GITHUB_REDIRECT_URI'),
-        'scopes' => ['user:email', 'read:user', 'repo'],
+        'scopes' => array_filter(array_map('trim', explode(',', env('GITHUB_SCOPES', 'user:email,read:user,repo')))),
+    ],
+
+    'frontend' => [
+        'url' => env('FRONTEND_URL', env('NEXT_PUBLIC_APP_URL')),
+        'auth_callback_path' => env('FRONTEND_AUTH_CALLBACK_PATH', '/auth-callback'),
     ],
 
     /*

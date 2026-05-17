@@ -11,7 +11,12 @@ export function useSettings() {
   const fetchSettings = useCallback(async () => {
     try {
       const res = await fetch('/api/settings');
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.message || data.error || 'Failed to fetch settings');
+      }
+
       setSettings(data);
     } catch (error) {
       console.error('Failed to fetch settings:', error);
@@ -32,13 +37,18 @@ export function useSettings() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(newSettings),
       });
-      const data = await res.json();
+      const data = await res.json().catch(() => ({}));
+
+      if (!res.ok) {
+        throw new Error(data.message || data.error || 'Failed to save settings');
+      }
+
       if (data.success) {
         setSettings(data.settings);
         return true;
       }
-    } catch (error) {
-      toast.error('Failed to save settings');
+    } catch (error: any) {
+      toast.error(error.message || 'Failed to save settings');
     } finally {
       setIsSaving(false);
     }

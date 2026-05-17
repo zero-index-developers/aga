@@ -37,9 +37,9 @@ aga/
    ```
 
 4. **Access services:**
-   - Frontend: http://localhost:3000 (with hot reload)
-   - Backend API: http://localhost:8000 (with hot reload)
-   - Database: localhost:5432
+   - Frontend: use the host defined by `CLIENT_PORT`
+   - Backend API: use the host defined by `API_PORT`
+   - Database: use the host defined by `DB_PORT`
 
 ### Development
 
@@ -73,7 +73,7 @@ docker-compose -f docker-compose.yml exec client sh
 docker-compose -f docker-compose.yml exec api bash
 
 # Access database shell
-docker-compose -f docker-compose.yml exec database psql -U aga_user -d aga_db
+docker-compose -f docker-compose.yml exec database psql -U "$DB_USERNAME" -d "$DB_DATABASE"
 ```
 
 ## 🔥 Hot Reload Features
@@ -125,15 +125,15 @@ Key environment variables in `.env`:
 APP_NAME=AGA
 APP_ENV=local                    # local for dev, production for prod
 APP_DEBUG=true                   # true for dev, false for prod
-APP_URL=http://localhost:8000
+APP_URL=http://your-api-host
 
 # Database
 DB_CONNECTION=pgsql
 DB_HOST=database                 # Container name
 DB_PORT=5432
-DB_DATABASE=aga_db
-DB_USERNAME=aga_user
-DB_PASSWORD=aga_password
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
 
 # Ports
 API_PORT=8000
@@ -141,7 +141,7 @@ CLIENT_PORT=3000
 
 # Next.js
 NODE_ENV=development             # development for dev, production for prod
-NEXT_PUBLIC_API_URL=http://localhost:8000
+NEXT_PUBLIC_API_URL=http://your-api-host
 ```
 
 ## 🐛 Troubleshooting

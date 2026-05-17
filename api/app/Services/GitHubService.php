@@ -11,12 +11,12 @@ use Symfony\Component\Process\Exception\ProcessFailedException;
 class GitHubService
 {
     protected Client $client;
-    protected string $token;
+    protected ?string $token;
     protected string $storagePath;
 
     public function __construct()
     {
-        $this->token = config('services.github.token');
+        $this->token = config('services.github.token') ?: null;
         $this->storagePath = storage_path(config('services.github.storage_path', 'app/repositories'));
         
         $this->client = new Client();

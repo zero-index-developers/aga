@@ -1,7 +1,7 @@
 'use client';
 
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { authService, User, LoginCredentials, RegisterCredentials } from '@/lib/auth';
 import { toast } from 'sonner';
 
@@ -20,6 +20,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const pathname = usePathname();
 
   useEffect(() => {
     checkAuth();
@@ -33,7 +34,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }
     } catch (error) {
       console.error('Auth check failed:', error);
-      authService.isAuthenticated() && await authService.logout();
+      authService.clearToken();
+      setUser(null);
+
+      if (pathname.startsWith('/app')) {
+        router.replace('/login');
+      }
     } finally {
       setLoading(false);
     }
@@ -66,12 +72,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = async () => {
     try {
       await authService.logout();
-      setUser(null);
       toast.success('Logged out successfully');
-      router.push('/login');
     } catch (error: any) {
-      toast.error(error.message || 'Logout failed');
-      throw error;
+      console.error('Logout request failed:', error);
+      toast.error(error.message || 'Logged out locally, but the API logout request failed');
+    } finally {
+      authService.clearToken();
+      setUser(null);
+      router.push('/login');
     }
   };
 

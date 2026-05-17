@@ -4,8 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -19,20 +19,36 @@ class GitHubOAuthController extends Controller
     public function redirectToGitHub()
     {
         try {
+            if (
+                !config('services.github.client_id') ||
+                !config('services.github.client_secret') ||
+                !config('services.github.redirect')
+            ) {
+                return $this->oauthFailure(
+                    request(),
+                    'GitHub OAuth is not configured. Check GITHUB_CLIENT_ID, GITHUB_CLIENT_SECRET, and GITHUB_REDIRECT_URI.'
+                );
+            }
+
             $url = Socialite::driver('github')
-                ->scopes(['user:email', 'read:user', 'repo'])
+                ->scopes(config('services.github.scopes', ['user:email', 'read:user', 'repo']))
                 ->stateless()
                 ->redirect()
                 ->getTargetUrl();
 
-            return response()->json([
-                'url' => $url
-            ]);
+            if (request()->expectsJson()) {
+                return response()->json([
+                    'url' => $url,
+                ]);
+            }
+
+            return redirect()->away($url);
         } catch (\Exception $e) {
-            return response()->json([
-                'message' => 'Failed to generate GitHub OAuth URL',
-                'error' => $e->getMessage()
-            ], 500);
+            Log::error('GitHub OAuth redirect failed', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return $this->oauthFailure(request(), 'Failed to initiate GitHub login.');
         }
     }
 
@@ -45,13 +61,20 @@ class GitHubOAuthController extends Controller
     public function handleGitHubCallback(Request $request)
     {
         try {
+            if ($request->has('error')) {
+                return $this->oauthFailure($request, 'GitHub authentication was cancelled or failed.');
+            }
+
             // Get the GitHub user
             $githubUser = Socialite::driver('github')
                 ->stateless()
                 ->user();
+            $githubId = (string) $githubUser->getId();
+            $githubEmail = $githubUser->getEmail() ?: "github-{$githubId}@users.noreply.github.com";
+            $githubName = $githubUser->getName() ?: $githubUser->getNickname() ?: "GitHub User {$githubId}";
 
             // Find or create user
-            $user = User::where('github_id', $githubUser->getId())->first();
+            $user = User::where('github_id', $githubId)->first();
 
             if ($user) {
                 // Update existing user's GitHub token and avatar
@@ -62,12 +85,12 @@ class GitHubOAuthController extends Controller
                 ]);
             } else {
                 // Check if user exists with this email
-                $user = User::where('email', $githubUser->getEmail())->first();
+                $user = User::where('email', $githubEmail)->first();
 
                 if ($user) {
                     // Link GitHub account to existing user
                     $user->update([
-                        'github_id' => $githubUser->getId(),
+                        'github_id' => $githubId,
                         'github_token' => $githubUser->token,
                         'github_refresh_token' => $githubUser->refreshToken,
                         'avatar' => $githubUser->getAvatar(),
@@ -75,9 +98,9 @@ class GitHubOAuthController extends Controller
                 } else {
                     // Create new user
                     $user = User::create([
-                        'name' => $githubUser->getName() ?? $githubUser->getNickname(),
-                        'email' => $githubUser->getEmail(),
-                        'github_id' => $githubUser->getId(),
+                        'name' => $githubName,
+                        'email' => $githubEmail,
+                        'github_id' => $githubId,
                         'github_token' => $githubUser->token,
                         'github_refresh_token' => $githubUser->refreshToken,
                         'avatar' => $githubUser->getAvatar(),
@@ -90,7 +113,7 @@ class GitHubOAuthController extends Controller
             // Create API token for the user
             $token = $user->createToken('github-oauth-token')->plainTextToken;
 
-            return response()->json([
+            $payload = [
                 'message' => 'Successfully authenticated with GitHub',
                 'user' => [
                     'id' => $user->id,
@@ -100,13 +123,51 @@ class GitHubOAuthController extends Controller
                     'github_id' => $user->github_id,
                 ],
                 'token' => $token,
-            ]);
+            ];
+
+            if ($request->expectsJson()) {
+                return response()->json($payload);
+            }
+
+            return $this->redirectToFrontend([
+                'token' => $token,
+                'provider' => 'github',
+            ], useFragment: true);
         } catch (\Exception $e) {
+            Log::error('GitHub OAuth callback failed', [
+                'message' => $e->getMessage(),
+            ]);
+
+            return $this->oauthFailure($request, 'Failed to authenticate with GitHub.');
+        }
+    }
+
+    private function oauthFailure(Request $request, string $message)
+    {
+        if ($request->expectsJson()) {
             return response()->json([
-                'message' => 'Failed to authenticate with GitHub',
-                'error' => $e->getMessage()
+                'message' => $message,
             ], 500);
         }
+
+        return $this->redirectToFrontend([
+            'error' => 'github_auth_failed',
+            'message' => $message,
+        ]);
+    }
+
+    private function redirectToFrontend(array $params, bool $useFragment = false)
+    {
+        $frontendUrl = rtrim((string) config('services.frontend.url'), '/');
+
+        if ($frontendUrl === '') {
+            return response()->json($params);
+        }
+
+        $callbackPath = '/' . ltrim((string) config('services.frontend.auth_callback_path', '/auth-callback'), '/');
+        $separator = $useFragment ? '#' : '?';
+
+        return redirect()->away($frontendUrl . $callbackPath . $separator . http_build_query($params));
     }
 
     /**

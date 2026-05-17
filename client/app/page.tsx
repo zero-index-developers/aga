@@ -21,12 +21,12 @@ export default function LandingPage() {
         </p>
 
         <div className="flex justify-center gap-4 pt-8">
-          <Link href={process.env.NEXT_PUBLIC_APP_URL || "http://app.localhost:3000/"}>
+          <Link href={process.env.NEXT_PUBLIC_APP_URL || "/app"}>
             <Button size="lg" className="h-12 px-8 text-lg">
               Open Dashboard
             </Button>
           </Link>
-          <Link href={`${process.env.NEXT_PUBLIC_APP_URL || "http://app.localhost:3000"}/register`}>
+          <Link href={process.env.NEXT_PUBLIC_APP_URL ? `${process.env.NEXT_PUBLIC_APP_URL}/register` : "/register"}>
             <Button size="lg" variant="outline" className="h-12 px-8 text-lg">
               Sign Up
             </Button>

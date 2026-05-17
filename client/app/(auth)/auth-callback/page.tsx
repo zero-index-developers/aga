@@ -16,27 +16,37 @@ function AuthCallbackContent() {
     const handleCallback = async () => {
       const code = searchParams.get('code');
       const errorParam = searchParams.get('error');
+      const hashParams = new URLSearchParams(window.location.hash.replace(/^#/, ''));
+      const token = searchParams.get('token') || hashParams.get('token');
+      const hashError = hashParams.get('error');
 
-      if (errorParam) {
+      if (errorParam || hashError) {
         setError('GitHub authentication was cancelled or failed.');
-        setTimeout(() => router.push('/login'), 3000);
+        setTimeout(() => router.replace('/login'), 3000);
+        return;
+      }
+
+      if (token) {
+        authService.setToken(token);
+        toast.success('Successfully authenticated with GitHub!');
+        window.location.replace('/app/repos');
         return;
       }
 
       if (!code) {
         setError('No authorization code received from GitHub.');
-        setTimeout(() => router.push('/login'), 3000);
+        setTimeout(() => router.replace('/login'), 3000);
         return;
       }
 
       try {
         await authService.handleGitHubCallback(code);
         toast.success('Successfully authenticated with GitHub!');
-        router.push('/app/repos');
+        window.location.replace('/app/repos');
       } catch (err) {
         console.error('GitHub callback error:', err);
         setError('Failed to complete GitHub authentication. Please try again.');
-        setTimeout(() => router.push('/login'), 3000);
+        setTimeout(() => router.replace('/login'), 3000);
       }
     };
 

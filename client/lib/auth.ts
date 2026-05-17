@@ -1,4 +1,5 @@
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://127.0.0.1:8000';
+const API_URL = (process.env.NEXT_PUBLIC_API_URL || '').replace(/\/+$/, '');
+const GITHUB_AUTH_START_PATH = '/api/auth/github';
 
 export interface User {
   id: number;
@@ -43,17 +44,49 @@ export interface ResetPasswordData {
 class AuthService {
   private getToken(): string | null {
     if (typeof window === 'undefined') return null;
-    return localStorage.getItem('auth_token');
+    const localToken = localStorage.getItem('auth_token');
+
+    if (localToken) {
+      return localToken;
+    }
+
+    const cookieToken = document.cookie
+      .split('; ')
+      .find((cookie) => cookie.startsWith('auth_token='))
+      ?.split('=')[1];
+
+    return cookieToken ? decodeURIComponent(cookieToken) : null;
   }
 
-  private setToken(token: string): void {
+  setToken(token: string): void {
     if (typeof window === 'undefined') return;
     localStorage.setItem('auth_token', token);
+    const secure = window.location.protocol === 'https:' ? '; Secure' : '';
+    document.cookie = `auth_token=${encodeURIComponent(token)}; Path=/; Max-Age=2592000; SameSite=Lax${secure}`;
   }
 
   private removeToken(): void {
     if (typeof window === 'undefined') return;
     localStorage.removeItem('auth_token');
+    document.cookie = 'auth_token=; Path=/; Max-Age=0; SameSite=Lax';
+  }
+
+  clearToken(): void {
+    this.removeToken();
+  }
+
+  private getErrorMessage(data: any, status: number): string {
+    if (data?.errors && typeof data.errors === 'object') {
+      const messages = Object.values(data.errors)
+        .flat()
+        .filter((message): message is string => typeof message === 'string');
+
+      if (messages.length > 0) {
+        return messages.join(' ');
+      }
+    }
+
+    return data?.message || `Request failed with status ${status}`;
   }
 
   private async request<T>(
@@ -68,15 +101,20 @@ class AuthService {
       ...options.headers,
     };
 
+    if (!API_URL) {
+      throw new Error('NEXT_PUBLIC_API_URL is not configured');
+    }
+
     const response = await fetch(`${API_URL}/api${endpoint}`, {
       ...options,
       headers,
+      credentials: 'include',
     });
 
-    const data = await response.json();
+    const data = await response.json().catch(() => ({}));
 
     if (!response.ok) {
-      throw new Error(data.message || 'An error occurred');
+      throw new Error(this.getErrorMessage(data, response.status));
     }
 
     return data;
@@ -136,6 +174,20 @@ class AuthService {
 
   async getGitHubAuthUrl(): Promise<{ url: string }> {
     return this.request<{ url: string }>('/auth/github');
+  }
+
+  getGitHubAuthStartUrl(): string {
+    if (!API_URL) {
+      throw new Error('NEXT_PUBLIC_API_URL is not configured');
+    }
+
+    return `${API_URL}${GITHUB_AUTH_START_PATH}`;
+  }
+
+  startGitHubOAuth(): void {
+    const url = this.getGitHubAuthStartUrl();
+    console.info('[GitHub OAuth] Redirecting to backend OAuth start:', url);
+    window.location.assign(url);
   }
 
   async handleGitHubCallback(code: string): Promise<AuthResponse> {

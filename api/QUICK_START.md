@@ -37,7 +37,7 @@ docker-compose exec api php artisan key:generate
 Edit `api/.env` and add your GitHub token:
 
 ```env
-GITHUB_TOKEN=ghp_your_github_token_here
+GITHUB_TOKEN=your_github_token
 ```
 
 **Get GitHub Token:**
@@ -62,21 +62,21 @@ docker-compose exec api php artisan queue:work &
 
 ```bash
 # Health check
-curl http://localhost:8000/api/health
+curl "${APP_URL}/api/health"
 
 # Connect a repository
-curl -X POST http://localhost:8000/api/repositories/connect \
+curl -X POST "${APP_URL}/api/repositories/connect" \
   -H "Content-Type: application/json" \
   -d '{"url": "https://github.com/laravel/laravel"}'
 
 # Check status (use the ID from previous response)
-curl http://localhost:8000/api/repositories/1/status
+curl "${APP_URL}/api/repositories/1/status"
 
 # Get graph data (wait until status is "completed")
-curl http://localhost:8000/api/repositories/1/graph
+curl "${APP_URL}/api/repositories/1/graph"
 
 # Query AI
-curl -X POST http://localhost:8000/api/ai/query \
+curl -X POST "${APP_URL}/api/ai/query" \
   -H "Content-Type: application/json" \
   -d '{
     "repository_id": 1,
@@ -157,4 +157,4 @@ See `IMPLEMENTATION_GUIDE.md` for complete documentation including:
 
 - Check logs: `docker-compose logs api`
 - Laravel logs: `api/storage/logs/laravel.log`
-- Database: `docker-compose exec database psql -U aga_user -d aga_db`
+- Database: `docker-compose exec database psql -U "$DB_USERNAME" -d "$DB_DATABASE"`

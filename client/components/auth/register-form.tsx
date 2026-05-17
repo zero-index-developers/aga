@@ -51,8 +51,7 @@ export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
   const handleGitHubLogin = async () => {
     setGithubLoading(true);
     try {
-      const { url } = await authService.getGitHubAuthUrl();
-      window.location.href = url;
+      authService.startGitHubOAuth();
     } catch (error) {
       console.error('GitHub OAuth error:', error);
       toast({

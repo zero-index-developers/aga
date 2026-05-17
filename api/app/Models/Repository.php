@@ -5,18 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
-use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Repository extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory;
 
     protected $fillable = [
         'name',
+        'slug',
         'full_name',
         'owner',
         'description',
         'url',
+        'provider',
+        'access_token',
+        'is_active',
+        'analytics',
+        'graph',
         'clone_url',
         'default_branch',
         'language',
@@ -28,8 +33,15 @@ class Repository extends Model
     ];
 
     protected $casts = [
+        'is_active' => 'boolean',
+        'analytics' => 'array',
+        'graph' => 'array',
         'metadata' => 'array',
         'last_scanned_at' => 'datetime',
+    ];
+
+    protected $hidden = [
+        'access_token',
     ];
 
     /**

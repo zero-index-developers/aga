@@ -161,7 +161,7 @@ Route::post('/oracle', [OracleController::class, 'query']);
 **Task 3: Test Responses** (45 minutes)
 Use Postman or curl to test:
 ```bash
-curl -X POST http://localhost:8000/api/oracle \
+curl -X POST "${APP_URL}/api/oracle" \
   -H "Content-Type: application/json" \
   -d '{"query": "Why is there a 500ms delay?", "repo": "demo"}'
 ```

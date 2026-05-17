@@ -1,43 +1,13 @@
-import { NextResponse } from 'next/server';
-import { readDB, writeDB } from '@client/lib/db';
+import { backendFetch, jsonResponse } from '@client/lib/backend';
 
-export async function POST(req: Request) {
-  try {
-    const { url, repoName } = await req.json();
-    
-    const db = readDB();
+export async function POST(request: Request) {
+  const response = await backendFetch('/api/repo/connect', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: await request.text(),
+  }, request);
 
-    const name = repoName || url.split('/').pop() || 'unknown-repo';
-    
-    const newRepo = {
-      name,
-      url,
-      analytics: {
-        nodes: 142,
-        edges: 315,
-        health: 92,
-        lastScanned: new Date().toISOString()
-      }
-    };
-
-    // Check if repo already exists
-    const exists = db.repositories.find((r: any) => r.name === name);
-    if (!exists) {
-      db.repositories.push(newRepo);
-    }
-    
-    db.activeRepo = name;
-
-    writeDB(db);
-    
-    return NextResponse.json({ 
-      success: true, 
-      db: { 
-        connectedRepo: name, 
-        analytics: newRepo.analytics 
-      } 
-    });
-  } catch (error) {
-    return NextResponse.json({ error: 'Failed to connect repository' }, { status: 500 });
-  }
+  return jsonResponse(response);
 }

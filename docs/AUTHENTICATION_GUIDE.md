@@ -30,7 +30,7 @@ Complete authentication system implemented with Laravel Sanctum (backend) and Ne
 
 ```bash
 # Register
-curl -X POST http://127.0.0.1:8000/api/auth/register \
+curl -X POST "${APP_URL}/api/auth/register" \
   -H "Content-Type: application/json" \
   -d '{
     "name": "John Doe",
@@ -40,7 +40,7 @@ curl -X POST http://127.0.0.1:8000/api/auth/register \
   }'
 
 # Login
-curl -X POST http://127.0.0.1:8000/api/auth/login \
+curl -X POST "${APP_URL}/api/auth/login" \
   -H "Content-Type: application/json" \
   -d '{
     "email": "john@example.com",
@@ -48,11 +48,11 @@ curl -X POST http://127.0.0.1:8000/api/auth/login \
   }'
 
 # Get User (with token)
-curl -X GET http://127.0.0.1:8000/api/auth/user \
+curl -X GET "${APP_URL}/api/auth/user" \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 
 # Logout
-curl -X POST http://127.0.0.1:8000/api/auth/logout \
+curl -X POST "${APP_URL}/api/auth/logout" \
   -H "Authorization: Bearer YOUR_TOKEN_HERE"
 ```
 
@@ -123,21 +123,21 @@ await authService.resetPassword({ token, email, password, password_confirmation 
 
 ### Backend (.env)
 ```env
-APP_URL=http://127.0.0.1:8000
+APP_URL=http://your-api-host
 DB_CONNECTION=pgsql
 DB_HOST=127.0.0.1
 DB_PORT=5432
-DB_DATABASE=aga
-DB_USERNAME=postgres
-DB_PASSWORD=admin
+DB_DATABASE=your_database_name
+DB_USERNAME=your_database_user
+DB_PASSWORD=your_database_password
 
 MAIL_MAILER=log
-SANCTUM_STATEFUL_DOMAINS=localhost,localhost:3000,127.0.0.1,127.0.0.1:8000
+SANCTUM_STATEFUL_DOMAINS=your-app-host,your-api-host
 ```
 
 ### Frontend (.env)
 ```env
-NEXT_PUBLIC_API_URL=http://127.0.0.1:8000
+NEXT_PUBLIC_API_URL=http://your-api-host
 ```
 
 ## Testing Checklist
