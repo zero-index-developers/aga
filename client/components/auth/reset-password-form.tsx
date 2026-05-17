@@ -1,83 +1,73 @@
 'use client';
 
 import Link from "next/link";
-import { useState } from "react";
-import { Github, Gitlab } from "lucide-react";
+import { useState, useEffect } from "react";
+import { useSearchParams, useRouter } from "next/navigation";
 import { Button } from "@client/components/ui/button";
 import { Input } from "@client/components/ui/input";
 import { Label } from "@client/components/ui/label";
-import { useAuth } from "@/contexts/auth-context";
 import { authService } from "@/lib/auth";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
-export default function RegisterPage() {
-  const { register } = useAuth();
-  const { toast } = useToast();
-  const [name, setName] = useState("");
+export function ResetPasswordForm() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const [token, setToken] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
-  const [githubLoading, setGithubLoading] = useState(false);
+
+  useEffect(() => {
+    const tokenParam = searchParams.get('token');
+    const emailParam = searchParams.get('email');
+    
+    if (tokenParam) setToken(tokenParam);
+    if (emailParam) setEmail(emailParam);
+  }, [searchParams]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (password !== passwordConfirmation) {
-      alert("Passwords do not match");
+      toast.error("Passwords do not match");
+      return;
+    }
+
+    if (!token) {
+      toast.error("Invalid reset token");
       return;
     }
 
     setLoading(true);
 
     try {
-      await register({
-        name,
+      await authService.resetPassword({
+        token,
         email,
         password,
         password_confirmation: passwordConfirmation,
       });
-    } catch (error) {
-      console.error('Registration error:', error);
+      toast.success("Password reset successfully");
+      router.push('/login');
+    } catch (error: any) {
+      toast.error(error.message || "Failed to reset password");
     } finally {
       setLoading(false);
     }
   };
 
-  const handleGitHubLogin = async () => {
-    setGithubLoading(true);
-    try {
-      const { url } = await authService.getGitHubAuthUrl();
-      window.location.href = url;
-    } catch (error) {
-      console.error('GitHub OAuth error:', error);
-      toast({
-        title: "Error",
-        description: "Failed to initiate GitHub login. Please try again.",
-        variant: "destructive",
-      });
-      setGithubLoading(false);
-    }
-  };
-
   return (
     <div className="grid gap-6">
+      <div className="grid gap-2 text-center">
+        <h1 className="text-2xl font-bold">Reset your password</h1>
+        <p className="text-muted-foreground">
+          Enter your new password below
+        </p>
+      </div>
+
       <form onSubmit={handleSubmit}>
         <div className="grid gap-4">
-          <div className="grid gap-2">
-            <Label htmlFor="name">Name</Label>
-            <Input
-              id="name"
-              placeholder="John Doe"
-              type="text"
-              autoCapitalize="words"
-              autoComplete="name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              required
-              disabled={loading}
-            />
-          </div>
           <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
@@ -94,7 +84,7 @@ export default function RegisterPage() {
             />
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="password">Password</Label>
+            <Label htmlFor="password">New Password</Label>
             <Input
               id="password"
               type="password"
@@ -111,7 +101,7 @@ export default function RegisterPage() {
             </p>
           </div>
           <div className="grid gap-2">
-            <Label htmlFor="confirm-password">Confirm Password</Label>
+            <Label htmlFor="confirm-password">Confirm New Password</Label>
             <Input
               id="confirm-password"
               type="password"
@@ -125,40 +115,13 @@ export default function RegisterPage() {
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Creating account..." : "Create Account"}
+            {loading ? "Resetting..." : "Reset password"}
           </Button>
         </div>
       </form>
 
-      <div className="relative">
-        <div className="absolute inset-0 flex items-center">
-          <span className="w-full border-t border-border" />
-        </div>
-        <div className="relative flex justify-center text-xs uppercase">
-          <span className="bg-background px-2 text-muted-foreground">
-            Or continue with
-          </span>
-        </div>
-      </div>
-
-      <div className="grid grid-cols-2 gap-4">
-        <Button
-          variant="outline"
-          type="button"
-          onClick={handleGitHubLogin}
-          disabled={githubLoading || loading}
-        >
-          <Github className="mr-2 h-4 w-4" />
-          {githubLoading ? "Connecting..." : "GitHub"}
-        </Button>
-        <Button variant="outline" type="button" disabled>
-          <Gitlab className="mr-2 h-4 w-4" />
-          GitLab
-        </Button>
-      </div>
-
       <div className="text-center text-sm text-muted-foreground">
-        Already have an account?{" "}
+        Remember your password?{" "}
         <Link
           href="/login"
           className="underline underline-offset-4 hover:text-primary"

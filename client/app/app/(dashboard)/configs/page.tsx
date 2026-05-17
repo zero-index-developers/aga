@@ -10,6 +10,7 @@ import {
   Eye,
   Trash2,
   Plus,
+  Wand2,
 } from 'lucide-react';
 import { Button } from '@client/components/ui/button';
 import { Input } from '@client/components/ui/input';
@@ -59,6 +60,33 @@ export default function ConfigsPage() {
     }
   };
 
+  const handleAutoGenerate = () => {
+    if (!settings) return;
+    toast.promise(
+      new Promise((resolve) => setTimeout(resolve, 1200)),
+      {
+        loading: 'Analyzing repository structure...',
+        success: () => {
+          const suggested = ['.git', '.vscode', '.idea', 'build', 'out', 'coverage', 'node_modules', 'dist', '.next'];
+          const current = new Set(settings.scanner.exclusions);
+          const toAdd = suggested.filter(p => !current.has(p));
+          
+          if (toAdd.length > 0) {
+            updateSettings({
+              scanner: {
+                ...settings.scanner,
+                exclusions: [...settings.scanner.exclusions, ...toAdd]
+              }
+            });
+            return `Added ${toAdd.length} standard exclusion patterns.`;
+          }
+          return 'All standard patterns are already excluded.';
+        },
+        error: 'Failed to analyze repository.'
+      }
+    );
+  };
+
   if (isLoading) {
     return (
       <div className="h-screen flex items-center justify-center bg-background">
@@ -93,9 +121,20 @@ export default function ConfigsPage() {
                 Scanner Exclusions
               </div>
               <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 gap-0">
-                <p className="text-sm text-muted-foreground mb-4">
-                  Directories and file patterns to ignore during architectural discovery.
-                </p>
+                <div className="flex justify-between items-start mb-4">
+                  <p className="text-sm text-muted-foreground">
+                    Directories and file patterns to ignore during architectural discovery.
+                  </p>
+                  <Button 
+                    variant="outline" 
+                    size="sm" 
+                    className="gap-2 shrink-0 border-primary/20 hover:bg-primary/10 text-primary transition-all"
+                    onClick={handleAutoGenerate}
+                  >
+                    <Wand2 className="w-4 h-4" />
+                    Auto Generate
+                  </Button>
+                </div>
 
                 <div className="flex gap-2 mb-6">
                   <Input
@@ -139,8 +178,8 @@ export default function ConfigsPage() {
               </div>
               <Card className="p-6 bg-card/30 backdrop-blur-sm border-border/50 space-y-6">
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Insight Depth</label>
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium block text-muted-foreground">Insight Depth</label>
                     <Select
                       value={settings?.ai.insightDepth}
                       onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, insightDepth: val } })}
@@ -154,8 +193,8 @@ export default function ConfigsPage() {
                       </SelectContent>
                     </Select>
                   </div>
-                  <div className="space-y-2">
-                    <label className="text-sm font-medium">Analysis Focus</label>
+                  <div className="space-y-3">
+                    <label className="text-sm font-medium block text-muted-foreground">Analysis Focus</label>
                     <Select
                       value={settings?.ai.focus}
                       onValueChange={(val: any) => updateSettings({ ai: { ...settings!.ai, focus: val } })}

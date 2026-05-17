@@ -10,22 +10,39 @@ import { useAuth } from "@/contexts/auth-context";
 import { authService } from "@/lib/auth";
 import { useToast } from "@/hooks/use-toast";
 
-export default function LoginPage() {
-  const { login } = useAuth();
+interface RegisterFormProps {
+  enableOAuth?: boolean;
+}
+
+export function RegisterForm({ enableOAuth = true }: RegisterFormProps) {
+  const { register } = useAuth();
   const { toast } = useToast();
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [passwordConfirmation, setPasswordConfirmation] = useState("");
   const [loading, setLoading] = useState(false);
   const [githubLoading, setGithubLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    
+    if (password !== passwordConfirmation) {
+      alert("Passwords do not match");
+      return;
+    }
+
     setLoading(true);
 
     try {
-      await login({ email, password });
+      await register({
+        name,
+        email,
+        password,
+        password_confirmation: passwordConfirmation,
+      });
     } catch (error) {
-      console.error('Login error:', error);
+      console.error('Registration error:', error);
     } finally {
       setLoading(false);
     }
@@ -52,6 +69,20 @@ export default function LoginPage() {
       <form onSubmit={handleSubmit}>
         <div className="grid gap-4">
           <div className="grid gap-2">
+            <Label htmlFor="name">Name</Label>
+            <Input
+              id="name"
+              placeholder="John Doe"
+              type="text"
+              autoCapitalize="words"
+              autoComplete="name"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+              disabled={loading}
+            />
+          </div>
+          <div className="grid gap-2">
             <Label htmlFor="email">Email</Label>
             <Input
               id="email"
@@ -67,28 +98,38 @@ export default function LoginPage() {
             />
           </div>
           <div className="grid gap-2">
-            <div className="flex items-center justify-between">
-              <Label htmlFor="password">Password</Label>
-              <Link
-                href="/forgot-password"
-                className="text-sm text-muted-foreground hover:text-primary underline underline-offset-4"
-              >
-                Forgot password?
-              </Link>
-            </div>
+            <Label htmlFor="password">Password</Label>
             <Input
               id="password"
               type="password"
               autoCapitalize="none"
-              autoComplete="current-password"
+              autoComplete="new-password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
               required
               disabled={loading}
+              minLength={8}
+            />
+            <p className="text-xs text-muted-foreground">
+              Must be at least 8 characters
+            </p>
+          </div>
+          <div className="grid gap-2">
+            <Label htmlFor="confirm-password">Confirm Password</Label>
+            <Input
+              id="confirm-password"
+              type="password"
+              autoCapitalize="none"
+              autoComplete="new-password"
+              value={passwordConfirmation}
+              onChange={(e) => setPasswordConfirmation(e.target.value)}
+              required
+              disabled={loading}
+              minLength={8}
             />
           </div>
           <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Logging in..." : "Login"}
+            {loading ? "Creating account..." : "Create Account"}
           </Button>
         </div>
       </form>
@@ -105,15 +146,22 @@ export default function LoginPage() {
       </div>
 
       <div className="grid grid-cols-2 gap-4">
-        <Button
-          variant="outline"
-          type="button"
-          onClick={handleGitHubLogin}
-          disabled={githubLoading || loading}
-        >
-          <Github className="mr-2 h-4 w-4" />
-          {githubLoading ? "Connecting..." : "GitHub"}
-        </Button>
+        {enableOAuth ? (
+          <Button
+            variant="outline"
+            type="button"
+            onClick={handleGitHubLogin}
+            disabled={githubLoading || loading}
+          >
+            <Github className="mr-2 h-4 w-4" />
+            {githubLoading ? "Connecting..." : "GitHub"}
+          </Button>
+        ) : (
+          <Button variant="outline" type="button" disabled>
+            <Github className="mr-2 h-4 w-4" />
+            GitHub
+          </Button>
+        )}
         <Button variant="outline" type="button" disabled>
           <Gitlab className="mr-2 h-4 w-4" />
           GitLab
@@ -121,12 +169,12 @@ export default function LoginPage() {
       </div>
 
       <div className="text-center text-sm text-muted-foreground">
-        Don't have an account?{" "}
+        Already have an account?{" "}
         <Link
-          href="/register"
+          href="/login"
           className="underline underline-offset-4 hover:text-primary"
         >
-          Sign up
+          Sign in
         </Link>
       </div>
     </div>
