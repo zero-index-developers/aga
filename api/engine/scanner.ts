@@ -36,7 +36,7 @@ export async function scanProject(rootPath: string, options: ScanOptions = {}) {
     return {
       nodes: [],
       edges: [],
-      healthScore: { overall: 0, metrics: {} }
+      healthScore: 0
     };
   }
 
@@ -77,7 +77,7 @@ export async function scanProject(rootPath: string, options: ScanOptions = {}) {
   // Phase 7: Analyze graph metrics
   console.log('📈 Phase 7: Analyzing health metrics...');
   const healthScore = calculateHealthScore(nodes, edges);
-  console.log(`✅ Health score: ${healthScore.overall}/100`);
+  console.log(`✅ Health score: ${healthScore}/100`);
 
   console.log('🎉 Scan complete!');
 
