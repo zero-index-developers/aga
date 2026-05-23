@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\AI;
 
 use App\Models\Repository;
 use App\Models\AICache;

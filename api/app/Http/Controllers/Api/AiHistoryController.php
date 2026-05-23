@@ -3,35 +3,31 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Logs\DestroyAiHistoryRequest;
 use App\Models\AiHistory;
+use App\Services\ScanLogs\AiHistoryFormatter;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 
 class AiHistoryController extends Controller
 {
+    public function __construct(
+        private readonly AiHistoryFormatter $aiHistoryFormatter
+    ) {}
+
     public function index(): JsonResponse
     {
         $history = AiHistory::query()
             ->latest('recorded_at')
             ->latest('id')
             ->get()
-            ->map(fn (AiHistory $item) => [
-                'id' => (string) $item->id,
-                'repoName' => $item->repo_name,
-                'timestamp' => optional($item->recorded_at ?? $item->created_at)->toISOString(),
-                'prompt' => $item->prompt,
-                'response' => $item->response,
-            ]);
+            ->map(fn (AiHistory $item) => $this->aiHistoryFormatter->format($item));
 
         return response()->json($history->values());
     }
 
-    public function destroyMany(Request $request): JsonResponse
+    public function destroyMany(DestroyAiHistoryRequest $request): JsonResponse
     {
-        $payload = $request->validate([
-            'ids' => ['required', 'array'],
-            'ids.*' => ['string'],
-        ]);
+        $payload = $request->validated();
 
         AiHistory::query()->whereIn('id', $payload['ids'])->delete();
 

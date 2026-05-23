@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Repository\ConnectDashboardRepositoryRequest;
+use App\Http\Requests\Repository\StoreRepositoryScanRequest;
 use App\Models\Repository;
 use App\Models\ScanLog;
 use Illuminate\Http\JsonResponse;
@@ -38,14 +40,9 @@ class RepositoryController extends Controller
         ]);
     }
 
-    public function connect(Request $request): JsonResponse
+    public function connect(ConnectDashboardRepositoryRequest $request): JsonResponse
     {
-        $payload = $request->validate([
-            'url' => ['required', 'string', 'max:2048'],
-            'repoName' => ['nullable', 'string', 'max:255'],
-            'provider' => ['nullable', 'string', 'max:50'],
-            'token' => ['nullable', 'string'],
-        ]);
+        $payload = $request->validated();
 
         $name = trim($payload['repoName'] ?? $this->nameFromUrl($payload['url']));
         $provider = $payload['provider'] ?? $this->providerFromUrl($payload['url']);
@@ -95,24 +92,9 @@ class RepositoryController extends Controller
         ]);
     }
 
-    public function storeScan(Request $request): JsonResponse
+    public function storeScan(StoreRepositoryScanRequest $request): JsonResponse
     {
-        $payload = $request->validate([
-            'name' => ['required', 'string', 'max:255'],
-            'url' => ['nullable', 'string', 'max:2048'],
-            'provider' => ['nullable', 'string', 'max:50'],
-            'graph' => ['required', 'array'],
-            'graph.nodes' => ['nullable', 'array'],
-            'graph.edges' => ['nullable', 'array'],
-            'analytics' => ['required', 'array'],
-            'analytics.nodes' => ['required', 'integer', 'min:0'],
-            'analytics.edges' => ['required', 'integer', 'min:0'],
-            'analytics.health' => ['required', 'integer', 'min:0', 'max:100'],
-            'analytics.lastScanned' => ['required', 'date'],
-            'duration' => ['nullable', 'string', 'max:50'],
-            'message' => ['nullable', 'string'],
-            'status' => ['nullable', 'string', 'max:50'],
-        ]);
+        $payload = $request->validated();
 
         Repository::query()->update(['is_active' => false]);
 

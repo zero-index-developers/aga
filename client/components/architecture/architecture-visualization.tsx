@@ -11,8 +11,8 @@ import ReactFlow, {
 } from 'reactflow';
 import 'reactflow/dist/style.css';
 import CustomNode from './custom-node';
-import { useFlowView } from '@client/hooks/use-flow-view';
-import { useFlowInteractions } from '@client/hooks/use-flow-interactions';
+import { useFlowView } from '@client/features/graph/hooks/use-flow-view';
+import { useFlowInteractions } from '@client/features/graph/hooks/use-flow-interactions';
 import { FlowToolbar } from './flow-toolbar';
 import { useTheme } from 'next-themes';
 import { Node, Edge, OnNodesChange, OnEdgesChange } from 'reactflow';

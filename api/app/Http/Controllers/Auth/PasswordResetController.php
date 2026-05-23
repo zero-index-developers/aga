@@ -1,14 +1,15 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Auth;
 
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Auth\ForgotPasswordRequest;
+use App\Http\Requests\Auth\ResetPasswordRequest;
 use App\Models\User;
 use Illuminate\Auth\Events\PasswordReset;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password as PasswordRule;
 use Illuminate\Validation\ValidationException;
 
 class PasswordResetController extends Controller
@@ -16,12 +17,8 @@ class PasswordResetController extends Controller
     /**
      * Send password reset link
      */
-    public function forgotPassword(Request $request)
+    public function forgotPassword(ForgotPasswordRequest $request)
     {
-        $request->validate([
-            'email' => ['required', 'email'],
-        ]);
-
         $status = Password::sendResetLink(
             $request->only('email')
         );
@@ -40,14 +37,8 @@ class PasswordResetController extends Controller
     /**
      * Reset password
      */
-    public function resetPassword(Request $request)
+    public function resetPassword(ResetPasswordRequest $request)
     {
-        $request->validate([
-            'token' => ['required'],
-            'email' => ['required', 'email'],
-            'password' => ['required', 'confirmed', PasswordRule::min(8)],
-        ]);
-
         $status = Password::reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function (User $user, string $password) {

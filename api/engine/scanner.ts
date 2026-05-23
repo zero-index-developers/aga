@@ -1,9 +1,9 @@
 import { walkDirectory } from './scanner/file-walker';
-import { buildGraph } from './scanner/graph-builder';
-import { applyGridLayout } from './scanner/layout-engine';
-import { calculateHealthScore } from './scanner/health-analyzer';
+import { buildGraph } from './graph/graph-builder';
+import { applyGridLayout } from './graph/layout-engine';
+import { calculateHealthScore } from './graph/health-analyzer';
 import { ScanOptions, generateGroups, generateTypeConfig } from './scanner/types';
-import { detectProjectStructure, generateClassificationRules } from './scanner/file-classifier';
+import { detectProjectStructure, generateClassificationRules } from './classifiers/file-classifier';
 
 export async function scanProject(rootPath: string, options: ScanOptions = {}) {
   const exclusions = options.exclusions || [

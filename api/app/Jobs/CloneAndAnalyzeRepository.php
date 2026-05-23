@@ -3,8 +3,8 @@
 namespace App\Jobs;
 
 use App\Models\Repository;
-use App\Services\GitHubService;
-use App\Services\RepositoryParserService;
+use App\Services\Repositories\GitHubService;
+use App\Services\Graph\RepositoryParserService;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;

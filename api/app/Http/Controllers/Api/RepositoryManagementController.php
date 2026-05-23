@@ -1,22 +1,23 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Actions\Repositories\ConnectRepositoryAction;
+use App\Actions\Repositories\DeleteRepositoryAction;
+use App\Actions\Repositories\TriggerRepositoryRescanAction;
+use App\Http\Controllers\Controller;
+use App\Http\Requests\Repository\ConnectRepositoryRequest;
 use App\Models\Repository;
-use App\Services\GitHubService;
-use App\Jobs\CloneAndAnalyzeRepository;
-use Illuminate\Http\Request;
+use App\Services\Repositories\GitHubService;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Validator;
 
-class RepositoryController extends Controller
+class RepositoryManagementController extends Controller
 {
-    protected GitHubService $githubService;
-
-    public function __construct(GitHubService $githubService)
-    {
-        $this->githubService = $githubService;
-    }
+    public function __construct(
+        private readonly ConnectRepositoryAction $connectRepository,
+        private readonly DeleteRepositoryAction $deleteRepository,
+        private readonly TriggerRepositoryRescanAction $triggerRepositoryRescan,
+    ) {}
 
     /**
      * List all repositories
@@ -50,23 +51,13 @@ class RepositoryController extends Controller
     /**
      * Connect a new repository
      */
-    public function connect(Request $request): JsonResponse
+    public function connect(ConnectRepositoryRequest $request): JsonResponse
     {
-        $validator = Validator::make($request->all(), [
-            'url' => 'required|string',
-        ]);
-
-        if ($validator->fails()) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Validation failed',
-                'errors' => $validator->errors(),
-            ], 422);
-        }
+        $payload = $request->validated();
 
         try {
             // Parse GitHub URL
-            $parsed = GitHubService::parseGitHubUrl($request->url);
+            $parsed = GitHubService::parseGitHubUrl($payload['url']);
             
             if (!$parsed) {
                 return response()->json([
@@ -89,18 +80,7 @@ class RepositoryController extends Controller
                 ], 409);
             }
 
-            // Fetch repository information from GitHub
-            $repoData = $this->githubService->getRepository($parsed['owner'], $parsed['repo']);
-
-            // Create repository record
-            $repository = Repository::create([
-                ...$repoData,
-                'local_path' => $this->githubService->getLocalPath($parsed['owner'], $parsed['repo']),
-                'status' => 'pending',
-            ]);
-
-            // Dispatch job to clone and analyze repository
-            CloneAndAnalyzeRepository::dispatch($repository);
+            $repository = $this->connectRepository->execute($parsed);
 
             return response()->json([
                 'success' => true,
@@ -244,9 +224,7 @@ class RepositoryController extends Controller
             ], 409);
         }
 
-        // Reset status and dispatch job
-        $repository->update(['status' => 'pending', 'error_message' => null]);
-        CloneAndAnalyzeRepository::dispatch($repository);
+        $repository = $this->triggerRepositoryRescan->execute($repository);
 
         return response()->json([
             'success' => true,
@@ -272,12 +250,7 @@ class RepositoryController extends Controller
             ], 404);
         }
 
-        // Delete local files if they exist
-        if ($repository->local_path && is_dir($repository->local_path)) {
-            $this->removeDirectory($repository->local_path);
-        }
-
-        $repository->delete();
+        $this->deleteRepository->execute($repository);
 
         return response()->json([
             'success' => true,
@@ -285,29 +258,6 @@ class RepositoryController extends Controller
         ]);
     }
 
-    /**
-     * Remove directory recursively
-     */
-    protected function removeDirectory(string $path): bool
-    {
-        if (!is_dir($path)) {
-            return false;
-        }
-
-        $files = array_diff(scandir($path), ['.', '..']);
-        
-        foreach ($files as $file) {
-            $filePath = $path . DIRECTORY_SEPARATOR . $file;
-            
-            if (is_dir($filePath)) {
-                $this->removeDirectory($filePath);
-            } else {
-                unlink($filePath);
-            }
-        }
-
-        return rmdir($path);
-    }
 }
 
 // Made with Bob

@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
 import { Github, Eye, EyeOff } from "lucide-react";
 import { toast } from "sonner";
-import { useSettings } from "@client/hooks/use-settings";
+import { useSettings } from "@client/features/settings/hooks/use-settings";
 
 import {
   Dialog,

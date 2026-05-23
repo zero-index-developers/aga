@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 import { RepositoryCard } from '@client/components/dashboard/repository-card';
-import { useRepos } from '@client/hooks/use-repos';
+import { useRepos } from '@client/features/repositories/hooks/use-repos';
 import { Activity, Plus, RefreshCw, Library } from 'lucide-react';
 import { slugify } from '@client/lib/utils';
 import { ConnectRepoDialog } from '@client/components/dashboard/connect-repo-dialog';

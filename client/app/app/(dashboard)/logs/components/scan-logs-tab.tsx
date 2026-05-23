@@ -18,7 +18,7 @@ import { Button } from '@client/components/ui/button';
 import { Card } from '@client/components/ui/card';
 import { Skeleton } from '@client/components/ui/skeleton';
 import { Database, Search, Clock, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
-import { ScanLog } from '@client/lib/types';
+import { ScanLog } from '@client/types';
 import { formatDate } from '@client/lib/utils';
 import { StatusBadge } from './status-badge';
 

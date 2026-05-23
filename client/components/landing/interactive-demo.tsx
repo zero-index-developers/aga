@@ -1,177 +1,122 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Network, Database, Code, Cpu } from 'lucide-react';
+import { Activity, Code2, Database, GitPullRequestArrow, LockKeyhole, Server } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
+const nodes = [
+  { id: 1, icon: Code2, label: 'Next.js UI', layer: 'frontend', x: 16, y: 25 },
+  { id: 2, icon: GitPullRequestArrow, label: 'Proxy Routes', layer: 'api', x: 44, y: 40 },
+  { id: 3, icon: Server, label: 'Laravel API', layer: 'backend', x: 72, y: 25 },
+  { id: 4, icon: LockKeyhole, label: 'Sanctum Auth', layer: 'security', x: 28, y: 72 },
+  { id: 5, icon: Database, label: 'PostgreSQL', layer: 'database', x: 68, y: 72 },
+];
+
+const connections = [
+  [1, 2],
+  [2, 3],
+  [3, 4],
+  [3, 5],
+  [4, 5],
+];
+
+const layerClasses: Record<string, string> = {
+  frontend: 'border-sky-500/40 bg-sky-500/10 text-sky-700 dark:text-sky-300',
+  api: 'border-emerald-500/40 bg-emerald-500/10 text-emerald-700 dark:text-emerald-300',
+  backend: 'border-amber-500/40 bg-amber-500/10 text-amber-700 dark:text-amber-300',
+  security: 'border-rose-500/40 bg-rose-500/10 text-rose-700 dark:text-rose-300',
+  database: 'border-violet-500/40 bg-violet-500/10 text-violet-700 dark:text-violet-300',
+};
+
 export function InteractiveDemo() {
-  const [activeNode, setActiveNode] = useState<number | null>(null);
-
-  const nodes = [
-    { id: 1, icon: Network, label: 'API', x: 50, y: 20, color: 'from-blue-500 to-cyan-500' },
-    { id: 2, icon: Database, label: 'DB', x: 20, y: 60, color: 'from-purple-500 to-pink-500' },
-    { id: 3, icon: Code, label: 'UI', x: 80, y: 60, color: 'from-green-500 to-emerald-500' },
-    { id: 4, icon: Cpu, label: 'Core', x: 50, y: 80, color: 'from-orange-500 to-red-500' },
-  ];
-
-  const connections = [
-    { from: 1, to: 2 },
-    { from: 1, to: 3 },
-    { from: 2, to: 4 },
-    { from: 3, to: 4 },
-  ];
+  const [activeNode, setActiveNode] = useState(1);
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setActiveNode((prev) => {
-        if (prev === null) return 1;
-        return prev >= nodes.length ? 1 : prev + 1;
-      });
-    }, 2000);
+      setActiveNode((current) => (current >= nodes.length ? 1 : current + 1));
+    }, 1800);
 
     return () => clearInterval(interval);
-  }, [nodes.length]);
+  }, []);
 
   return (
-    <div className="relative w-full aspect-square max-w-md mx-auto">
-      {/* Container with glow effect */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-purple-500/20 to-cyan-500/20 rounded-2xl blur-3xl" />
-      
-      <div className="relative h-full rounded-2xl border border-primary/20 bg-background/50 backdrop-blur-xl p-8 overflow-hidden">
-        {/* Grid background */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#8080800a_1px,transparent_1px),linear-gradient(to_bottom,#8080800a_1px,transparent_1px)] bg-[size:2rem_2rem]" />
-        
-        {/* Connections */}
-        <svg className="absolute inset-0 w-full h-full">
-          {connections.map((conn, idx) => {
-            const fromNode = nodes.find((n) => n.id === conn.from);
-            const toNode = nodes.find((n) => n.id === conn.to);
+    <div className="relative mx-auto w-full max-w-2xl overflow-hidden rounded-lg border bg-card shadow-2xl shadow-foreground/5">
+      <div className="flex h-12 items-center justify-between border-b px-4">
+        <div className="flex items-center gap-2 text-sm font-medium">
+          <Activity className="h-4 w-4 text-primary" />
+          Live architecture map
+        </div>
+        <div className="rounded-md border bg-background px-2 py-1 font-mono text-xs text-muted-foreground">
+          aga/self-scan
+        </div>
+      </div>
+
+      <div className="relative aspect-[1.35] min-h-[380px] bg-[linear-gradient(to_right,rgba(148,163,184,0.22)_1px,transparent_1px),linear-gradient(to_bottom,rgba(148,163,184,0.22)_1px,transparent_1px)] bg-[size:36px_36px] p-4">
+        <svg className="absolute inset-0 h-full w-full" aria-hidden="true">
+          {connections.map(([from, to]) => {
+            const fromNode = nodes.find((node) => node.id === from);
+            const toNode = nodes.find((node) => node.id === to);
             if (!fromNode || !toNode) return null;
 
-            const isActive = activeNode === conn.from || activeNode === conn.to;
+            const isActive = activeNode === from || activeNode === to;
 
             return (
               <motion.line
-                key={idx}
+                key={`${from}-${to}`}
                 x1={`${fromNode.x}%`}
                 y1={`${fromNode.y}%`}
                 x2={`${toNode.x}%`}
                 y2={`${toNode.y}%`}
                 stroke="currentColor"
-                strokeWidth="2"
-                className={isActive ? 'text-primary' : 'text-muted-foreground/30'}
-                initial={{ pathLength: 0, opacity: 0 }}
-                animate={{ pathLength: 1, opacity: 1 }}
-                transition={{ duration: 1, delay: idx * 0.2 }}
+                strokeWidth={isActive ? 2.5 : 1.5}
+                className={isActive ? 'text-primary' : 'text-border'}
+                initial={{ pathLength: 0 }}
+                animate={{ pathLength: 1 }}
+                transition={{ duration: 0.6 }}
               />
             );
           })}
         </svg>
 
-        {/* Nodes */}
-        {nodes.map((node, idx) => {
+        {nodes.map((node) => {
           const Icon = node.icon;
           const isActive = activeNode === node.id;
 
           return (
-            <motion.div
+            <motion.button
               key={node.id}
-              className="absolute"
-              style={{
-                left: `${node.x}%`,
-                top: `${node.y}%`,
-                transform: 'translate(-50%, -50%)',
-              }}
-              initial={{ scale: 0, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.5, delay: idx * 0.15 }}
-              onHoverStart={() => setActiveNode(node.id)}
-              onHoverEnd={() => setActiveNode(null)}
+              type="button"
+              onMouseEnter={() => setActiveNode(node.id)}
+              className={`absolute flex h-[68px] w-[132px] -translate-x-1/2 -translate-y-1/2 items-center gap-3 rounded-md border px-3 text-left shadow-sm backdrop-blur ${layerClasses[node.layer]} ${
+                isActive ? 'ring-2 ring-primary/35' : ''
+              }`}
+              style={{ left: `${node.x}%`, top: `${node.y}%` }}
+              initial={{ opacity: 0, scale: 0.96 }}
+              animate={{ opacity: 1, scale: isActive ? 1.04 : 1 }}
+              transition={{ duration: 0.25 }}
             >
-              <motion.div
-                className={`relative p-4 rounded-xl border-2 bg-background cursor-pointer ${
-                  isActive ? 'border-primary shadow-lg shadow-primary/50' : 'border-border'
-                }`}
-                animate={{
-                  scale: isActive ? 1.1 : 1,
-                  boxShadow: isActive
-                    ? '0 0 30px rgba(99, 102, 241, 0.5)'
-                    : '0 0 0px rgba(0, 0, 0, 0)',
-                }}
-                transition={{ duration: 0.3 }}
-              >
-                {/* Glow effect */}
-                {isActive && (
-                  <motion.div
-                    className={`absolute inset-0 rounded-xl bg-gradient-to-br ${node.color} opacity-20 blur-xl`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 0.3 }}
-                    transition={{ duration: 0.3 }}
-                  />
-                )}
-
-                <Icon
-                  className={`w-6 h-6 relative z-10 ${
-                    isActive ? 'text-primary' : 'text-muted-foreground'
-                  }`}
-                />
-
-                {/* Label */}
-                <motion.div
-                  className="absolute -bottom-6 left-1/2 -translate-x-1/2 text-xs font-mono whitespace-nowrap"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: isActive ? 1 : 0.5 }}
-                >
-                  {node.label}
-                </motion.div>
-
-                {/* Pulse ring */}
-                {isActive && (
-                  <motion.div
-                    className="absolute inset-0 rounded-xl border-2 border-primary"
-                    initial={{ scale: 1, opacity: 1 }}
-                    animate={{ scale: 1.5, opacity: 0 }}
-                    transition={{ duration: 1, repeat: Infinity }}
-                  />
-                )}
-              </motion.div>
-            </motion.div>
+              <Icon className="h-5 w-5 shrink-0" />
+              <span>
+                <span className="block text-sm font-semibold text-foreground">{node.label}</span>
+                <span className="block font-mono text-[11px] uppercase text-muted-foreground">{node.layer}</span>
+              </span>
+            </motion.button>
           );
         })}
+      </div>
 
-        {/* Floating particles */}
-        {[...Array(5)].map((_, i) => (
-          <motion.div
-            key={i}
-            className="absolute w-1 h-1 bg-primary/50 rounded-full"
-            style={{
-              left: `${Math.random() * 100}%`,
-              top: `${Math.random() * 100}%`,
-            }}
-            animate={{
-              y: [0, -20, 0],
-              opacity: [0.2, 0.8, 0.2],
-            }}
-            transition={{
-              duration: 3 + Math.random() * 2,
-              repeat: Infinity,
-              delay: Math.random() * 2,
-            }}
-          />
+      <div className="grid border-t text-sm sm:grid-cols-3">
+        {[
+          ['43', 'components'],
+          ['68', 'dependencies'],
+          ['91%', 'health score'],
+        ].map(([value, label]) => (
+          <div key={label} className="border-b p-4 last:border-b-0 sm:border-b-0 sm:border-r sm:last:border-r-0">
+            <div className="font-mono text-xl font-semibold">{value}</div>
+            <div className="text-muted-foreground">{label}</div>
+          </div>
         ))}
-
-        {/* Status indicator */}
-        <div className="absolute bottom-4 right-4 flex items-center gap-2 text-xs text-muted-foreground">
-          <motion.div
-            className="w-2 h-2 rounded-full bg-green-500"
-            animate={{ opacity: [0.5, 1, 0.5] }}
-            transition={{ duration: 2, repeat: Infinity }}
-          />
-          <span className="font-mono">Live Demo</span>
-        </div>
       </div>
     </div>
   );
 }
-
-// Made with Bob

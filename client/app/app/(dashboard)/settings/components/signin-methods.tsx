@@ -10,7 +10,7 @@ import { Button } from '@client/components/ui/button';
 import { Input } from '@client/components/ui/input';
 import { toast } from 'sonner';
 import { Eye, EyeOff } from 'lucide-react';
-import { useSettings } from '@client/hooks/use-settings';
+import { useSettings } from '@client/features/settings/hooks/use-settings';
 import { useAuth } from '@/contexts/auth-context';
 import {
   Dialog,

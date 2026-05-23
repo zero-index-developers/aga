@@ -15,7 +15,7 @@ import {
   AlertDialogTrigger,
 } from "@client/components/ui/alert-dialog";
 import { Bot, User, Trash } from 'lucide-react';
-import { AIHistory } from '@client/lib/types';
+import { AIHistory } from '@client/types';
 import { formatTime } from '@client/lib/utils';
 
 interface AIHistoryTabProps {

@@ -1,6 +1,6 @@
 import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@client/components/ui/card";
 import { FolderGit2 } from "lucide-react";
-import { Repository } from "@client/lib/types";
+import { Repository } from "@client/types";
 import { RepositoryDeleteDialog } from "./repository-delete-dialog";
 import { cn } from "@client/lib/utils";
 

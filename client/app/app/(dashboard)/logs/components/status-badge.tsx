@@ -1,7 +1,7 @@
 import { Badge } from '@client/components/ui/badge';
 import { CheckCircle2, AlertCircle } from 'lucide-react';
 import { cn } from '@client/lib/utils';
-import { ScanLog } from '@client/lib/types';
+import { ScanLog } from '@client/types';
 
 export function StatusBadge({ status }: { status: ScanLog['status'] }) {
   const styles = {

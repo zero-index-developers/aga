@@ -6,7 +6,7 @@ import { Input } from '@client/components/ui/input';
 import { Textarea } from '@client/components/ui/textarea';
 import { Button } from '@client/components/ui/button';
 import { Skeleton } from '@client/components/ui/skeleton';
-import { useSettings } from '@client/hooks/use-settings';
+import { useSettings } from '@client/features/settings/hooks/use-settings';
 import {
   Select,
   SelectContent,

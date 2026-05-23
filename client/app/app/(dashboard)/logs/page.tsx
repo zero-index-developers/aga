@@ -24,7 +24,7 @@ import {
   AlertDialogTrigger,
 } from "@client/components/ui/alert-dialog";
 import { useState } from 'react';
-import { useLogsData } from './hooks/use-logs-data';
+import { useLogsData } from '@client/features/scan-logs/hooks/use-logs-data';
 import { ScanLogsTab } from './components/scan-logs-tab';
 import { AIHistoryTab } from './components/ai-history-tab';
 

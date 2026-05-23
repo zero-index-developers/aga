@@ -1,10 +1,10 @@
 <?php
 
-use App\Http\Controllers\AuthController;
-use App\Http\Controllers\PasswordResetController;
-use App\Http\Controllers\GitHubOAuthController;
-use App\Http\Controllers\RepositoryController;
-use App\Http\Controllers\AIController;
+use App\Http\Controllers\Auth\AuthController;
+use App\Http\Controllers\Auth\PasswordResetController;
+use App\Http\Controllers\OAuth\GitHubOAuthController;
+use App\Http\Controllers\Api\RepositoryManagementController;
+use App\Http\Controllers\Api\AIController;
 use App\Http\Controllers\Api\AiHistoryController;
 use App\Http\Controllers\Api\RepositoryController as FrontendRepositoryController;
 use App\Http\Controllers\Api\ScanLogController;
@@ -68,13 +68,13 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/settings', [SettingsController::class, 'update']);
 
     Route::prefix('repositories')->group(function () {
-        Route::get('/', [RepositoryController::class, 'index']);
-        Route::post('/connect', [RepositoryController::class, 'connect']);
-        Route::get('/{id}', [RepositoryController::class, 'show']);
-        Route::get('/{id}/status', [RepositoryController::class, 'status']);
-        Route::get('/{id}/graph', [RepositoryController::class, 'graph']);
-        Route::post('/{id}/rescan', [RepositoryController::class, 'rescan']);
-        Route::delete('/{id}', [RepositoryController::class, 'destroy']);
+        Route::get('/', [RepositoryManagementController::class, 'index']);
+        Route::post('/connect', [RepositoryManagementController::class, 'connect']);
+        Route::get('/{id}', [RepositoryManagementController::class, 'show']);
+        Route::get('/{id}/status', [RepositoryManagementController::class, 'status']);
+        Route::get('/{id}/graph', [RepositoryManagementController::class, 'graph']);
+        Route::post('/{id}/rescan', [RepositoryManagementController::class, 'rescan']);
+        Route::delete('/{id}', [RepositoryManagementController::class, 'destroy']);
     });
 
     // AI Oracle Routes

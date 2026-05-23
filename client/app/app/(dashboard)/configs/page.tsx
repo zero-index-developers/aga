@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 
-import { useSettings } from '@client/hooks/use-settings';
+import { useSettings } from '@client/features/settings/hooks/use-settings';
 import {
   Sliders,
   Search,

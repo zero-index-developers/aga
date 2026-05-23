@@ -9,6 +9,14 @@
 
 ---
 
+## Current Architecture
+
+AGA keeps the monorepo split between `client/` for Next.js UI code and `api/` for Laravel backend code. Frontend route files remain in `client/app`, feature-owned frontend logic lives in `client/features`, shared UI remains in `client/components`, and shared TypeScript types live in `client/types`.
+
+Backend controllers are grouped by responsibility under `api/app/Http/Controllers`, validation lives in `api/app/Http/Requests`, single-purpose business flows live in `api/app/Actions`, domain services live in `api/app/Services`, and database/queue/scanner/AI logic stays backend-owned under `api/`.
+
+---
+
 ## 🌟 Overview
 
 **AGA** automatically maps codebase dependencies and structural elements into an interactive, layered architecture graph. It enables developers, architects, and product managers to interactively explore code paths, analyze the impact/blast-radius of changing specific files, and converse with an AI Oracle to understand complex architectural decisions.

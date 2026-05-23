@@ -9,8 +9,8 @@ import { HeaderActions } from '@client/components/layout/header-actions';
 import { Button } from '@client/components/ui/button';
 import { RefreshCw, X, ChevronLeft } from 'lucide-react';
 import { toast } from 'sonner';
-import { useRepos } from '@client/hooks/use-repos';
-import { useArchitectureData } from '@client/hooks/use-architecture-data';
+import { useRepos } from '@client/features/repositories/hooks/use-repos';
+import { useArchitectureData } from '@client/features/graph/hooks/use-architecture-data';
 import { slugify } from '@client/lib/utils';
 
 export default function RepositoryGraphPage({ params }: { params: Promise<{ name: string }> }) {

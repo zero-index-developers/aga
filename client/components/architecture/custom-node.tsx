@@ -10,7 +10,7 @@ const _dependencies = [
   'bg-emerald-500/5', 'border-emerald-500/20', 'bg-indigo-600', 'bg-indigo-500/5', 'border-indigo-500/20'
 ];
 
-import { CustomNodeData } from '@client/lib/types';
+import { CustomNodeData } from '@client/types';
 
 const FALLBACK_GROUP_COLORS: Record<string, string> = {
   'group-pages': 'bg-purple-600',

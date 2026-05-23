@@ -1,5 +1,27 @@
 # AGA System Design Documentation
 
+## Current Monorepo Architecture
+
+AGA keeps the stable monorepo split of `client/` for the Next.js frontend and `api/` for the Laravel backend.
+
+Frontend boundaries:
+- `client/app` contains App Router pages, layouts, and Next.js proxy route handlers. Public routes should remain stable.
+- `client/components` contains reusable UI, layout, dashboard, auth, and graph components.
+- `client/features` contains feature-owned frontend hooks, client API helpers, local schemas, local types, and utilities.
+- `client/types` contains reusable TypeScript types shared across frontend features.
+- `client/lib` contains API clients, schemas, validators, and general utilities.
+
+Backend boundaries:
+- `api/app/Http/Controllers` contains thin controllers grouped by `Auth`, `Api`, and `OAuth`.
+- `api/app/Http/Requests` contains Laravel Form Requests. Backend validation is the source of truth.
+- `api/app/Actions` contains single-purpose business workflows.
+- `api/app/Services` contains domain logic grouped by `AI`, `Graph`, `Repositories`, `Settings`, and `ScanLogs`.
+- `api/app/Jobs` contains queue/background work such as repository cloning and scanning.
+- `api/database` contains migrations, seeders, and factories. Database files stay backend-only.
+- `api/engine` contains scanner-specific TypeScript modules grouped into `scanner`, `parsers`, `classifiers`, and `graph`.
+
+Compatibility note: several old frontend hook/type paths remain as re-export shims so existing imports and routes continue to work while new code uses the feature folders directly.
+
 ## Overview
 
 This document provides comprehensive design specifications for the AGA (Architecture Governance Agent) system, covering architecture patterns, component design, data structures, API contracts, and UI/UX guidelines.

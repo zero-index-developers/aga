@@ -1,6 +1,8 @@
 import fs from 'fs';
 import path from 'path';
 
+// TODO(architecture): This legacy local JSON helper is currently unused. Keep it in the
+// backend-owned tree if a future demo adapter still needs file-backed state.
 export const DB_PATH = path.join(process.cwd(), '../api/data', 'local-db.json');
 
 export function readDB() {

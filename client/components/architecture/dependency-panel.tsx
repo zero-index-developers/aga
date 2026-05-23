@@ -18,7 +18,7 @@ import { getRiskColor } from "@client/lib/utils";
 import { Badge } from '@client/components/ui/badge';
 import { Progress } from '@client/components/ui/progress';
 import { Skeleton } from '@client/components/ui/skeleton';
-import { useDependencyAnalysis } from '@client/hooks/use-dependency-analysis';
+import { useDependencyAnalysis } from '@client/features/graph/hooks/use-dependency-analysis';
 
 interface DependencyPanelProps {
   nodeId: string;
